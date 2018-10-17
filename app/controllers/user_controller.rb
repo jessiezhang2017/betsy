@@ -1,9 +1,13 @@
 class UserController < ApplicationController
   def index
-    
+    @users = User.all
   end
 
   def new
+    @user = User.new
+  end
+
+  def create
   end
 
   def show
@@ -18,6 +22,9 @@ class UserController < ApplicationController
   def edit
   end
 
-  def create
+  private
+
+  def user_params
+    return params.require(:user).permit(:name, :address, :email, :cc_num, :merchant_id)
   end
 end
