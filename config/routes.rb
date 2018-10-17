@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :orders, except: [:destroy]
+  
   get 'user/index'
   get 'user/new'
   get 'user/show'
