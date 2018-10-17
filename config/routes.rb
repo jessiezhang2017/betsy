@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
-  get 'orders/index'
-  get 'orders/show'
-  get 'orders/new'
-  get 'orders/create'
-  get 'orders/edit'
-  get 'orders/update'
+  resources :orders, except: [:destroy]
+  
   get 'user/index'
   get 'user/new'
   get 'user/show'
