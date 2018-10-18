@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 2018_10_18_172139) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "columns_for_user_tables", force: :cascade do |t|
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
