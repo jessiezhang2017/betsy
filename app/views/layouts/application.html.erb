@@ -10,11 +10,30 @@
   </head>
 
   <body>
-    <% if @current_user %>
-      <%= link_to "Log out"  %>
+    <nav>
+    <% if current_user %>
+      <%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %>
     <% else %>
       <%= link_to "Login with Github", "/auth/github" %>
     <% end %>
-    <%= yield %>
+    </nav>
+    <main>
+      <section class="alert__container">
+      <%flash.each do |name, message|%>
+        <% if message.class == Array %>
+          <%message.each do |msg|%>
+            <div class="alert alert-<%= name %>" role="alert">
+            <strong> <%= "#{name}:" %> </strong> <%= " #{msg}"%>
+            </div>
+          <%end%>
+        <%else%>
+        <div class="alert alert-<%= name %>" role="alert">
+           <%= message %>
+        </div>
+      <%end%>
+  <%end%>
+</section>
+      <%= yield %>
+    </main>
   </body>
 </html>
