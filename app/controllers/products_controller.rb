@@ -2,9 +2,9 @@ class ProductsController < ApplicationController
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.in_stock
-    @products_by_category = @products.product_by_category
-    @pruducts_by_merchant = @products.product_by_merchant
+    @products = Product.all
+    @products_by_category = Product.to_category_hash.in_stock
+    @pruducts_by_merchant = Product.to_merchant_hash.in_stock
 
   end
 

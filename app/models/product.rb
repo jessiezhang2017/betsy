@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :user
-  belongs_to :categorys
+  belongs_to :category
   has_many :reviews
 
   validates :name, presence: true,
@@ -12,45 +12,35 @@ class Product < ApplicationRecord
   validates :stock, presence: true
 
   validates :category,  presence: true,
-                        inclusion: { in: @categories }
+                        inclusion: { in: Category.all }
 
-  before_validation :fix_category
 
-  def self.in_stock
-    return Product.all.select {|prod| prod.stock >= 1}
-  end
 
-  def self.to_category_hash
-    data = {}
-    Category.each do |cat|
-      data[cat] = by_category(cat)
-    end
-    return data
-  end
-
-  def self.by_category(category)
-    category = category.singularize.downcase
-    self.where(category: category).order(vote_count: :desc)
-  end
-
-  def self.to_merchant_hash
-    data = {}
-    Category.each do |cat|
-      data[cat] = by_category(cat)
-    end
-    return data
-  end
-
-  def self.by_merchant(merchant)
-    self.where(user: merchant).order(vote_count: :desc)
-  end
-
-  private
-  def fix_category
-    if self.category
-      self.category = self.category.downcase.singularize
-    end
-  end
+  #
+  #
+  # def self.to_category_hash
+  #   data = {}
+  #   Category.all.each do |cat|
+  #     data[cat] = by_category(cat)
+  #   end
+  #   return data
+  # end
+  #
+  # def self.by_category(category)
+  #   self.where(category: category)
+  # end
+  #
+  # def self.to_merchant_hash
+  #   data = {}
+  #   Merchant.all.each do |user|
+  #     data[user] = by_merchant(user)
+  #   end
+  #   return data
+  # end
+  #
+  # def self.by_merchant(merchant)
+  #   self.where(user: merchant)
+  # end
 
 
 end

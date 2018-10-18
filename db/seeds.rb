@@ -8,6 +8,7 @@
 
 require 'faker'
 require 'date'
+require 'pry'
 
 category_failures = []
 
@@ -28,14 +29,16 @@ end
 puts "Added #{Category.count} category records"
 puts "#{category_failures.length} category failed to save"
 
-user_name_list = ["lily", "Jessy", "Mary", "Michael", "Frank","Susan"]
+
 
 user_failures = []
 
-user_name_list.each do |nam|
-
+5.times do |i|
+  user_name = Faker::Name.name
   user = User.new
-  user.name = nam
+  user.name = user_name
+  user.uid = rand(10)
+  user.provider = "github"
   successful = user.save
   if !successful
     user_failures << user
@@ -51,8 +54,9 @@ puts "#{user_failures.length} users failed to save"
 product_failures = []
 
 5.times do |i|
-  category = Category.find(i+1)
-  user = User.find(i+1)
+  category_list = Category.all
+  category = category_list.sample
+  user = User.all.first
   product_name = Faker::Name.name
   product = Product.new
   product.name = product_name
@@ -61,7 +65,9 @@ product_failures = []
   product.price = 100
   product.category = category
   product.user = user
+  product.photo_url = "https://pixfeeds.com/images/33/609988/1200-609988-483425824.jpg"
   successful = product.save
+
   if !successful
     product_failures << product
     puts "Failed to save product: #{product.inspect}" # so user can check that work to see what happened
