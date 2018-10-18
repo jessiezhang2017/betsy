@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
       @user = User.build_from_github(auth_hash)
       if @user.save
         flash[:success] = "Welcome #{@user.name}"
+        #would you like to register as a merchant?
       else
         flash[:error] = "Could not create account: #{@user.errors.messages}"
         redirect_to users_path
