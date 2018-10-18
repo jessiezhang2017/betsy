@@ -15,6 +15,12 @@ ActiveRecord::Schema.define(version: 2018_10_18_172139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,23 +48,25 @@ ActiveRecord::Schema.define(version: 2018_10_18_172139) do
     t.bigint "user_id"
     t.string "name"
     t.float "price"
-    t.string "category"
     t.string "description"
     t.integer "stock"
     t.string "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.bigint "product_id"
     t.integer "rating"
-    t.string "name"
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["product_id"], name: "index_reviews_on_product_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,6 +87,8 @@ ActiveRecord::Schema.define(version: 2018_10_18_172139) do
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "products", "categories"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "products"
+  add_foreign_key "reviews", "users"
 end
