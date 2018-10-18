@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get "/auth/:provider/callback", to: "users#create"
-  # delete "/logout", to: "sessions#destroy", as: "logout"
+  get "/auth/:provider/callback", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy", as: "logout"
 
   resources :users
   resources :orders, except: [:destroy]
