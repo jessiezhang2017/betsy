@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :user
+  belongs_to :category
 
   validates :name, presence :true,
                    uniqueness: { scope: :category }
@@ -10,13 +11,17 @@ class Product < ApplicationRecord
   validates :stock, presence :true
 
   validates :category,  presence: true,
-                        inclusion: { in: @category }
+                        inclusion: { in: @categories }
 
   before_validation :fix_category
 
+  def self.in_stock
+    return Product.all.select {|prod| prod.stock >= 1}
+  end
+
   def self.to_category_hash
     data = {}
-    CATEGORIES.each do |cat|
+    Category.each do |cat|
       data[cat] = by_category(cat)
     end
     return data
@@ -27,8 +32,17 @@ class Product < ApplicationRecord
     self.where(category: category).order(vote_count: :desc)
   end
 
-  
+  def self.to_merchant_hash
+    data = {}
+    Category.each do |cat|
+      data[cat] = by_category(cat)
+    end
+    return data
+  end
 
+  def self.by_merchant(merchant)
+    self.where(user: merchant).order(vote_count: :desc)
+  end
 
   private
     def fix_category

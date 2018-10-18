@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :orders, except: [:destroy]
-  
+
   get 'user/index'
   get 'user/new'
   get 'user/show'
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'user/create'
 
   resources :products
-
+  resources :category, only: [:new, :create]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
