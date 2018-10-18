@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_17_230015) do
+ActiveRecord::Schema.define(version: 2018_10_18_172139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,9 @@ ActiveRecord::Schema.define(version: 2018_10_17_230015) do
     t.datetime "cc_exp"
     t.integer "bill_zip"
     t.integer "cc_csv"
+    t.integer "uid", null: false
+    t.string "provider", null: false
+    t.string "email"
   end
 
   add_foreign_key "order_products", "orders"
