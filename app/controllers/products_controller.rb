@@ -3,8 +3,7 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
-    @products_by_category = Product.to_category_hash.in_stock
-    @pruducts_by_merchant = Product.to_merchant_hash.in_stock
+ 
 
   end
 
