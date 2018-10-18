@@ -53,14 +53,15 @@ puts "#{user_failures.length} users failed to save"
 
 product_failures = []
 
-5.times do |i|
+10.times do |i|
   category_list = Category.all
   category = category_list.sample
-  user = User.all.first
+  user_list = User.all
+  user = user_list.sample
   product_name = Faker::Name.name
   product = Product.new
   product.name = product_name
-  product.stock = 10
+  product.stock = rand(5)
   product.description = "just a test"
   product.price = 100
   product.category = category
