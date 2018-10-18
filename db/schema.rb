@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2018_10_18_050221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "buyers", force: :cascade do |t|
+  create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -72,6 +72,10 @@ ActiveRecord::Schema.define(version: 2018_10_18_050221) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "address"
+    t.string "cc_num"
+    t.string "type"
     t.datetime "cc_exp"
     t.integer "bill_zip"
     t.integer "cc_csv"

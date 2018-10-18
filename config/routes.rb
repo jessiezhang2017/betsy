@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :orders, except: [:destroy]
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 5321bcb4f0fa6850e7efeb776d1e86c9c65f9868
   get 'user/index'
   get 'user/new'
   get 'user/show'
