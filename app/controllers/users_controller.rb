@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :find_user
   #before_action is type merchant?
 
   def index
@@ -27,16 +26,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def find_user
-    id = params[:id].to_i
-    @user = User.find_by(id: id)
-
-    if @user.nil?
-      flash.now[:warning] = "Imposter!"
-     # render :not_found
-    end
-  end
 
   def user_params
     return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip, :provider)
