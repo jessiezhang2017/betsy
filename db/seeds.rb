@@ -13,9 +13,9 @@ category_failures = []
 
 cate_list = ["book", "movie","album","furnitue","appliance"]
 
-cate_list.each do |name|
+cate_list.each do |cate|
   category = Category.new
-  category.name = name
+  category.name = cate
   successful = category.save
   if !successful
     category_failures << category
@@ -28,11 +28,14 @@ end
 puts "Added #{Category.count} category records"
 puts "#{category_failures.length} category failed to save"
 
+user_name_list = ["lily", "Jessy", "Mary", "Michael", "Frank","Susan"]
+
 user_failures = []
-10.times do
-  creator= Faker::Name.name
+
+user_name_list.each do |nam|
+
   user = User.new
-  user.name = creator
+  user.name = nam
   successful = user.save
   if !successful
     user_failures << user
@@ -46,14 +49,18 @@ puts "Added #{User.count} user records"
 puts "#{user_failures.length} users failed to save"
 
 product_failures = []
-10.times do |i|
+
+5.times do |i|
+  category = Category.find(i+1)
+  user = User.find(i+1)
   product_name = Faker::Name.name
   product = Product.new
   product.name = product_name
-  stock = 10
-  product.price = i
-  product.category_id = (0..4).random
-  product.user_id = i
+  product.stock = 10
+  product.description = "just a test"
+  product.price = 100
+  product.category = category
+  product.user = user
   successful = product.save
   if !successful
     product_failures << product
@@ -63,5 +70,5 @@ product_failures = []
   end
 end
 
-puts "Added #{product.count} product records"
+puts "Added #{Product.count} product records"
 puts "#{product_failures.length} products failed to save"
