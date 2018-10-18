@@ -10,23 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2018_10_17_213808) do
-=======
-ActiveRecord::Schema.define(version: 2018_10_17_230015) do
->>>>>>> master
+ActiveRecord::Schema.define(version: 2018_10_18_172139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
-  create_table "columns_for_user_tables", force: :cascade do |t|
-  end
-
-  create_table "merchants", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-=======
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -71,7 +59,6 @@ ActiveRecord::Schema.define(version: 2018_10_17_230015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_reviews_on_product_id"
->>>>>>> master
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,13 +68,12 @@ ActiveRecord::Schema.define(version: 2018_10_17_230015) do
     t.string "address"
     t.string "cc_num"
     t.string "type"
-<<<<<<< HEAD
-  end
-
-=======
     t.datetime "cc_exp"
     t.integer "bill_zip"
     t.integer "cc_csv"
+    t.integer "uid", null: false
+    t.string "provider", null: false
+    t.string "email"
   end
 
   add_foreign_key "order_products", "orders"
@@ -95,5 +81,4 @@ ActiveRecord::Schema.define(version: 2018_10_17_230015) do
   add_foreign_key "orders", "users"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "products"
->>>>>>> master
 end
