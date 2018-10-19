@@ -51,6 +51,27 @@ end
 puts "Added #{User.count} user records"
 puts "#{user_failures.length} users failed to save"
 
+merchant_failures = []
+
+8.times do |i|
+  merchant_name = Faker::Name.name
+  merchant = Merchant.new
+  merchant.type = "Merchant"
+  merchant.name = merchant_name
+  merchant.uid = rand(10)
+  merchant.provider = "github"
+  successful = merchant.save
+  if !successful
+    merchant_failures << merchant
+    puts "Failed to save merchant: #{merchant.inspect}" # so user can check that work to see what happened
+  else
+    puts "Created merchant: #{merchant.inspect}"
+  end
+end
+
+puts "Added #{Merchant.count} merchant records"
+puts "#{merchant_failures.length} merchant failed to save"
+
 product_failures = []
 
 10.times do |i|
