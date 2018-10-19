@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+shirt:
   user: one
   name: MyString
   price: 1.5
-  category: MyString
-  description: MyString
+  category: category1
+  description: "a nice shirt"
   stock: 1
   photo_url: MyString
 
-two:
+dress:
   user: two
   name: MyString
   price: 1.5
-  category: MyString
-  description: MyString
-  stock: 1
+  category: category1
+  description: "a nice dress"
+  stock: 5
   photo_url: MyString

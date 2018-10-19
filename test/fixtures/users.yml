@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 user1:
+<<<<<<< HEAD
   name: jazz
   uid: 89076543
   provider: github
@@ -20,3 +21,11 @@ cc_user:
   address: 123 Main St USA
   bill_zip: 10012
 # column: value
+=======
+  uid: 123
+  provider: 'github'
+
+user2:
+  uid: 456
+  provider: 'github'
+>>>>>>> master

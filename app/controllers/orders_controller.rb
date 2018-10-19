@@ -16,4 +16,10 @@ class OrdersController < ApplicationController
 
   def update
   end
+
+  def cart
+  end
+
+  def checkout
+  end
 end

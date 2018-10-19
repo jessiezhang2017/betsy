@@ -12,33 +12,32 @@
   <body>
     <nav>
       <ul>
-        <li> HOME </li>
-        <li> MERCHANTS </li>
-        <li> PRODUCTS </li>
-    <% if current_user %>
-      <li> <%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %> </li>
-    <% else %>
-      <li> <%= link_to "Login with Github", "/auth/github" %> </li>
-    <% end %>
-    <li> SHOPPING CART </li>
-  </ul>
+        <li><%= link_to "Home", root_path %></li>
+        <% if current_user %>
+          <li><%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %></li>
+        <% else %>
+          <li><%= link_to "Login with Github", "/auth/github" %></li>
+        <% end %>
+        <li><%= link_to "View products", products_path %></li>
+        <li><%= link_to "Cart", cart_path %></li>
+      </ul>
     </nav>
     <main>
       <section class="alert__container">
-      <%flash.each do |name, message|%>
-        <% if message.class == Array %>
-          <%message.each do |msg|%>
+        <%flash.each do |name, message|%>
+          <% if message.class == Array %>
+            <%message.each do |msg|%>
+              <div class="alert alert-<%= name %>" role="alert">
+              <strong> <%= "#{name}:" %> </strong> <%= " #{msg}"%>
+              </div>
+            <%end%>
+          <%else%>
             <div class="alert alert-<%= name %>" role="alert">
-            <strong> <%= "#{name}:" %> </strong> <%= " #{msg}"%>
+               <%= message %>
             </div>
           <%end%>
-        <%else%>
-        <div class="alert alert-<%= name %>" role="alert">
-           <%= message %>
-        </div>
-      <%end%>
-  <%end%>
-</section>
+        <%end%>
+      </section>
       <%= yield %>
     </main>
   </body>
