@@ -22,4 +22,18 @@ describe Merchant do
     expect(not_merchant).wont_be_instance_of Merchant
   end
 
+  it "will not create a new merchant if type is nil" do
+    not_a_merchant = Merchant.new(
+      name: 'Newbie',
+      uid: 890,
+      provider: 'github',
+      email: 'newbie@newbs.com',
+      type: nil
+    )
+
+    expect(not_a_merchant.type).must_equal nil
+    expect(not_a_merchant).wont_be_instance_of Merchant
+
+  end
+
 end
