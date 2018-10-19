@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :order_products, dependent: :destroy
 
   validates :user, presence: true
-  validates :order_products, presence: true
+  validates :order_products, presence: true, uniqueness: true
   validates :status, inclusion: { in: %w(shopping paid shipped),
     message: "%{value} is not a valid order status" }
 
