@@ -19,7 +19,7 @@
       <p> img goes here </p>
     </td>
     <td>
-      <%= link_to merchant.name, user_path(user.id) %>
+      <%= link_to merchant.name, user_path(merchant.id) %>
     </td>
     <td>
       <%= "#{merchant.created_at.strftime("%b. %d, %Y")}" %>
