@@ -1,5 +1,4 @@
 <h1>New Account</h1>
-<%= render partial: "layouts/form_errors", locals: { model: User } %>
 
 <%= form_with model: User, local: true do |f|%>
 <!-- after gh auth -->
@@ -14,13 +13,13 @@
 <section class="form-group">
   <%= f.label :type %>
   <!-- allow users to check if they want to be a merchant -->
-  <%= f.checkbox :type, 'Merchant' %>
+  <%= f.check_box :type %>
 </section>
 
   <% if @current_user %>
-    <%= f.submit button_title, class: "btn btn-primary" %>
+    <%= f.submit "New!", class: "btn btn-primary" %>
      <% else %>
-    <%= f.submit button_title, class: "btn btn-primary", disabled: true %>
+    <%= f.submit "New!", class: "btn btn-primary", disabled: true %>
   <% end %>
 
 <% end %>
