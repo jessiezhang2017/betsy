@@ -15,4 +15,11 @@ describe Merchant do
     expect(merchant).must_be_kind_of User
   end
 
+  it "only users with type merchant are instance of merchant" do
+    not_merchant = users(:user1)
+
+    expect(not_merchant).must_be_instance_of User
+    expect(not_merchant).wont_be_instance_of Merchant
+  end
+
 end
