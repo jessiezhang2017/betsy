@@ -3,6 +3,10 @@ require 'test_helper'
 describe Merchant do
   let (:merchant) {merchants(:merchant)}
 
+  it "must be valid" do
+    value(merchant).must_be :valid?
+  end
+
   it "must be an instance of Merchant" do
     expect(merchant).must_be_instance_of Merchant
   end
