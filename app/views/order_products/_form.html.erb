@@ -1,0 +1,12 @@
+<section>
+  <%= form_with model: @op, class: "form", locals: true do |f|%>
+    <h4><%= "Product Name" %></h4>
+
+    <div class="form-group">
+      <%= f.label :quantity %>
+      <%= f.select :quantity, [1, 2, 3, 4, 5], {}, class: "form-control" %>
+    </div>
+
+    <%= f.submit button_title, class: "btn btn-primary" %>
+  <% end %>
+</section>

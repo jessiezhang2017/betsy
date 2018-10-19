@@ -3,12 +3,12 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
- 
+
 
   end
 
   def show
-
+    @op = current_order.order_products.new
 
   end
 
