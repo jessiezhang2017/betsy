@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe UserController do
+describe UsersController do
 
   describe Merchant do
 
@@ -14,7 +14,7 @@ describe UserController do
 
     it "allows a merchant to downgrade to a regular user" do
 
-    end 
+    end
 
   end #merchant tests end
 

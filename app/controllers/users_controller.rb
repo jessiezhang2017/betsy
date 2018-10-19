@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    @merchants = Merchant.all #adding merchants to index for viewing and sorting in views
   end
 
   def new
