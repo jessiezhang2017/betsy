@@ -3,11 +3,9 @@
 one:
   product: one
   rating: 1
-  name: MyString
   comment: MyString
 
 two:
   product: two
   rating: 1
-  name: MyString
   comment: MyString
