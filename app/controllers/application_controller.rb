@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     if find_user
       order.user_id = find_user.user_id
     else
-      user = User.create(username: "sovietski-guest", uid: (User.last.id + 1), provider: "sovietski")
+      user = User.create(name: "sovietski-guest", uid: (User.last.id + 1), provider: "sovietski")
       order.user_id = user.id
     end
     return order
