@@ -1,6 +1,18 @@
 require "test_helper"
 
 describe UserController do
+
+  it "logs in an existing user" do
+    start_count = User.count
+
+    perform_login(user)
+    must_redirect_to root_path
+    session[:user_id].must_equal  user.id
+
+    # Should *not* have created a new user
+    User.count.must_equal start_count
+  end
+
   it "should get index" do
     get user_index_url
     value(response).must_be :success?
