@@ -11,14 +11,15 @@
             <div class="card-block px-2">
               <h5 class="card-title"><%= op.product.name %></h5>
               <section class="card-text">
-                <p><%= "Quantity: #{op.quantity}" %></p>
                 <p><%= "Price: #{op.product.price}" %></p>
+                <p><%= "Quantity: #{op.quantity}" %></p>
               </section>
             </div>
           </div>
         </div>
         <div class="card-footer w-100 text-muted">
-            <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-danger" %>
+          <%= render partial: "order_products/form", locals: { button_title: "Update", op_id: op.id, product_id: op.product_id } %>
+          <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-danger" %>
         </div>
       </article>
     <% end %>
