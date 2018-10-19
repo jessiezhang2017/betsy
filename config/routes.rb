@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :order_products
   resources :orders, except: [:destroy]
   get "/cart", to: "orders#cart", as: "cart"
+  post "/cart", to: "order_products#update"
   get "/checkout", to: "orders#checkout", as: "checkout"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

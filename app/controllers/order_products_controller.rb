@@ -15,6 +15,17 @@ class OrderProductsController < ApplicationController
     redirect_to cart_path
   end
 
+  def update
+    op = OrderProduct.find_by(id: params[:id].to_i)
+    new_quantity = params[:order_product][:quantity].to_i
+
+    @current_order.edit_quantity(op, new_quantity)
+
+    @current_order.save
+
+    redirect_to cart_path
+  end
+
   def destroy
     op = OrderProduct.find_by(id: params[:id])
     if op.destroy
