@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+shirts:
+  quantity: 1
+  order: shopping_order
+  product: shirt
+
+dresses:
+  quantity: 2
+  order: shopping_order
+  product: dress
