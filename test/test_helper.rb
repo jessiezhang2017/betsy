@@ -24,7 +24,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   def setup
   # !!!! Once you have enabled test mode, all requests to OmniAuth will be short circuited to use the mock authentication hash.
-  # A request to /auth/provider will redirect immediately to /auth/provider/callback!!!!
+  # A request to /auth/provider will redirect immediately to /auth/provider/callback !!!!
     OmniAuth.config.test_mode = true
   end
 
@@ -38,5 +38,11 @@ class ActiveSupport::TestCase
         name: user.name
       }
     }
+  end
+
+  #used to dry up code in our tests, since logins will be performed often during testing
+  def perform_login(user)
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(user))
+    get auth_callback_path(:github)
   end
 end
