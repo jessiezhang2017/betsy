@@ -22,7 +22,6 @@ email_merchant:
 
 git_merchant:
   name: jessie
-  uid: 9086
   type: Merchant
   email: jessie@jessie.com
   uid: 34578908
