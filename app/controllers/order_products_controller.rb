@@ -15,6 +15,13 @@ class OrderProductsController < ApplicationController
     redirect_to cart_path
   end
 
-
-
+  def destroy
+    op = OrderProduct.find_by(id: params[:id])
+    if op.destroy
+      # display confirmation
+    else
+      # display error
+    end
+    redirect_back fallback_location: cart_path
+  end
 end
