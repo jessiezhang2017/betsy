@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe User do
-  let(:user) { User.new }
+  let(:user) { :user1 }
 
   it "must be valid" do
     value(user).must_be :valid?

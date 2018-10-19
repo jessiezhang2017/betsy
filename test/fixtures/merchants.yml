@@ -4,10 +4,32 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one:
-  uid: 789
-  provider: 'github'
+merchant:
+  name: leanne
+  type: Merchant
 
-two:
-  uid: 100
-  provider: 'github'
+# column: value
+#
+email_merchant:
+  name: jackie
+  type: Merchant
+  email: jackie@jackie.com
+# column: value
+
+git_merchant:
+  name: jessie
+  type: Merchant
+  email: jessie@jessie.com
+  uid: 34578908
+  provider: github
+
+cc_merchant:
+  name: charles
+  type: Merchant
+  uid: 97532187
+  provider: github
+  cc_num: 8790451276789084
+  cc_csv: 678
+  cc_exp: 09/08/22
+  address: 123 Main St USA
+  bill_zip: 10012

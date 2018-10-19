@@ -1,2 +1,27 @@
-<h1>User#new</h1>
-<p>Find me in app/views/user/new.html.erb</p>
+<h1>New Account</h1>
+
+<%= form_with model: User, local: true do |f|%>
+<!-- after gh auth -->
+<p> Enter more information to create your account. </p>
+
+<!-- change form labels to match input to edit -->
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <% type = 'Merchant' %>
+  <%= f.label :type %>
+  <!-- allow users to check if they want to be a merchant -->
+  <%= f.check_box :type, {}, type %>
+</section>
+
+  <% if @current_user %>
+    <%= f.submit "New!", class: "btn btn-primary" %>
+     <% else %>
+    <%= f.submit "New!", class: "btn btn-primary", disabled: true %>
+  <% end %>
+
+<% end %>
