@@ -12,15 +12,20 @@ class Order < ApplicationRecord
   end
 
   def add_product(product, quantity)
-   # check if product is already in cart
-   current_op = order_products.find_by(product_id: product.id)
+    # check if product is already in cart
+    current_op = order_products.find_by(product_id: product.id)
 
-   if current_op # if so, edit quantity within existing orderproduct
-     current_op.quantity += quantity
-   else # if not, add new orderproduct
-     current_op = self.order_products.new(product_id: product.id, quantity: quantity, order_id: self.id)
-   end
+    if current_op # if so, edit quantity within existing orderproduct
+      current_op.quantity += quantity
+    else # if not, add new orderproduct
+      current_op = self.order_products.new(product_id: product.id, quantity: quantity, order_id: self.id)
+    end
 
-   current_op.save
- end
+    current_op.save
+  end
+
+  def edit_quantity(op, new_quantity)
+    op.quantity = new_quantity
+    op.save
+  end
 end
