@@ -1,2 +1,26 @@
-<h1>User#new</h1>
-<p>Find me in app/views/user/new.html.erb</p>
+<h1>New Account</h1>
+<%= render partial: "layouts/form_errors", locals: { model: User } %>
+
+<%= form_with model: User, local: true do |f|%>
+<!-- after gh auth -->
+<p> Enter more information to create your account. </p>
+
+<!-- change form labels to match input to edit -->
+<section class="form-group">
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <%= f.label :type %>
+  <!-- allow users to check if they want to be a merchant -->
+  <%= f.checkbox :type, 'Merchant' %>
+</section>
+
+  <% if @current_user %>
+    <%= f.submit button_title, class: "btn btn-primary" %>
+     <% else %>
+    <%= f.submit button_title, class: "btn btn-primary", disabled: true %>
+  <% end %>
+
+<% end %>
