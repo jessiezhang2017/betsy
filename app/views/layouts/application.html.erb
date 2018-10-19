@@ -11,11 +11,17 @@
 
   <body>
     <nav>
+      <ul>
+        <li> HOME </li>
+        <li> MERCHANTS </li>
+        <li> PRODUCTS </li>
     <% if current_user %>
-      <%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %>
+      <li> <%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %> </li>
     <% else %>
-      <%= link_to "Login with Github", "/auth/github" %>
+      <li> <%= link_to "Login with Github", "/auth/github" %> </li>
     <% end %>
+    <li> SHOPPING CART </li>
+  </ul>
     </nav>
     <main>
       <section class="alert__container">
