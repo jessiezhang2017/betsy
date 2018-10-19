@@ -19,20 +19,20 @@
     </nav>
     <main>
       <section class="alert__container">
-      <%flash.each do |name, message|%>
-        <% if message.class == Array %>
-          <%message.each do |msg|%>
+        <%flash.each do |name, message|%>
+          <% if message.class == Array %>
+            <%message.each do |msg|%>
+              <div class="alert alert-<%= name %>" role="alert">
+              <strong> <%= "#{name}:" %> </strong> <%= " #{msg}"%>
+              </div>
+            <%end%>
+          <%else%>
             <div class="alert alert-<%= name %>" role="alert">
-            <strong> <%= "#{name}:" %> </strong> <%= " #{msg}"%>
+               <%= message %>
             </div>
           <%end%>
-        <%else%>
-        <div class="alert alert-<%= name %>" role="alert">
-           <%= message %>
-        </div>
-      <%end%>
-  <%end%>
-</section>
+        <%end%>
+      </section>
       <%= yield %>
     </main>
   </body>
