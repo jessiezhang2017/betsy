@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :order_products, dependent: :destroy
 
   validates :user, presence: true
-  validates :order_products, presence: true, uniqueness: true
+  # validates :order_products, presence: true, uniqueness: true
   validates :status, inclusion: { in: %w(shopping paid shipped),
     message: "%{value} is not a valid order status" }
 
@@ -18,13 +18,9 @@ class Order < ApplicationRecord
    if current_op # if so, edit quantity within existing orderproduct
      current_op.quantity += quantity
    else # if not, add new orderproduct
-     current_op = order_products.new(product_id: product.id, quantity: quantity, order_id: self.id)
+     current_op = self.order_products.new(product_id: product.id, quantity: quantity, order_id: self.id)
    end
 
-   if current_op.save
-     # success stuff here
-   else
-     # error stuff here
-   end
+   current_op.save
  end
 end
