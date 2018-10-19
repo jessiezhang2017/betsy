@@ -22,3 +22,14 @@ git_merchant:
   email: jessie@jessie.com
   uid: 34578908
   provider: github
+
+cc_merchant:
+  name: Amanda
+  type: Merchant
+  uid: 97532187
+  provider: github
+  cc_num: 8790451276789084
+  cc_csv: 678
+  cc_exp: 09/08/22
+  address: 123 Main St USA
+  bill_zip: 10012

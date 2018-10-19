@@ -11,9 +11,10 @@
 </section>
 
 <section class="form-group">
+  <% type = 'Merchant' %>
   <%= f.label :type %>
   <!-- allow users to check if they want to be a merchant -->
-  <%= f.check_box :type %>
+  <%= f.check_box :type, {}, type %>
 </section>
 
   <% if @current_user %>
