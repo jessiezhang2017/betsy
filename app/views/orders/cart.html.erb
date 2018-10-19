@@ -1,8 +1,42 @@
 <h2>This is the shopping cart!</h2>
-<% if @current_order %>
-  <% @current_order.order_products.each do |op| %>
-    <p><%= "Product ID: #{op.product_id}, Quantity: #{op.quantity}" %></p>
+<section class="cart card-group">
+  <% if @current_order %>
+    <% @current_order.order_products.each do |op| %>
+      <article class="cart card">
+        <div class="row no-gutters">
+          <div class="col-auto">
+            <img src="https://vignette.wikia.nocookie.net/aceattorney/images/f/f7/Missile_AAI.png/revision/latest?cb=20180304065441" alt="Product" height="100px">
+          </div>
+          <div class="col">
+            <div class="card-block px-2">
+              <h5 class="card-title"><%= op.product.name %></h5>
+              <section class="card-text">
+                <p><%= "Quantity: #{op.quantity}" %></p>
+                <p><%= "Price: #{op.product.price}" %></p>
+              </section>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer w-100 text-muted">
+            <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-danger" %>
+        </div>
+      </article>
+    <% end %>
+
+    <!-- <div class="row no-gutters">
+            <div class="col-auto">
+                <img src="//placehold.it/200" class="img-fluid" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <h4 class="card-title">Title</h4>
+                    <p class="card-text">Description</p>
+                    <a href="#" class="btn btn-primary">BUTTON</a>
+                </div>
+            </div>
+        </div> -->
+
+  <% else %>
+    <p>Nothing here yet... go shopping!</p>
   <% end %>
-<% else %>
-  <p>Nothing here yet... go shopping!</p>
-<% end %>
+</section>
