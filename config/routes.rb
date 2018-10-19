@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :products
   resources :category, only: [:new, :create]
 
+  resources :order_products
   resources :orders, except: [:destroy]
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"

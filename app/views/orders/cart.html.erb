@@ -1,1 +1,5 @@
-This is the shopping cart!
+<h2>This is the shopping cart!</h2>
+
+<% @current_order.order_products.each do |op| %>
+  <p><%= "Product ID: #{op.product_id}, Quantity: #{op.quantity}" %></p>
+<% end %>

@@ -7,6 +7,8 @@
       <%= f.select :quantity, [1, 2, 3, 4, 5], {}, class: "form-control" %>
     </div>
 
+    <%= f.hidden_field :product_id, value: @product.id %>
+
     <%= f.submit button_title, class: "btn btn-primary" %>
   <% end %>
 </section>

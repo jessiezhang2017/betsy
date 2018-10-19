@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     if session[:order_id]
       @current_order = Order.find_by(id: session[:order_id].to_i)
     else
-      @current_order = Order.create(status: "pending")
+      @current_order = Order.create(status: "shopping")
       session[:order_id] = @current_order.id
     end
     return @current_order
