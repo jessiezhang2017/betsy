@@ -6,18 +6,23 @@
 #
 merchant:
   name: leanne
+  uid: 897
   type: Merchant
+  provider: github
 
 # column: value
 #
 email_merchant:
   name: jackie
+  uid: 9076
   type: Merchant
   email: jackie@jackie.com
+  provider: github
 # column: value
 
 git_merchant:
   name: jessie
+  uid: 9086
   type: Merchant
   email: jessie@jessie.com
   uid: 34578908
@@ -25,6 +30,7 @@ git_merchant:
 
 cc_merchant:
   name: charles
+  uid: 9876
   type: Merchant
   uid: 97532187
   provider: github
