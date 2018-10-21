@@ -15,37 +15,36 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new
-    if params[:user_id]
-      @user_id = params[:user_id].to_i
-      user = User.find_by(id: @user_id)
-      if user.nil?
-        flash.now[:warning] = "That user doesn't exit"
+    if session[:user_id]
+      if @current_user.type == "Merchant"
+        flash.now[:warning] = "That Merchant doesn't exit"
+      else
+      @product =@current_user.products.new
       end
-      @product.user_id = @user_id
-
     end
   end
 
 
   def create
-      @user_id = session[:uer_id].to_i
-      merchant = Merchant.find_by(id: @user_id)
 
-      if merchant.nil?
-        flash.now[:danger] = 'Not a merchant!'
-        redirect_to products_path
+    if session[:user_id] && @current_user.type == "Merchant"
+      user = User.find_by(id: @current_user.id)
+      product = user.products.new(product_params)
+      product.user_id = @current_user.id
+
+      if @product.save
+        flash[:success] = 'Product Created!'
+        redirect_to product_path(id: product.id)
       else
-        @product = Product.new(product_params)
-        product.user = merchant
-        if @product.save
-           flash[:success] = 'Product Created!'
-           redirect_to products_path
-        else
-           flash.now[:danger] = 'Product not created!'
-           render :new, status: :bad_request
-        end
+        flash.now[:danger] = 'Product not created!'
+        render :new
       end
+    else
+      flash.now[:danger] = 'Not a Merchant!'
+      render :new
+    end
   end
+
 
   def edit; end
 
