@@ -21,7 +21,8 @@
         <%end%>
       </tbody>
    </table>
-   <% if @current_user != nil %>
+   <% if @current_user %>
+   <p><%= link_to "Add New Category", new_category_path%></p>
    <p><%= link_to "Add New Product", new_user_product_path(@current_user.id)%> </p>
    <%end%>
 </section>
