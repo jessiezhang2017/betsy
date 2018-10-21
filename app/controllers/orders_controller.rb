@@ -11,15 +11,17 @@ class OrdersController < ApplicationController
   def create
   end
 
-  def edit
-  end
-
-  def update
-  end
-
   def cart
   end
 
   def checkout
+  end
+
+  def update
+    @paid_order = @current_order.submit_order
+
+    session[:order_id] = nil
+
+    render :confirmation, status: :success
   end
 end

@@ -1,5 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-shopping_order:
-  status: "shopping"
+pending_order:
+  status: "pending"
   user: user1

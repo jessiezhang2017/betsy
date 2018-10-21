@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     if session[:order_id]
       @current_order = Order.find_by(id: session[:order_id].to_i)
     else
-      @current_order = generate_guest_cart
+      @current_order = generate_cart
     end
   end
 
@@ -18,8 +18,8 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(id: session[:user_id])
   end
 
-  def generate_guest_cart
-    order = Order.new(status: "shopping")
+  def generate_cart
+    order = Order.new(status: "pending")
     if find_user
       order.user_id = find_user.user_id
     else

@@ -10,4 +10,8 @@ class OrderProduct < ApplicationRecord
   def subtotal
     return product.price * quantity
   end
+
+  def update_stock
+    product.update_stock(quantity) #TODO check in with jessie about product model method
+  end
 end

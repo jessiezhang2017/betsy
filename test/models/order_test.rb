@@ -1,18 +1,18 @@
 require "test_helper"
 
 describe Order do
-  let(:shopping_order) { orders(:shopping_order) }
+  let(:pending_order) { orders(:pending_order) }
 
   it "must be valid" do
     skip #TODO
-    value(shopping_order).must_be :valid?
+    value(pending_order).must_be :valid?
   end
 
   it 'has required fields' do
     fields = [:status, :user_id]
 
     fields.each do |field|
-      expect(shopping_order).must_respond_to field
+      expect(pending_order).must_respond_to field
     end
   end
 
@@ -21,10 +21,10 @@ describe Order do
       # Arrange is done with let
 
       # Act
-      user = shopping_order.user
+      user = pending_order.user
 
       # Assert
-      expect(shopping_order).must_be_instance_of Order
+      expect(pending_order).must_be_instance_of Order
       expect(user).must_be_instance_of User
     end
 
@@ -32,10 +32,10 @@ describe Order do
       # Arrange is done with let
 
       # Act
-      ops = shopping_order.order_products
+      ops = pending_order.order_products
 
       # Assert
-      expect(shopping_order).must_be_instance_of Order
+      expect(pending_order).must_be_instance_of Order
 
       expect(ops.length).must_be :>=, 1
       ops.each do |op|
@@ -52,21 +52,21 @@ describe Order do
     it "must have a user" do
       skip #TODO
       # Arrange
-      shopping_order.user = nil
+      pending_order.user = nil
 
       # Act
-      valid = shopping_order.valid?
+      valid = pending_order.valid?
 
       # Assert
       expect(valid).must_equal false
-      expect(shopping_order.errors.messages).must_include :user
-      expect(shopping_order.errors.messages[:user]).must_include "can't be blank", "must exist"
+      expect(pending_order.errors.messages).must_include :user
+      expect(pending_order.errors.messages[:user]).must_include "can't be blank", "must exist"
 
       # Rearrange
-      shopping_order.user = users(:user1)
+      pending_order.user = users(:user1)
 
       # Re-Act
-      valid = shopping_order.valid?
+      valid = pending_order.valid?
 
       # Reassert
       expect(valid).must_equal true
@@ -77,7 +77,7 @@ describe Order do
       # Arrange done with let
 
       # Act
-      ops = shopping_order.order_products
+      ops = pending_order.order_products
 
       # Assert
       expect(ops).must_be_instance_of Array
@@ -87,21 +87,21 @@ describe Order do
     it "must have a status" do
       skip #TODO
       # Arrange
-      shopping_order.status = nil
+      pending_order.status = nil
 
       # Act
-      valid = shopping_order.valid?
+      valid = pending_order.valid?
 
       # Assert
       expect(valid).must_equal false
-      expect(shopping_order.errors.messages).must_include :status
-      expect(shopping_order.errors.messages[:status]).must_include "can't be blank", "must exist"
+      expect(pending_order.errors.messages).must_include :status
+      expect(pending_order.errors.messages[:status]).must_include "can't be blank", "must exist"
 
       # Rearrange
-      shopping_order.status = "shopping"
+      pending_order.status = "shopping"
 
       # Re-Act
-      valid = shopping_order.valid?
+      valid = pending_order.valid?
 
       # Reassert
       expect(valid).must_equal true
@@ -117,8 +117,8 @@ describe Order do
       # Arrange done with let
 
       # Act
-      result = shopping_order.total
-      subtotals = shopping_order.order_products.map { |op| op.subtotal }
+      result = pending_order.total
+      subtotals = pending_order.order_products.map { |op| op.subtotal }
 
       # Assert
       expect(result).must_equal subtotals.sum
@@ -128,7 +128,7 @@ describe Order do
       # Arrange done with let
 
       # Act
-      result = shopping_order.total
+      result = pending_order.total
 
       # Assert
       expect(result).must_be_instance_of Float

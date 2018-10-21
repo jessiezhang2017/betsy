@@ -42,5 +42,9 @@ class Product < ApplicationRecord
   #   self.where(user: merchant)
   # end
 
+  def update_stock(quantity_purchased)
+    self.stock -= quantity_purchased
+    self.save
+  end
 
 end
