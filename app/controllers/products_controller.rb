@@ -57,11 +57,15 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    unless @product.nil?
-      @product.destroy
-      flash[:success] = "#{@product.name} deleted"
-      redirect_to root_path
-    end
+
+      @product.status = flase
+      if @product.save
+         flash[:success] = "#{@product.name} retired"
+         redirect_to products_path
+      else
+         lash[:warning] = "#{@product.name} is not retired"
+      end
+
   end
 
   private
@@ -75,7 +79,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    return params.require(:product).permit(:name, :category_id, :price, :description, :stock, :photo_url)
+    return params.require(:product).permit(:name, :category_id, :price, :description, :stock, :photo_url, :status)
   end
 
 end

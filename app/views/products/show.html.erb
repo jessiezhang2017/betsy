@@ -7,9 +7,9 @@
 <p>Merchant: <%= @product.user.name%> </p>
 <p>Price: <%= @product.price%> </p>
 <p>Quantity available: <%= @product.stock%> </p>
+<p>status: <%= @product.status%> </p>
 
 <p><%= button_to "Edit product", edit_product_path(@product.id), method: :get %></p>
 <p><%= button_to "retire prodcut", product_path(@product.id), method: :patch, data: { confirm: "Are you sure?"}%></p>
-
 
 <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
