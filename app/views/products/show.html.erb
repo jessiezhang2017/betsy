@@ -1,3 +1,16 @@
 <h2>Product Show Page</h2>
 
 <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
+<h2>Product Details: <%= @product.name %></h2>
+
+<p>Category: <%= @product.category.name%> </p>
+<p>Description: <%= @product.description%> </p>
+<p>Merchant: <%= @product.user.name%> </p>
+<p>Price: <%= @product.price%> </p>
+<p>Quantity available: <%= @product.stock%> </p>
+
+<p><%= button_to "Edit product", edit_product_path(@product.id), method: :get %></p>
+<p><%= button_to "retire prodcut", product_path(@product.id), method: :patch, data: { confirm: "Are you sure?"}%></p>
+
+
+<%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
