@@ -1,10 +1,13 @@
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products, dependent: :destroy
+  has_many :products, through: :order_products
+
+  accepts_nested_attributes_for :user
 
   validates :user, presence: true
   # validates :order_products, presence: true, uniqueness: true
-  validates :status, inclusion: { in: %w(shopping paid shipped),
+  validates :status, inclusion: { in: %w(pending paid shipped),
     message: "%{value} is not a valid order status" }
 
   def total
@@ -27,5 +30,12 @@ class Order < ApplicationRecord
   def edit_quantity(op, new_quantity)
     op.quantity = new_quantity
     op.save
+  end
+
+  def submit_order
+    self.status = "paid"
+    order_products.each { |op| op.update_stock }
+    self.save
+    return self.id
   end
 end

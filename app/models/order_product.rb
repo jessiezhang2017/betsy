@@ -10,4 +10,9 @@ class OrderProduct < ApplicationRecord
   def subtotal
     return product.price * quantity
   end
+
+  def update_stock
+    product.update_stock(quantity)
+    self.save
+  end
 end

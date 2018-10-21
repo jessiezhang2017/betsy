@@ -2,10 +2,10 @@
 
 shirts:
   quantity: 1
-  order: shopping_order
+  order: pending_order
   product: shirt
 
 dresses:
   quantity: 2
-  order: shopping_order
+  order: pending_order
   product: dress
