@@ -18,10 +18,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @paid_order = @current_order.submit_order
+    @current_order.user.save # TODO: user info from form not saving
+    @paid_order_number = @current_order.submit_order
 
     session[:order_id] = nil
 
-    render :confirmation, status: :success
+    redirect_to confirmation_path(@paid_order_number), status: :success
   end
 end

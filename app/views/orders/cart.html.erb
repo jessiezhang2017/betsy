@@ -28,6 +28,7 @@
       Total: <%= @current_order.total %>
       <%= link_to "Checkout", checkout_path, method: :get, class: "btn btn-info" %>
     </article>
+  <!-- else may not be needed -->
   <% else %>
     <p>Nothing here yet... go shopping!</p>
   <% end %>

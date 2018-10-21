@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   def generate_cart
     order = Order.new(status: "pending")
     if find_user
-      order.user_id = find_user.user_id
+      order.user_id = find_user.id
     else
       user = User.create(name: "sovietski-guest", uid: (User.last.id + 1), provider: "sovietski")
       order.user_id = user.id

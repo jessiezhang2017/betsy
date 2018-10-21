@@ -33,9 +33,9 @@ class Order < ApplicationRecord
   end
 
   def submit_order
-    status = "paid"
+    self.status = "paid"
     order_products.each { |op| op.update_stock }
     self.save
-    return self
+    return self.id
   end
 end

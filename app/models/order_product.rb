@@ -12,6 +12,7 @@ class OrderProduct < ApplicationRecord
   end
 
   def update_stock
-    product.update_stock(quantity) #TODO check in with jessie about product model method
+    product.update_stock(quantity)
+    self.save
   end
 end
