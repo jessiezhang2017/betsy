@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RideShareRails</title>
+    <nav>
+    <%=link_to "Home Page", root_path%>
+    <%=link_to "Passangers", passengers_path%>
+    <%=link_to "Drivers", drivers_path%>
+    <%=link_to "Add Driver", new_driver_path%>
+    <%=link_to "Add Passangers", new_passenger_path%>
+    </nav>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
