@@ -7,6 +7,7 @@ class Order < ApplicationRecord
 
   validates :user, presence: true
   # validates :order_products, presence: true, uniqueness: true
+  validates :status, presence: true
   validates :status, inclusion: { in: %w(pending paid shipped),
     message: "%{value} is not a valid order status" }
 
@@ -19,17 +20,15 @@ class Order < ApplicationRecord
     current_op = order_products.find_by(product_id: product.id)
 
     if current_op # if so, edit quantity within existing orderproduct
-      current_op.quantity += quantity
+      new_quantity = current_op.quantity + quantity
+      current_op.edit_quantity(new_quantity)
     else # if not, add new orderproduct
-      current_op = self.order_products.new(product_id: product.id, quantity: quantity, order_id: self.id)
+      current_op = self.order_products.create(product_id: product.id, quantity: quantity, order_id: self.id)
     end
-
-    current_op.save
   end
 
   def edit_quantity(op, new_quantity)
-    op.quantity = new_quantity
-    op.save
+    op.edit_quantity(new_quantity)
   end
 
   def submit_order
