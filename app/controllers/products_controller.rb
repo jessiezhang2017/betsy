@@ -1,11 +1,17 @@
 class ProductsController < ApplicationController
-  before_action :find_product, only: [:show, :edit, :update, :destroy]
+  before_action :find_product, only: [:show, :edit, :update, :retire]
 
   def index
-    @products = Product.all
-    # @products_by_category = Product.to_category_hash.in_stock
-    # @pruducts_by_merchant = Product.to_merchant_hash.in_stock
+    @products = Product.active_products
 
+  end
+
+  def bycategory
+    @products_by_category = Product.to_category_hash
+  end
+
+  def bymerchant
+    @products_by_merchant = Product.to_merchant_hash
   end
 
   def show
@@ -16,21 +22,16 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     if session[:user_id]
-      if @current_user.type == "Merchant"
-        flash.now[:warning] = "That Merchant doesn't exit"
-      else
-      @product =@current_user.products.new
-      end
+        @product = @current_user.products.new
     end
   end
 
 
   def create
 
-    if session[:user_id] && @current_user.type == "Merchant"
-      user = User.find_by(id: @current_user.id)
-      product = user.products.new(product_params)
-      product.user_id = @current_user.id
+    if session[:user_id] && @merchant
+
+      product = @merchant.products.new(product_params)
 
       if @product.save
         flash[:success] = 'Product Created!'
@@ -41,7 +42,7 @@ class ProductsController < ApplicationController
       end
     else
       flash.now[:danger] = 'Not a Merchant!'
-      render :new
+
     end
   end
 
@@ -56,9 +57,9 @@ class ProductsController < ApplicationController
     end
   end
 
-  def destroy
+  def retire
 
-      @product.status = flase
+      @product.status = false
       if @product.save
          flash[:success] = "#{@product.name} retired"
          redirect_to products_path
@@ -78,8 +79,16 @@ class ProductsController < ApplicationController
     end
   end
 
+  def find_merchant
+    @merchant = Merchant.find_by(id: session[:user_id].to_i)
+    if @merchant.nil?
+      flash.now[:danger] = "Cannot find the merchant #{session[:user_id]}"
+      render :notfound, status: :not_found
+    end
+  end
+
   def product_params
-    return params.require(:product).permit(:name, :category_id, :price, :description, :stock, :photo_url, :status)
+    return params.require(:product).permit(:name, :category_id, :price, :description, :stock, :photo_url)
   end
 
 end

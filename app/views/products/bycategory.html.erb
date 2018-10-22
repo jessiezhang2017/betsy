@@ -1,4 +1,4 @@
-<h2>List of Products</h2>
+<h2>List of Products by Category</h2>
 
 <nav>
   <ul>
@@ -12,19 +12,20 @@
   </ul>
 </nav>
 
-<section >
-    <table class="table-striped">
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Seller</th>
-          <th>Price</th>
-          <th>Review</th>
-        </tr>
-      </thead>
-
+<% @products_by_category.each do |key, value|%>
+  <secion class="product_list">
+  <h4><%="#{key.name}"%></h4>
+  <table class="table-striped">
+    <thead>
+       <tr>
+         <th>Product Name</th>
+         <th>Seller</th>
+         <th>Price</th>
+         <th>Review</th>
+       </tr>
+     </thead>
       <tbody>
-        <% @products.each do |product|%>
+        <% value.each do |product|%>
           <tr>
             <td><%= link_to "#{product.name}", product_path(product.id) %></td>
             <td><%= link_to "#{product.user.name}", user_path(product.user.id) %></td>
@@ -34,4 +35,5 @@
         <%end%>
       </tbody>
    </table>
-</section>
+  </secion>
+<%end%>
