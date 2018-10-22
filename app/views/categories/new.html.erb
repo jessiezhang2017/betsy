@@ -1,0 +1,17 @@
+<h1>New Category</h1>
+
+<%= form_with model: @category, local: true do |f|%>
+  <p> Enter more information to create a new category. </p>
+
+  <section class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </section>
+
+  <% if @current_user %>
+    <%= f.submit "New!", class: "btn btn-primary" %>
+     <% else %>
+    <%= f.submit "New!", class: "btn btn-primary", disabled: true %>
+  <% end %>
+
+<% end %>

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy", as: "logout"
 
   resources :users
-  resources :products
+  resources :products, except: [:destroy]
   resources :categories, only: [:new, :create]
 
   resources :order_products
@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"
   get "/order/:id", to: "orders#confirmation", as: "confirmation"
+
+  patch "/products/:id/retire", to: "products#retire", as: "retire"
+  get "/Products_by_category", to: "products#bycategory", as:"bycategory"
+  get "/Products_by_merchant", to: "products#bymerchant", as:"bymerchant"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
