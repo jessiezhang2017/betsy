@@ -20,13 +20,13 @@ class SessionsController < ApplicationController
         return
       end
     end
+
     session[:user_id] = @user.id
   end
 
   def destroy
     session[:user_id] = nil
     flash[:success] = "Bye!"
-
     redirect_to root_path
   end
 end
