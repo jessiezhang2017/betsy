@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="card-footer w-100 text-muted">
-          <%= render partial: "order_products/form", locals: { button_title: "Update", op_id: op.id, product_id: op.product_id } %>
+          <%= render partial: "order_products/form", locals: { button_title: "Update", op: op, product_id: op.product_id } %>
           <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-danger" %>
         </div>
       </article>
