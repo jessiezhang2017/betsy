@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #before_action is type merchant?
+  before_action :find_merchant
 
   def index
     @users = User.all
@@ -11,8 +11,7 @@ class UsersController < ApplicationController
   end
 
 
-  def show
-  end
+  def show; end
 
   def update
     #can become merchant?
@@ -27,6 +26,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def find_merchant
+    @merchant ||= User.find_by(id: params[:id].to_i)
+
+    if @merchant.nil?
+      render :not_found
+    end
+  end
 
   def user_params
     return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip, :provider)
