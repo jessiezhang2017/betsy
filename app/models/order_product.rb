@@ -12,11 +12,19 @@ class OrderProduct < ApplicationRecord
   end
 
   def update_stock
-    product.update_stock(quantity)
-    self.save
+    if product.update_stock(quantity)
+      return self.save
+    else
+      return false
+    end
   end
 
-  def edit_quantity(new_quantity)
-    self.update(quantity: new_quantity)
+  def edit_quantity(quantity_ordered)
+    if product.available?(quantity_ordered)
+      new_quantity = quantity + quantity_ordered
+      return self.update(quantity: new_quantity)
+    else
+      return false
+    end
   end
 end

@@ -15,26 +15,32 @@ class Order < ApplicationRecord
     return order_products.map { |op| op.valid? ? op.subtotal : 0 }.sum
   end
 
-  def add_product(product, quantity)
+  def add_product(product, quantity_ordered)
     # check if product is already in cart
     current_op = order_products.find_by(product_id: product.id)
 
-    if current_op # if so, edit quantity within existing orderproduct
-      new_quantity = current_op.quantity + quantity
-      current_op.edit_quantity(new_quantity)
-    else # if not, add new orderproduct
-      current_op = self.order_products.create(product_id: product.id, quantity: quantity, order_id: self.id)
+    if product.available?(quantity_ordered)
+      if current_op
+        current_op.edit_quantity(quantity_ordered)
+      else
+        current_op = self.order_products.create(product_id: product.id, quantity: quantity_ordered, order_id: self.id)
+      end
+      return current_op.save
+    else
+      return false
     end
   end
 
-  def edit_quantity(op, new_quantity)
-    op.edit_quantity(new_quantity)
+  def edit_quantity(op, quantity_ordered)
+    return op.edit_quantity(quantity_ordered)
   end
 
   def submit_order
-    self.status = "paid"
-    order_products.each { |op| op.update_stock }
-    self.save
-    return self.id
+    if order_products.each { |op| op.update_stock }
+      self.status = "paid"
+      return self.save
+    else
+      return false
+    end
   end
 end

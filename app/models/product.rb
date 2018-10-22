@@ -42,9 +42,22 @@ class Product < ApplicationRecord
   #   self.where(user: merchant)
   # end
 
-  def update_stock(quantity_purchased)
-    self.stock -= quantity_purchased
-    self.save
+  def update_stock(quantity_ordered)
+    if self.available?(quantity_ordered)
+      self.stock -= quantity_ordered
+      return self.save
+    else
+      return false
+    end
   end
 
+  def available?(quantity_ordered)
+    return false unless (quantity_ordered >= 1 && (quantity_ordered.is_a? Integer))
+
+    if quantity_ordered <= self.stock
+      return true
+    else
+      return false
+    end
+  end
 end
