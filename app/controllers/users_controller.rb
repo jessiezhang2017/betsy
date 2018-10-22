@@ -14,11 +14,21 @@ class UsersController < ApplicationController
   def show; end
 
   def update
-    #can become merchant?
+    if @user && @user.update(user_params) #(if user exists AND can be updated)
+      flash[:success] = "Saved"
+      redirect_to root_path
+    else
+      flash.now[:error] = 'Not updated.'
+      render :edit
+    end
   end
 
   def edit
-    #can become merchant?
+    @user ||= User.find_by(id: params[:id].to_i)
+
+    if @user.nil?
+      render :not_found, status: :not_found
+    end
   end
 
   def destroy
