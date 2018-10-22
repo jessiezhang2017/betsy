@@ -29,11 +29,11 @@ class ProductsController < ApplicationController
 
   def create
 
-    if session[:user_id] && @merchant
+    if session[:user_id]
 
-      product = @merchant.products.new(product_params)
+      product = @current_user.products.new(product_params)
 
-      if @product.save
+      if @current_user.save
         flash[:success] = 'Product Created!'
         redirect_to product_path(id: product.id)
       else

@@ -1,4 +1,4 @@
-class CategoriesController < ApplicationController
+class CategoryController < ApplicationController
 
   def new
     @category = Category.new
@@ -14,6 +14,7 @@ class CategoriesController < ApplicationController
       flash.now[:warning] = "Category is not created!"
       @categpru.errors.messages.each do |field, messages|
       flash.now[field] = messages
+      end
     end
 
     render :new
