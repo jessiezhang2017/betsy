@@ -14,5 +14,9 @@ Rails.application.routes.draw do
   get "/checkout", to: "orders#checkout", as: "checkout"
   get "/order/:id", to: "orders#confirmation", as: "confirmation"
 
+  patch "/products/:id/retire", to: "products#retire", as: "retire"
+  get "/Products_by_category", to: "products#bycategory", as:"bycategory"
+  get "/Products_by_merchant", to: "products#bymerchant", as:"bymerchant"
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
