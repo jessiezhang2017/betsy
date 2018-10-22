@@ -4,7 +4,6 @@ describe Order do
   let(:pending_order) { orders(:pending_order) }
 
   it "must be valid" do
-    skip #TODO
     value(pending_order).must_be :valid?
   end
 
@@ -28,7 +27,7 @@ describe Order do
       expect(user).must_be_instance_of User
     end
 
-    it "has many order products" do
+    it "can have many order products" do
       # Arrange is done with let
 
       # Act
@@ -43,14 +42,51 @@ describe Order do
       end
     end
 
-    it "has many products through orderproducts(?)" do
-      skip #TODO
+    it "can have 0 order products when status is pending" do
+      # Arrange
+      pending_order.order_products.each do |op|
+        op.destroy
+      end
+
+      # Act
+      order = Order.find_by(id: pending_order.id)
+      ops = order.order_products
+
+      # Assert
+      expect(order.status).must_equal "pending"
+      expect(ops.length).must_equal 0
+    end
+
+    it "can have many products through orderproducts" do
+      # Arrange is done with let
+
+      # Act
+      products_in_order = pending_order.products
+
+      # Assert
+      expect(products_in_order.length).must_be :>=, 1
+      products_in_order.each do |product|
+        expect(product).must_be_instance_of Product
+      end
+    end
+
+    it "can have 0 products through orderproducts when status is pending" do
+      # Arrange
+      pending_order.order_products.each do |op|
+        op.destroy
+      end
+
+      # Act
+      products_in_order = pending_order.products
+
+      # Assert
+      expect(pending_order.status).must_equal "pending"
+      expect(products_in_order.length).must_equal 0
     end
   end
 
   describe "validations" do
     it "must have a user" do
-      skip #TODO
       # Arrange
       pending_order.user = nil
 
@@ -73,19 +109,17 @@ describe Order do
     end
 
     it "must have at least one order product" do
-      skip #TODO
       # Arrange done with let
 
       # Act
       ops = pending_order.order_products
 
       # Assert
-      expect(ops).must_be_instance_of Array
+      expect(ops.first).must_be_instance_of OrderProduct
       expect(ops.length).must_be :>=, 1
     end
 
     it "must have a status" do
-      skip #TODO
       # Arrange
       pending_order.status = nil
 
@@ -98,7 +132,7 @@ describe Order do
       expect(pending_order.errors.messages[:status]).must_include "can't be blank", "must exist"
 
       # Rearrange
-      pending_order.status = "shopping"
+      pending_order.status = "pending"
 
       # Re-Act
       valid = pending_order.valid?
@@ -107,8 +141,44 @@ describe Order do
       expect(valid).must_equal true
     end
 
-    it "must have a status equal to shopping, paid, or shipped" do
-      skip #TODO
+    it "must have a status equal to pending, paid, or shipped" do
+      # Arrange
+      pending_order.status = "test"
+
+      # Act
+      valid = pending_order.valid?
+
+      # Assert
+      expect(valid).must_equal false
+      expect(pending_order.errors.messages).must_include :status
+      expect(pending_order.errors.messages[:status]).must_include "test is not a valid order status"
+
+      # Rearrange
+      pending_order.status = "pending"
+
+      # Re-Act
+      valid = pending_order.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+
+      # Rearrange
+      pending_order.status = "paid"
+
+      # Re-Act
+      valid = pending_order.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+
+      # Rearrange
+      pending_order.status = "shipped"
+
+      # Re-Act
+      valid = pending_order.valid?
+
+      # Reassert
+      expect(valid).must_equal true
     end
   end
 
@@ -136,13 +206,160 @@ describe Order do
   end
 
   describe "add_product" do
-    it "adds an order product to the cart" do
+    let (:new_product) {
+      Product.new(
+        user: merchants(:merchant),
+        name: "pants",
+        price: 3,
+        category: categories(:category1),
+        description: "a nice pair of pants",
+        stock: 10,
+        photo_url: "photo"
+      )
+    }
+
+    it "adds a new order product with the designated quantity to the order if product not in cart" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect {
+        pending_order.add_product(new_product, 2)
+      }.must_change 'pending_order.order_products.length', 1
+
+      expect(pending_order.order_products.last).must_be_instance_of OrderProduct
+      expect(pending_order.order_products.last.quantity).must_equal 2
     end
 
-    it "updates the existing order product quantity if product already exists in cart" do
+    it "updates the existing order product quantity if the product is already in the cart" do
+      # Arrange done with let and fixtures
+
+      # Before addition
+      expect(order_products(:dresses).quantity).must_equal 2
+
+      expect {
+        pending_order.add_product(products(:dress), 2)
+      }.wont_change 'pending_order.order_products.length'
+
+      # After addition
+      op = OrderProduct.find_by(id: order_products(:dresses).id)
+      expect(op.quantity).must_equal 4
     end
 
-    it "creates a new order product in the cart if product not already on order" do
+    it "will return true if successful" do
+      # Arrange done with let and before
+
+      # Act - Assert
+      expect(pending_order.add_product(products(:dress), 2)).must_equal true
+      expect(pending_order.add_product(new_product, 2)).must_equal true
+    end
+
+    it "will return false if requested quantity exceeds stock" do
+      # Arrange done with let and before
+
+      # Act - Assert
+      expect(pending_order.add_product(products(:dress), 20)).must_equal false
+      expect(pending_order.add_product(new_product, 20)).must_equal false
+    end
+
+    it "will return false if requested quantity is less than 1 or a non-integer" do
+      # Arrange done with let and before
+
+      # Act - Assert
+      expect(pending_order.add_product(products(:dress), 0)).must_equal false
+      expect(pending_order.add_product(new_product, -2)).must_equal false
+      expect(pending_order.add_product(new_product, 1.5)).must_equal false
+    end
+  end
+
+  describe "edit_quantity" do
+    let (:dresses) { order_products(:dresses) }
+
+    it "updates the quantity to the designated value" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        pending_order.edit_quantity(dresses, 3)
+      }.must_change 'dresses.quantity', 3
+    end
+
+    it "cannot update the quantity to a value less than 1 or a non-integer" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        pending_order.edit_quantity(dresses, 0)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        pending_order.edit_quantity(dresses, -1)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        pending_order.edit_quantity(dresses, 2.5)
+      }.wont_change 'dresses.quantity'
+    end
+
+    it "must return true when successful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(pending_order.edit_quantity(dresses, 3)).must_equal true
+    end
+
+    it "must return false when unsuccessful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(pending_order.edit_quantity(dresses, -2)).must_equal false
+    end
+
+    it "cannot increase the quantity beyond the available stock" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        pending_order.edit_quantity(dresses, products(:dress).stock + 1)
+      }.wont_change 'dresses.quantity'
+
+      expect(pending_order.edit_quantity(dresses, products(:dress).stock + 1)).must_equal false
+    end
+  end
+
+  describe "submit_order" do
+    it "updates the order status from pending to paid" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(pending_order.status).must_equal "pending"
+      order_status = pending_order.submit_order
+      expect(order_status).must_equal "paid"
+    end
+
+    it "updates the stock of the product on order" do
+      # Arrange
+      change = order_products(:dresses).quantity
+
+      # Act - Assert
+      expect{
+        pending_order.submit_order
+      }.must_change 'products(:dress).stock', change
+    end
+
+    it "returns false if order submission fails" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(
+        10.times { pending_order.submit_order } # should fail bec not enough stock
+      ).must_equal true
+    end
+
+    it "returns true if order submission succeeds" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(pending_order.submit_order).must_equal true
     end
   end
 end
