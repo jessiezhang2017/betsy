@@ -87,7 +87,7 @@ describe OrderProduct do
       expect(shirts.errors.messages[:order]).must_include "can't be blank", "must exist"
 
       # Rearrange
-      shirts.order = orders(:shopping_order)
+      shirts.order = orders(:pending_order)
 
       # Re-Act
       valid = shirts.valid?
