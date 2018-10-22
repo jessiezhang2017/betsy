@@ -1,12 +1,25 @@
 <h2>List of Products</h2>
 
+<nav>
+  <ul>
+    <li><%= link_to "All Products", products_path%></li>
+    <li><%= link_to "Products by Category", bycategory_path%></li>
+    <li><%= link_to "Products by Merchant", bymerchant_path%></li>
+    <% if @current_user && @current_user.type == "Merchant"%>
+      <li><%= link_to "Add New Category", new_category_path%></li>
+      <li><%= link_to "Add New Product", new_product_path%> </li>
+    <%end%>
+  </ul>
+</nav>
+
 <section >
-    <table >
+    <table class="table-striped">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Product Name</th>
           <th>Seller</th>
-          <th>Created at</th>
+          <th>Price</th>
+          <th>Review</th>
         </tr>
       </thead>
 
@@ -14,9 +27,9 @@
         <% @products.each do |product|%>
           <tr>
             <td><%= link_to "#{product.name}", product_path(product.id) %></td>
-            <td><%= product.user.name %></td>
-            <td><%= product.created_at %></td>
-
+            <td><%= link_to "#{product.user.name}", user_path(product.user.id) %></td>
+            <td><%= product.price %></td>
+            <td></td>
           </tr>
         <%end%>
       </tbody>
