@@ -1,7 +1,7 @@
 <h2>Product Details: <%= @product.name %></h2>
 
 <nav>
-  <% if @current_user && @current_user.type == "Merchant"%>
+  <% if @current_user %>
     <ul>
       <li><%= link_to "Edit product", edit_product_path(@product.id), method: :get %></li>
       <li><%= link_to "retire prodcut", product_path(@product.id), method: :patch, data: { confirm: "Are you sure?"}%></li>
