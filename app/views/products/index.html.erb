@@ -5,9 +5,9 @@
     <li><%= link_to "All Products", products_path%></li>
     <li><%= link_to "Products by Category", bycategory_path%></li>
     <li><%= link_to "Products by Merchant", bymerchant_path%></li>
-    <% if @current_user && @current_user.type == "Merchant"%>
+    <% if @current_user %>
       <li><%= link_to "Add New Category", new_category_path%></li>
-      <li><%= link_to "Add New Product", new_user_product_path(@current_user.id)%> </li>
+      <li><%= link_to "Add New Product", new_user_product_path, method: :post%> </li>
     <%end%>
   </ul>
 </nav>

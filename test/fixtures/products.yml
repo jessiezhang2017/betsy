@@ -8,12 +8,14 @@ shirt:
   description: "a nice shirt"
   stock: 1
   photo_url: MyString
+  status: true
 
 dress:
   user: two
-  name: MyString
+  name: MyString2
   price: 1.5
   category: category1
   description: "a nice dress"
   stock: 5
   photo_url: MyString
+  status: true

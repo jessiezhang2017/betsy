@@ -9,9 +9,13 @@ class Product < ApplicationRecord
   validates :user_id, presence: true
   validates :stock, presence: true, numericality: { :only_integer => true, :greater_than_or_equal_to => 0}
 
+  validates :status, inclusion: { in: [true, false] }
 
-  validates :category,  presence: true,
-                        inclusion: { in: Category.all }
+  validates :category_id,  presence: true,
+                        inclusion: { in: Category.category_list }
+
+  validates :price, presence: true , numericality: { :greater_than_or_equal_to => 0}
+
 
  def self.active_products
    return Product.all.select {|e| e.status == true}

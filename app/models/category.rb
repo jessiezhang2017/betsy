@@ -4,8 +4,8 @@ class Category < ApplicationRecord
 
   def self.category_list
    return Category.all.map do |category|
-    [category.name]
+    [category.name, category.id]
    end
  end
- 
+
 end
