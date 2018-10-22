@@ -1,5 +1,21 @@
-<h2>Product Show Page</h2>
+<h2>Product Details: <%= @product.name %></h2>
 
-<%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
+<nav>
+  <% if @current_user && @current_user.type == "Merchant"%>
+    <ul>
+      <li><%= link_to "Edit product", edit_product_path(@product.id), method: :get %></li>
+      <li><%= link_to "retire prodcut", product_path(@product.id), method: :patch, data: { confirm: "Are you sure?"}%></li>
+    </ul>
+  <%end%>
+</nav>
 
-<!-- order product id not created until products added to cart -->
+<p>Category: <%= @product.category.name%> </p>
+<p>Description: <%= @product.description%> </p>
+<p>Merchant: <%= @product.user.name%> </p>
+<p>Price: <%= @product.price%> </p>
+<p>Quantity available: <%= @product.stock%> </p>
+<p>status: <%= @product.status%> </p>
+
+<%if @product.stock != 0 %>
+  <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
+<%end%>
