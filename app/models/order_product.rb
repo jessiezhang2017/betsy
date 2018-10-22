@@ -15,4 +15,8 @@ class OrderProduct < ApplicationRecord
     product.update_stock(quantity)
     self.save
   end
+
+  def edit_quantity(new_quantity)
+    self.update(quantity: new_quantity)
+  end
 end

@@ -1,6 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-catgory1:
+category1:
   name: "category 1"
 
 category2:
