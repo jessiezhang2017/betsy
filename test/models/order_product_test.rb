@@ -3,6 +3,7 @@ require "test_helper"
 describe OrderProduct do
   let(:shirts) { order_products(:shirts) }
   let(:dresses) { order_products(:dresses) }
+  let(:dress) { products(:dress) }
 
   it "must be valid" do
     value(shirts).must_be :valid?
@@ -137,7 +138,7 @@ describe OrderProduct do
       result = dresses.subtotal
 
       # Assert
-      expect(result).must_equal dresses.quantity * products(:dress).price
+      expect(result).must_equal dresses.quantity * dress.price
     end
   end
 
@@ -147,8 +148,8 @@ describe OrderProduct do
 
       # Act - Assert
       expect{
-        dresses.edit_quantity(3)
-      }.must_change 'dresses.quantity', 1 #previously 2
+        dresses.edit_quantity(1)
+      }.must_change 'dresses.quantity', 1
     end
 
     it "cannot update the quantity to a value less than 1 or a non-integer" do
@@ -187,26 +188,31 @@ describe OrderProduct do
 
       # Act - Assert
       expect{
-        dresses.edit_quantity(products(:dress).stock + 1)
+        dresses.edit_quantity(dress.stock + 1)
       }.wont_change 'dresses.quantity'
 
-      expect(dresses.edit_quantity(products(:dress).stock + 1)).must_equal false
+      expect(dresses.edit_quantity(dress.stock + 1)).must_equal false
     end
   end
 
   describe "update_stock" do
     it "reduces the stock by the quantity ordered" do
       expect{
-        dresses.update_stock(2)
-      }.must_change 'dresses.quantity', 2
+        dresses.update_stock
+      }.must_change 'dresses.product.stock', -2
     end
 
     it "returns true if successful" do
-      expect(dresses.update_stock(2)).must_equal true
+      expect(shirts.update_stock).must_equal true
     end
 
     it "returns false if unsuccessful" do
-      expect(dresses.update_stock(2)).must_equal false
+      # Arrange
+      dresses.update(quantity: dresses.product.stock + 1)
+      op = OrderProduct.find_by(id: dresses.id)
+
+      # Act - Assert
+      expect(op.update_stock).must_equal false
     end
 
     it "cannot reduce the stock below 0 or to a non-integer" do
@@ -214,12 +220,16 @@ describe OrderProduct do
 
       # Act - Assert
       expect{
-        dresses.update_stock(dresses.product.stock + 1)
-      }.wont_change 'dresses.quantity'
+        dresses.update(quantity: dresses.product.stock + 1)
+        op = OrderProduct.find_by(id: dresses.id)
+        op.update_stock
+      }.wont_change 'dress.stock'
 
       expect{
-        dresses.update_stock(1.5)
-      }.wont_change 'dresses.quantity'
+        dresses.update(quantity: 1.5)
+        op = OrderProduct.find_by(id: dresses.id)
+        op.update_stock
+      }.wont_change 'dress.stock'
     end
   end
 end

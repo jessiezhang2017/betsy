@@ -1,5 +1,5 @@
 require "test_helper"
-
+require 'pry'
 describe Order do
   let(:pending_order) { orders(:pending_order) }
 
@@ -246,7 +246,8 @@ describe Order do
     end
 
     it "will return true if successful" do
-      # Arrange done with let and before
+      # Arrange
+      new_product.save
 
       # Act - Assert
       expect(pending_order.add_product(products(:dress), 2)).must_equal true
@@ -332,27 +333,27 @@ describe Order do
 
       # Act - Assert
       expect(pending_order.status).must_equal "pending"
-      order_status = pending_order.submit_order
-      expect(order_status).must_equal "paid"
+      pending_order.submit_order
+
+      expect(pending_order.status).must_equal "paid"
     end
 
     it "updates the stock of the product on order" do
       # Arrange
-      change = order_products(:dresses).quantity
+      change = -(order_products(:dresses).quantity)
 
       # Act - Assert
       expect{
         pending_order.submit_order
-      }.must_change 'products(:dress).stock', change
+      }.must_change 'Product.find_by(id: order_products(:dresses).product.id).stock', change
     end
 
     it "returns false if order submission fails" do
-      # Arrange done with let
+      # Arrange
+      pending_order.user = nil
 
       # Act - Assert
-      expect(
-        10.times { pending_order.submit_order } # should fail bec not enough stock
-      ).must_equal true
+      expect(pending_order.submit_order).must_equal false
     end
 
     it "returns true if order submission succeeds" do

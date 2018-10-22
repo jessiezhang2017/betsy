@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 shirt:
-  user: one
-  name: MyString
+  user: merchant
+  name: "Shirt"
   price: 1.5
   category: category1
   description: "a nice shirt"
@@ -10,8 +10,8 @@ shirt:
   photo_url: MyString
 
 dress:
-  user: two
-  name: MyString
+  user: merchant
+  name: "Dress"
   price: 1.5
   category: category1
   description: "a nice dress"

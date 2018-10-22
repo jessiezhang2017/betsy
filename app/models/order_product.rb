@@ -1,3 +1,4 @@
+require 'pry'
 class OrderProduct < ApplicationRecord
   belongs_to :order
   belongs_to :product
@@ -12,12 +13,19 @@ class OrderProduct < ApplicationRecord
   end
 
   def update_stock
-    product.update_stock(quantity)
-    self.save
+    if product.update_stock(quantity)
+      return self.save
+    else
+      return false
+    end
   end
 
   def edit_quantity(quantity_ordered)
-    new_quantity = quantity + quantity_ordered
-    self.update(quantity: new_quantity)
+    if product.available?(quantity_ordered)
+      new_quantity = quantity + quantity_ordered
+      return self.update(quantity: new_quantity)
+    else
+      return false
+    end
   end
 end

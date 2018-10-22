@@ -19,21 +19,28 @@ class Order < ApplicationRecord
     # check if product is already in cart
     current_op = order_products.find_by(product_id: product.id)
 
-    if current_op # if so, edit quantity within existing orderproduct
-      current_op.edit_quantity(quantity_ordered)
-    else # if not, add new orderproduct
-      current_op = self.order_products.create(product_id: product.id, quantity: quantity_ordered, order_id: self.id)
+    if product.available?(quantity_ordered)
+      if current_op
+        current_op.edit_quantity(quantity_ordered)
+      else
+        current_op = self.order_products.create(product_id: product.id, quantity: quantity_ordered, order_id: self.id)
+      end
+      return current_op.save
+    else
+      return false
     end
   end
 
   def edit_quantity(op, quantity_ordered)
-    op.edit_quantity(quantity_ordered)
+    return op.edit_quantity(quantity_ordered)
   end
 
   def submit_order
-    self.status = "paid"
-    order_products.each { |op| op.update_stock }
-    self.save
-    return self.id
+    if order_products.each { |op| op.update_stock }
+      self.status = "paid"
+      return self.save
+    else
+      return false
+    end
   end
 end
