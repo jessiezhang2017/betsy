@@ -9,9 +9,10 @@ Rails.application.routes.draw do
 
   resources :order_products
   resources :orders, except: [:destroy]
+
   get "/cart", to: "orders#cart", as: "cart"
-  post "/cart", to: "order_products#update"
   get "/checkout", to: "orders#checkout", as: "checkout"
+  get "/order/:id", to: "orders#confirmation", as: "confirmation"
 
   resources :users do
     resources :products, only: [:new]
