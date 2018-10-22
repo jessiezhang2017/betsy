@@ -3,6 +3,7 @@ require "test_helper"
 describe Product do
   let(:product) { products(:shirt) }
   let(:user) { users(:user1) }
+<<<<<<< HEAD
   before do
     @cloth = Category.new(name: "cloth")
     @cloth.save
@@ -11,6 +12,11 @@ describe Product do
     @cloth.save
 
   end
+=======
+  let(:category1) {categories(:category1)}
+  let(:category2) {categories(:category2)}
+
+>>>>>>> pd_new_2
 
   it 'has required fields' do
     fields = [:name, :user_id, :stock, :category_id, :price, :status]
@@ -33,7 +39,11 @@ describe Product do
       prod1.user = user
       prod1.stock = 10
       prod1.price = 5
+<<<<<<< HEAD
       prod1.category = @cloth
+=======
+      prod1.category = category1
+>>>>>>> pd_new_2
 
       prod1.save!
 
@@ -41,6 +51,12 @@ describe Product do
       prod2.user = user
       prod2.stock = 10
       prod2.price = 5
+<<<<<<< HEAD
+=======
+      prod2.category = category1
+
+      prod2.valid?.must_equal false
+>>>>>>> pd_new_2
       prod2.errors.messages.must_include :name
     end
 
@@ -50,15 +66,23 @@ describe Product do
       prod1.user = user
       prod1.stock = 10
       prod1.price = 5
+<<<<<<< HEAD
       prod1.category = @cloth
 
       prod1.save!
       last = product.all.count
+=======
+      prod1.category = category1
+
+      prod1.save!
+      last = Product.all.count
+>>>>>>> pd_new_2
 
       prod2 = Product.new(name: "Polo shirt")
       prod2.user = user
       prod2.stock = 10
       prod2.price = 5
+<<<<<<< HEAD
       prod1.category = @dress
 
       product.save!
@@ -125,6 +149,102 @@ describe Product do
   #     work.vote_count.must_equal 0
   #   end
   #
+=======
+      prod2.category = category2
+
+      prod2.save!
+      expect(Product.all.count).must_equal last+1
+    end
+
+    it "requires a user_id" do
+      product.user_id = nil
+      product.valid?.must_equal false
+      product.errors.messages.must_include :user_id
+    end
+
+    it "requires a category_id" do
+      product.category_id = nil
+      product.valid?.must_equal false
+      product.errors.messages.must_include :category_id
+    end
+
+
+    it "reject a invalid stock value" do
+      product.stock = nil
+      product.valid?.must_equal false
+      product.errors.messages.must_include :stock
+    end
+
+
+    it " stock value cannot be negative" do
+      product.stock = -1
+      product.valid?.must_equal false
+
+    end
+
+    it " stock value can be 0" do
+      last = Product.all.count
+
+      prod2 = Product.new(name: "Polo shirt")
+      prod2.user = user
+      prod2.stock = 0
+      prod2.price = 5
+      prod2.category = category2
+
+      prod2.save!
+      expect(Product.all.count).must_equal last+1
+    end
+
+    it "it only accept integers as stock quantity" do
+      product.stock = 2.1
+
+      product.valid?.must_equal false
+
+    end
+
+    it "reject invalid price" do
+      product.price = nil
+      product.valid?.must_equal false
+      product.errors.messages.must_include :price
+    end
+
+    it "accept 0 price" do
+      last = Product.all.count
+
+      prod2 = Product.new(name: "Polo shirt")
+      prod2.user = user
+      prod2.stock = 0
+      prod2.price = 0
+      prod2.category = category2
+
+      prod2.save!
+      expect(Product.all.count).must_equal last+1
+    end
+  end
+
+
+  describe "active_products" do
+    it "returns an array" do
+
+    end
+
+    it "returns an array of product" do
+
+
+    end
+
+    it "The array length will be added by 1 for a newly created product" do
+
+
+    end
+
+    it "The array length will be reduced by 1 if retire a valid product" do
+
+
+    end
+  end
+
+>>>>>>> pd_new_2
   #   it "tracks the number of votes" do
   #     work = Work.create!(title: "test title", category: "movie")
   #     4.times do |i|
