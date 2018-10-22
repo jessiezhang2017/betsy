@@ -20,9 +20,10 @@ class OrderProduct < ApplicationRecord
   end
 
   def edit_quantity(quantity_ordered)
-    if product.available?(quantity_ordered)
-      new_quantity = quantity + quantity_ordered
-      return self.update(quantity: new_quantity)
+    if quantity_ordered == 0
+      return self.destroy
+    elsif product.available?(quantity_ordered)
+      return self.update(quantity: quantity_ordered)
     else
       return false
     end
