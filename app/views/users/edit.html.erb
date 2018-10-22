@@ -1,3 +1,62 @@
-<h1>User#edit</h1>
-<p>Find me in app/views/user/edit.html.erb</p>
-<!-- after logging in with oath, get name and type  -->
+<h1>Account Information</h1>
+
+<%= form_with model: @user, local: true do |f|%>
+<!-- after gh auth -->
+<p> Enter more information to create your account. </p>
+
+<section class="form-group">
+  <% type = 'Merchant' %>
+  <%= f.label "Would you like to become a merchant?" %>
+  <!-- allow users to check if they want to be a merchant -->
+  <%= f.check_box :type, {}, type %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "EMail" %>
+  <%= f.text_field :email, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label :address%>
+  <%= f.text_field :address, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "Billing Zip Code" %>
+  <%= f.text_field :bill_zip, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "Credit Card Number" %>
+  <%= f.text_field :cc_num, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "Credit Card Expiration Date" %>
+  <%= f.text_field :cc_exp, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "Credit Card CSV Number" %>
+  <%= f.text_field :cc_csv, class: "form-control" %>
+</section>
+
+  <% if @current_user %>
+    <%= f.submit "Update", class: "btn btn-primary" %>
+     <% else %>
+    <%= f.submit "Update", class: "btn btn-primary", disabled: true %>
+  <% end %>
+
+<% end %>

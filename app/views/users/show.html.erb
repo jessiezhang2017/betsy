@@ -1,2 +1,27 @@
-<h1>User#show</h1>
-<p>Find me in app/views/user/show.html.erb</p>
+<h1> <%= "#{@merchant.name}'s Good's Distribution Store" %> </h1>
+<P>
+  Joined site on <%= "#{@merchant.created_at.strftime ("%b. %d, %Y")}" %>
+</P>
+
+<table class="table">
+  <thead>
+    <tr>
+        <th>Product Picture</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Category</th>
+        <th>Add to Cart</th>
+      </tr>
+  </thead>
+  <tbody>
+    <% @merchant.products.each do |product| %>
+    <tr>
+      <td> product image </td>
+      <td> <%= "#{product.name}" %> </td>
+      <td> <%= "#{product.quantity}" %> </td>
+      <td> <%= "#{product.category}" %> </td>
+      <td> add to cart </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
