@@ -6,6 +6,7 @@ class OrderProductsController < ApplicationController
     quantity = params[:order_product][:quantity].to_i
 
     # create the orderproduct, add it to the current cart, and save it
+    @current_order.save
     @current_order.add_product(product, quantity)
 
     # save the cart and update the session

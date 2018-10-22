@@ -1,7 +1,8 @@
 <h1> <%= "#{@merchant.name}'s Good's Distribution Store" %> </h1>
-<P>
+<p>
   Joined site on <%= "#{@merchant.created_at.strftime ("%b. %d, %Y")}" %>
-</P>
+</p>
+
 
 <table class="table">
   <thead>
@@ -10,17 +11,27 @@
         <th>Product Name</th>
         <th>Quantity</th>
         <th>Category</th>
-        <th>Add to Cart</th>
+        <% if !current_user || current_user.id != @merchant.id  %>
+          <th>Add to Cart</th>
+        <% else %>
+          <th>Remove product</th>
+          <th>Edit stock</th>
+        <% end %>
       </tr>
   </thead>
   <tbody>
     <% @merchant.products.each do |product| %>
     <tr>
       <td> product image </td>
-      <td> <%= "#{product.name}" %> </td>
-      <td> <%= "#{product.quantity}" %> </td>
-      <td> <%= "#{product.category}" %> </td>
-      <td> add to cart </td>
+      <td> <%= link_to "#{product.name}", product_path(product.id) %> </td>
+      <td> <%= "#{product.stock}" %> </td>
+      <td> <%= "#{product.category.name}" %> </td>
+      <% if current_user.id != @merchant.id %>
+        <td> add to cart </td>
+      <% else %>
+        <td> delete product </td>
+        <td> increase stock </td>
+      <% end %>
     </tr>
     <% end %>
   </tbody>

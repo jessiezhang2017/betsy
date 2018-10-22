@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
-  before_action :find_merchant
+  before_action :find_merchant, except: [:index, :edit]
+  before_action :find_user
 
   def index
-    @users = User.all
     @merchants = Merchant.all #adding merchants to index for viewing and sorting in views
+    # @users = User.all
   end
 
   def new
@@ -26,9 +27,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user ||= User.find_by(id: params[:id].to_i)
-
-    if @user.nil?
+    @current_user.id
+    
+    if @current_user.nil?
       render :not_found, status: :not_found
     end
   end
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
   private
 
   def find_merchant
-    @merchant ||= User.find_by(id: params[:id].to_i)
+    @merchant ||= User.find_by(id: params[:id].to_i, type: "Merchant")
 
     if @merchant.nil?
       render :not_found
