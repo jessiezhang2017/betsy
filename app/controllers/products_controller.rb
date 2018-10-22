@@ -15,8 +15,9 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @op = @current_order.order_products.new
-
+    if @current_order.valid?
+      @op = @current_order.order_products.find_by(product_id: params[:id])
+    end
   end
 
   def new

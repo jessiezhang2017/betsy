@@ -1,5 +1,5 @@
 require "test_helper"
-require 'pry'
+
 describe Order do
   let(:pending_order) { orders(:pending_order) }
 
@@ -237,12 +237,12 @@ describe Order do
       expect(order_products(:dresses).quantity).must_equal 2
 
       expect {
-        pending_order.add_product(products(:dress), 2)
+        pending_order.add_product(products(:dress), 3)
       }.wont_change 'pending_order.order_products.length'
 
       # After addition
       op = OrderProduct.find_by(id: order_products(:dresses).id)
-      expect(op.quantity).must_equal 4
+      expect(op.quantity).must_equal 3
     end
 
     it "will return true if successful" do
@@ -278,10 +278,11 @@ describe Order do
     it "updates the quantity to the designated value" do
       # Arrange done with let
 
-      # Act - Assert
-      expect{
-        pending_order.edit_quantity(dresses, 3)
-      }.must_change 'dresses.quantity', 3
+      # Act
+      pending_order.edit_quantity(dresses, 3)
+
+      # Assert
+      expect(dresses.quantity).must_equal 3
     end
 
     it "cannot update the quantity to a value less than 1 or a non-integer" do

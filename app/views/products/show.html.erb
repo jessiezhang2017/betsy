@@ -17,5 +17,10 @@
 <p>status: <%= @product.status%> </p>
 
 <%if @product.stock != 0 %>
-  <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
+  <% if @op %>
+    <%= render partial: "order_products/form", locals: { button_title: "Update cart", op: @op, product_id: @product.id } %>
+  <% else %>
+    <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op: @current_order.order_products.new, product_id: @product.id } %>
+  <% end %>
+
 <%end%>
