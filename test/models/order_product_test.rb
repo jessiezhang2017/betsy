@@ -146,20 +146,17 @@ describe OrderProduct do
     it "updates the quantity to the designated value" do
       # Arrange done with let
 
-      # Act - Assert
-      expect{
-        dresses.edit_quantity(1)
-      }.must_change 'dresses.quantity', 1
+      # Act
+      dresses.edit_quantity(1)
+
+      # Assert
+      expect(dresses.quantity).must_equal 1
     end
 
-    it "cannot update the quantity to a value less than 1 or a non-integer" do
+    it "cannot update the quantity to a negative or non-integer value" do
       # Arrange done with let
 
       # Act - Assert
-      expect{
-        dresses.edit_quantity(0)
-      }.wont_change 'dresses.quantity'
-
       expect{
         dresses.edit_quantity(-1)
       }.wont_change 'dresses.quantity'
@@ -167,6 +164,17 @@ describe OrderProduct do
       expect{
         dresses.edit_quantity(2.5)
       }.wont_change 'dresses.quantity'
+    end
+
+    it "destroys the order product if quantity selected is 0" do
+      # Arrange
+      id = dresses.id
+
+      # Act
+      dresses.edit_quantity(0)
+
+      # Assert
+      expect(OrderProduct.find_by(id: id)).must_be_nil
     end
 
     it "must return true when successful" do

@@ -1,5 +1,8 @@
 <h2>Product Show Page</h2>
 
-<%= render partial: "order_products/form", locals: { button_title: "Add to cart", op_id: nil, product_id: @product.id } %>
-
-<!-- order product id not created until products added to cart -->
+<% if @op %>
+  <%= render partial: "order_products/form", locals: { button_title: "Update cart", op: @op, product_id: @product.id } %>
+<% else %>
+  <%= render partial: "order_products/form", locals: { button_title: "Add to cart", op: @current_order.order_products.new, product_id: @product.id } %>
+<% end %>
+<!-- order product id not created until products added to cart. @op.id will be nil if new order product -->
