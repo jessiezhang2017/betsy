@@ -1,12 +1,16 @@
 <h1>Account Information</h1>
 
+<% if current_user.type == "Merchant" %>
+  <h1> Hi Merchant </h1>
+<% end %>
+
 <%= form_with model: @user, local: true do |f|%>
 <!-- after gh auth -->
 <p> Enter more information to create your account. </p>
 
 <section class="form-group">
   <% type = 'Merchant' %>
-  <%= f.label "Would you like to become a merchant?" %>
+<%= f.label "Would you like to become a merchant?" %>
   <!-- allow users to check if they want to be a merchant -->
   <%= f.check_box :type, {}, type %>
 </section>
