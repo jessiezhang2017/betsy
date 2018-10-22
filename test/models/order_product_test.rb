@@ -140,4 +140,86 @@ describe OrderProduct do
       expect(result).must_equal dresses.quantity * products(:dress).price
     end
   end
+
+  describe "edit_quantity" do
+    it "updates the quantity to the designated value" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.edit_quantity(3)
+      }.must_change 'dresses.quantity', 1 #previously 2
+    end
+
+    it "cannot update the quantity to a value less than 1 or a non-integer" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.edit_quantity(0)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        dresses.edit_quantity(-1)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        dresses.edit_quantity(2.5)
+      }.wont_change 'dresses.quantity'
+    end
+
+    it "must return true when successful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(dresses.edit_quantity(3)).must_equal true
+    end
+
+    it "must return false when unsuccessful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(dresses.edit_quantity(-2)).must_equal false
+    end
+
+    it "cannot increase the quantity beyond the available stock" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.edit_quantity(products(:dress).stock + 1)
+      }.wont_change 'dresses.quantity'
+
+      expect(dresses.edit_quantity(products(:dress).stock + 1)).must_equal false
+    end
+  end
+
+  describe "update_stock" do
+    it "reduces the stock by the quantity ordered" do
+      expect{
+        dresses.update_stock(2)
+      }.must_change 'dresses.quantity', 2
+    end
+
+    it "returns true if successful" do
+      expect(dresses.update_stock(2)).must_equal true
+    end
+
+    it "returns false if unsuccessful" do
+      expect(dresses.update_stock(2)).must_equal false
+    end
+
+    it "cannot reduce the stock below 0 or to a non-integer" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.update_stock(dresses.product.stock + 1)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        dresses.update_stock(1.5)
+      }.wont_change 'dresses.quantity'
+    end
+  end
 end

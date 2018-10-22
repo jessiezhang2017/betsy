@@ -16,7 +16,8 @@ class OrderProduct < ApplicationRecord
     self.save
   end
 
-  def edit_quantity(new_quantity)
+  def edit_quantity(quantity_ordered)
+    new_quantity = quantity + quantity_ordered
     self.update(quantity: new_quantity)
   end
 end
