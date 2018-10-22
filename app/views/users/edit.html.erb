@@ -19,6 +19,12 @@
 
 <section class="form-group">
   <!-- because parcels shouldn't be addressed to githubuser1233 -->
+  <%= f.label "EMail" %>
+  <%= f.text_field :email, class: "form-control" %>
+</section>
+
+<section class="form-group">
+  <!-- because parcels shouldn't be addressed to githubuser1233 -->
   <%= f.label :address%>
   <%= f.text_field :address, class: "form-control" %>
 </section>
@@ -46,8 +52,6 @@
   <%= f.label "Credit Card CSV Number" %>
   <%= f.text_field :cc_csv, class: "form-control" %>
 </section>
-
-
 
   <% if @current_user %>
     <%= f.submit "Update", class: "btn btn-primary" %>
