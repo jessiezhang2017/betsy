@@ -27,9 +27,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @current_user.id
-    
-    if @current_user.nil?
+    @user ||= User.find_by(id: params[:id].to_i)
+
+    if @user.nil?
       render :not_found, status: :not_found
     end
   end
