@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :products
+  has_many :orders
 
 
     def self.build_from_github(auth_hash)
@@ -11,5 +12,10 @@ class User < ApplicationRecord
 
      # Note that the user has not been saved
      return user
+    end
+
+    def is_a_merchant?
+        return true if user ||= User.find_by(type: "Merchant")
+
     end
 end

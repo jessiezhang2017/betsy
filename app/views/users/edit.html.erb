@@ -9,10 +9,9 @@
 <p> Enter more information to create your account. </p>
 
 <section class="form-group">
-<% type = 'Merchant' %>
 <%= f.label "Would you like to become a merchant?" %>
   <!-- allow users to check if they want to be a merchant -->
-  <%= f.check_box :type, {}, type %>
+  <%= f.check_box :type, type: "Merchant" %>
 </section>
 
 <section class="form-group">
