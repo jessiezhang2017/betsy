@@ -16,6 +16,6 @@ class User < ApplicationRecord
 
     def is_a_merchant?
         return true if user ||= User.find_by(type: "Merchant")
-
+        # NEEDS WORK: THIS METHOD IS RETURNING THE FIRST USER THAT IS A MERCHANT IN THE DB
     end
 end
