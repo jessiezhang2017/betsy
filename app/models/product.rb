@@ -29,6 +29,14 @@ class Product < ApplicationRecord
     self.active_products.select {|prod| prod.category == category}
   end
 
+  def self.category_list(id)
+    self.active_products.select {|prod| prod.category.id == id}
+  end
+
+  def self.merchant_list(id)
+    self.active_products.select {|prod| prod.user.id == id}
+  end
+
   def self.to_merchant_hash
     data = {}
     Merchant.all.each do |user|
