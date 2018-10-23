@@ -44,11 +44,12 @@ body {
   background-color: $white;
   color: $dark-grey;
   font-family: 'Raleway', sans-serif;
-  padding: 2rem 1rem 1rem 1rem;
 }
 
-main {
-  padding: 2rem 3rem;
+article.main-content {
+  padding-right: 2rem;
+  padding-left: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* Material design icon styling */
@@ -68,6 +69,7 @@ main {
 
 #sovietski-header {
   justify-content: space-between;
+  padding: 2rem;
 }
 
 h1.sovietski-logo {
@@ -89,13 +91,13 @@ a.cart-button {
   font-weight: bold;
 }
 
-input.btn-primary {
+.btn-primary {
   background-color: $dark-yellow;
   border-color: $dark-yellow;
   color: $dark-grey;
 }
 
-a.btn-primary:hover, input.btn-primary:hover {
+.btn-primary:hover, input.btn-primary:hover {
   background-color: $light-yellow;
   border-color: $light-yellow;
   color: $dark-grey;
@@ -131,35 +133,44 @@ li.user-nav {
   margin-right: 1rem;
 }
 
-a.btn-danger {
+.btn-danger {
   background-color: $dark-red;
   border-color: $dark-red;
   color: $white;
 }
 
-a.btn-danger:hover {
+.btn-danger:hover {
   background-color: $light-red;
   border-color: $light-red;
 }
 
-a.btn-secondary {
+.btn-secondary {
   background-color: $dark-blue;
   border-color: $dark-blue;
   color: $white;
 }
 
-a.btn-secondary:hover {
+.btn-secondary:hover {
   background-color: $light-blue;
   border-color: $light-blue;
 }
 
-a.btn-outline-danger {
+.btn-outline-danger {
   border-color: $dark-red;
   color: $dark-red;
 }
 
-a.btn-outline-danger:hover {
+.btn-outline-danger:hover {
   background-color: $dark-red;
   border-color: $dark-red;
   color: $white;
+}
+
+h5.cart.card-title {
+  font-weight: bold;
+}
+
+img.homepage-hero-img {
+  display: block;
+  width: 100%;
 }

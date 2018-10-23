@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"
-  get "/order/:id", to: "orders#confirmation", as: "confirmation"
+  get "/confirmation", to: "orders#confirmation", as: "confirmation"
 
   patch "/products/:id/retire", to: "products#retire", as: "retire"
   get "/Products_by_category", to: "products#bycategory", as:"bycategory"

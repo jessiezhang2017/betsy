@@ -1,5 +1,6 @@
 class Merchant < User
   has_many :products
+
   validates :type, presence: true
   #merchant inherits all things from user, but when a new merchant is created the 'type' is automagically set to merchant.
 

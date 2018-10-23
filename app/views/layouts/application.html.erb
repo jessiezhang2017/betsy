@@ -62,7 +62,7 @@
               <a href="<%= cart_path %>" role="button" class="nav-item btn btn-primary cart-button">
                 <div class="cart-button">
                   <i class="material-icons" id="shopping-cart-icon">shopping_cart</i>
-                  <%= "#{@current_order.order_products.length} items" %>
+                  <%= "#{@current_order.order_products.where(status: "pending").count} items" %>
                 </div>
               </a>
             </li>
