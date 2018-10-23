@@ -1,7 +1,10 @@
 class User < ApplicationRecord
   has_many :products
   has_many :orders
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0c6ef2e5c395e6344a8b8a1ab4bddd195afbeeff
 
     def self.build_from_github(auth_hash)
      user = User.new
