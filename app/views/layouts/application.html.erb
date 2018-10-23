@@ -38,9 +38,19 @@
           <ul class="nav float-right">
             <% if current_user %>
               <li class="nav-item dropdown user-nav">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= "#{@current_user.name}" %></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <% if @current_user.name.nil? %> <!-- if the current user has no name in field -->
+                    User Options </a>
+                  <% else %>
+                    <%= "#{@current_user.name}" %></a>
+                  <% end %>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Merchant dashboard</a>
+                  <% if current_user.type == "Merchant" %>
+                    <%= link_to "Merchant Dashboard", user_path("#{@current_user.id}"), class: "dropdown-item" %>
+                  <% else %>
+                  <%= link_to "User Dashboard", user_path("#{@current_user.id}"), class: "dropdown-item" %>
+
+                  <% end %>
                   <%= link_to "Edit profile", edit_user_path(@current_user.id), class: "dropdown-item" %>
                   <div class="dropdown-divider"></div>
                   <%= link_to "Log out", logout_path, method: 'delete', class: "dropdown-item" %>

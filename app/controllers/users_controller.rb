@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_merchant, except: [:index, :edit]
-  before_action :find_user, only: :show
+  before_action :find_user, only: [:show, :edit]
   # before_action :find_user
 
   def index
@@ -24,13 +24,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-    @current_user.id
-
-    if @current_user.nil?
-      render :not_found, status: :not_found
-    end
-  end
+  def edit; end
 
   def destroy
     #delete account aka be sent to siberia
