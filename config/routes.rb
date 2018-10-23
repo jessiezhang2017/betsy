@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root "home#index"
-  get "/auth/:provider/callback", to: "sessions#create"
+  get "/auth/:provider/callback", to: "sessions#create", as: 'auth_callback'
   delete "/logout", to: "sessions#destroy", as: "logout"
 
   resources :users
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"
-  get "/order/:id", to: "orders#confirmation", as: "confirmation"
+  get "/confirmation", to: "orders#confirmation", as: "confirmation"
 
   patch "/products/:id/retire", to: "products#retire", as: "retire"
   get "/products/category/:id", to: "products#bycategory", as:"bycategory"

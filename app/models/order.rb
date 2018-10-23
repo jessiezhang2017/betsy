@@ -23,7 +23,7 @@ class Order < ApplicationRecord
       if current_op
         current_op.edit_quantity(quantity_ordered)
       else
-        current_op = self.order_products.create(product_id: product.id, quantity: quantity_ordered, order_id: self.id)
+        current_op = self.order_products.create(product_id: product.id, quantity: quantity_ordered, order_id: self.id, status: "pending")
       end
       return current_op.save
     else
