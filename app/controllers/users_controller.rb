@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_merchant, except: [:index, :edit]
+  before_action :find_user, only: :show
   # before_action :find_user
 
   def index
@@ -36,6 +37,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def find_user
+    @user ||= User.find_by(id: params[:id].to_i)
+
+    if @user.nil?
+      # flash[:warning] = "No such user"
+    end
+  end
 
   def find_merchant
     @merchant ||= User.find_by(id: params[:id].to_i, type: "Merchant")
