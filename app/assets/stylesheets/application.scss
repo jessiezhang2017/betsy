@@ -44,7 +44,11 @@ body {
   background-color: $white;
   color: $dark-grey;
   font-family: 'Raleway', sans-serif;
-  margin: 1rem;
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+main {
+  padding: 2rem 3rem;
 }
 
 /* Material design icon styling */
@@ -78,14 +82,20 @@ a.sovietski-logo {
   text-align: center;
 }
 
-a.btn-primary {
+a.cart-button {
   background-color: $dark-yellow;
   border-color: $dark-yellow;
   color: $dark-grey;
   font-weight: bold;
 }
 
-a.btn-primary:hover {
+input.btn-primary {
+  background-color: $dark-yellow;
+  border-color: $dark-yellow;
+  color: $dark-grey;
+}
+
+a.btn-primary:hover, input.btn-primary:hover {
   background-color: $light-yellow;
   border-color: $light-yellow;
   color: $dark-grey;
@@ -119,4 +129,37 @@ nav ul {
 
 li.user-nav {
   margin-right: 1rem;
+}
+
+a.btn-danger {
+  background-color: $dark-red;
+  border-color: $dark-red;
+  color: $white;
+}
+
+a.btn-danger:hover {
+  background-color: $light-red;
+  border-color: $light-red;
+}
+
+a.btn-secondary {
+  background-color: $dark-blue;
+  border-color: $dark-blue;
+  color: $white;
+}
+
+a.btn-secondary:hover {
+  background-color: $light-blue;
+  border-color: $light-blue;
+}
+
+a.btn-outline-danger {
+  border-color: $dark-red;
+  color: $dark-red;
+}
+
+a.btn-outline-danger:hover {
+  background-color: $dark-red;
+  border-color: $dark-red;
+  color: $white;
 }
