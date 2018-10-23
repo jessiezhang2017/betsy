@@ -4,12 +4,12 @@
   <h1> Hi Merchant </h1>
 <% end %>
 
-<%= form_with model: @current_user, local: true do |f|%>
+<%= form_with model: User, method: :POST, local: true do |f|%>
 <!-- after gh auth -->
 <p> Enter more information to create your account. </p>
 
 <section class="form-group">
-  <% type = 'Merchant' %>
+<% type = 'Merchant' %>
 <%= f.label "Would you like to become a merchant?" %>
   <!-- allow users to check if they want to be a merchant -->
   <%= f.check_box :type, {}, type %>

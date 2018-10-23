@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_merchant, except: [:index, :edit]
-  before_action :find_user, only: [:show, :edit]
+  before_action :find_any_user, only: [:show, :edit, :create]
   # before_action :find_user
 
   def index
@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
+
+  def create; end
 
   def show; end
 
@@ -32,7 +34,7 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
+  def find_any_user
     @user ||= User.find_by(id: params[:id].to_i)
 
     if @user.nil?
