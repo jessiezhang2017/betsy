@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :find_merchant, except: [:index, :edit, :create, :show]
-  before_action :find_any_user, only: [:show, :edit, :destroy]
+  before_action :find_merchant, except: [:index, :edit, :create, :show, :update]
+  before_action :find_any_user, only: [:show, :edit, :create, :destroy, :update]
   # before_action :find_user
 
   def index
@@ -43,9 +43,9 @@ class UsersController < ApplicationController
   def find_any_user
     @user ||= User.find_by(id: params[:id].to_i)
 
-    if @user.nil?
-      flash[:warning] = "No such user"
-    end
+    # if @user.nil?
+    #   flash[:warning] = "No such user"
+    # end
   end
 
   def find_merchant

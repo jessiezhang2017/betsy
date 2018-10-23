@@ -4,7 +4,7 @@
   <h1> Hi Merchant </h1>
 <% end %>
 
-<%= form_with model: User, method: :POST, local: true do |f|%>
+<%= form_with model: @current_user, method: :PATCH, local: true do |f|%>
 <!-- after gh auth -->
 <p> Enter more information to create your account. </p>
 
