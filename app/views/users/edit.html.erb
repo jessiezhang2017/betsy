@@ -1,65 +1,61 @@
 <h1>Account Information</h1>
 
-<% if current_user.type == "Merchant" %>
+<% if @current_user.type == "Merchant" %>
   <h1> Hi Merchant </h1>
 <% end %>
 
-<%= form_with model: @current_user, method: :PATCH, local: true do |f|%>
-<!-- after gh auth -->
-<p> Enter more information to create your account. </p>
+<%= form_with model: @current_user, method: :POST, local: true do |f|%>
+  <!-- after gh auth -->
+  <p> Enter more information to create your account. </p>
 
-<section class="form-group">
-<%= f.label "Would you like to become a merchant?" %>
-  <!-- allow users to check if they want to be a merchant -->
-  <%= f.check_box :type, type: "Merchant" %>
-</section>
+  <section class="form-group">
+    <%= f.label "Would you like to become a merchant?" %>
+    <!-- allow users to check if they want to be a merchant -->
+    <%= f.check_box :type, type: "Merchant" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label :name %>
-  <%= f.text_field :name, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label "EMail" %>
-  <%= f.text_field :email, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label "EMail" %>
+    <%= f.text_field :email, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label :address%>
-  <%= f.text_field :address, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label :address%>
+    <%= f.text_field :address, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label "Billing Zip Code" %>
-  <%= f.text_field :bill_zip, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label "Billing Zip Code" %>
+    <%= f.text_field :bill_zip, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label "Credit Card Number" %>
-  <%= f.text_field :cc_num, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label "Credit Card Number" %>
+    <%= f.text_field :cc_num, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label "Credit Card Expiration Date" %>
-  <%= f.text_field :cc_exp, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label "Credit Card Expiration Date" %>
+    <%= f.text_field :cc_exp, class: "form-control" %>
+  </section>
 
-<section class="form-group">
-  <!-- because parcels shouldn't be addressed to githubuser1233 -->
-  <%= f.label "Credit Card CSV Number" %>
-  <%= f.text_field :cc_csv, class: "form-control" %>
-</section>
+  <section class="form-group">
+    <!-- because parcels shouldn't be addressed to githubuser1233 -->
+    <%= f.label "Credit Card CSV Number" %>
+    <%= f.text_field :cc_csv, class: "form-control" %>
+  </section>
 
-  <% if @current_user %>
-    <%= f.submit "Update", class: "btn btn-primary" %>
-     <% else %>
-    <%= f.submit "Update", class: "btn btn-primary", disabled: true %>
-  <% end %>
+  <%= f.submit "Update", class: "btn btn-primary" %>
 
 <% end %>

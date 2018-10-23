@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-  has_many :products
+  has_many :products #TODO REMOVE FOR ANY USER
   has_many :orders
-
 
     def self.build_from_github(auth_hash)
      user = User.new
@@ -14,7 +13,7 @@ class User < ApplicationRecord
      return user
     end
 
-    def is_a_merchant?(user)
-       return (user.type == "Merchant")
+    def is_a_merchant?
+       return self.type == "Merchant"
     end
 end

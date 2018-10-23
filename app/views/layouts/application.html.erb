@@ -36,16 +36,11 @@
 
         <nav class="main-actions-nav col-sm">
           <ul class="nav float-right">
-            <% if current_user %>
+            <% if session[:user_id] == @current_user.id %>
               <li class="nav-item dropdown user-nav">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <% if @current_user.name.nil? %> <!-- if the current user has no name in field -->
-                    User Options </a>
-                  <% else %>
-                    <%= "#{@current_user.name}" %></a>
-                  <% end %>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= "#{@current_user.name}" %></a>
                 <div class="dropdown-menu">
-                  <% if current_user.type == "Merchant" %>
+                  <% if @current_user.type == "Merchant" %>
                     <%= link_to "Merchant Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
                   <% else %>
                     <%= link_to "User Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
@@ -62,7 +57,7 @@
               <a href="<%= cart_path %>" role="button" class="nav-item btn btn-primary cart-button">
                 <div class="cart-button">
                   <i class="material-icons" id="shopping-cart-icon">shopping_cart</i>
-                  <%= "#{@current_order.order_products.length} items" %>
+                  <%= "#{@current_order.order_products.where(status: "pending").count} items" %>
                 </div>
               </a>
             </li>

@@ -1,62 +1,51 @@
 class UsersController < ApplicationController
-  before_action :find_merchant, except: [:index, :edit, :create, :show, :update]
-  before_action :find_any_user, only: [:show, :edit, :create, :destroy, :update]
-  # before_action :find_user
+  before_action :check_permissions, only: [:show, :edit, :destroy]
 
   def index
     @merchants = Merchant.all #adding merchants to index for viewing and sorting in views
     # @users = User.all
   end
 
-  def new
-    @user = User.new
-  end
-
-  def create
-    redirect_to user_path(@current_user.id) #do not go to create page
-  end
-
-  def show; end
+  def show; end #TODO change this to be just user profile and create custom route for merchant shopping
 
   def update
     if @current_user && @current_user.update(user_params)
       flash[:success] = "Saved"
-      redirect_to root_path
+      redirect_to user_path(@current_user.id)
     else
       flash.now[:error] = 'Not updated.'
-      render :edit
+      render :edit, status: :bad_request
     end
   end
 
   def edit; end
 
   def destroy
-    unless @user.nil?
-      @user.destroy
-      flash[:success] = "#{@current_user.name} deleted"
+    unless @current_user.nil?
+      if @current_user.is_a_merchant? && @current_user.products.any?
+        @current_user.products.each do |product|
+          product.status = false
+          product.save
+        end
+      end
+
+      @current_user.update(name: "Deleted User", email: nil, address: nil, cc_num: nil, cc_exp: nil, bill_zip: nil, cc_csv: nil, status: "inactive", uid: 0, provider: "none")
+
+      flash[:success] = "#{@current_user.name}'s information deleted"
       redirect_to root_path
     end
   end
 
   private
 
-  def find_any_user
-    @user ||= User.find_by(id: params[:id].to_i)
-
-    # if @user.nil?
-    #   flash[:warning] = "No such user"
-    # end
-  end
-
-  def find_merchant
-    @merchant ||= User.find_by(id: params[:id].to_i, type: "Merchant")
-
-    if @merchant.nil?
-      render :not_found
+    def check_permissions
+      if params[:id].to_i != session[:user_id]
+        flash.now[:error] = 'Not allowed.'
+        render :forbidden
+      end
     end
-  end
 
-  def user_params
-    return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip, :provider)
-  end
+    def user_params
+      return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip)
+    end
 end
