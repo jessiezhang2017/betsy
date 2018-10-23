@@ -3,15 +3,18 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.active_products
-
   end
 
   def bycategory
-    @products_by_category = Product.to_category_hash
+    id = params[:id].to_i
+    @category_selected = Category.find_by(id:id)
+    @products_by_category = Product.category_list(id)
   end
 
   def bymerchant
-    @products_by_merchant = Product.to_merchant_hash
+    id = params[:id].to_i
+    @merchant_selected = User.find_by(id:id)
+    @products_by_merchant = Product.merchant_list(id)
   end
 
   def show
@@ -89,5 +92,9 @@ class ProductsController < ApplicationController
 
   def product_params
     return params.require(:product).permit(:name, :category_id, :price, :description, :stock, :photo_url)
+  end
+
+  def category_params
+    return params.require(:category).permit(:id)
   end
 end
