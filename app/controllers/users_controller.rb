@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :find_merchant, except: [:index, :edit]
-  before_action :find_user
+  before_action :find_user, only: [:show, :edit]
+  # before_action :find_user
 
   def index
     @merchants = Merchant.all #adding merchants to index for viewing and sorting in views
@@ -11,13 +12,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def create; end
-
-
   def show; end
 
   def update
-    if @user && @user.update(user_params) #(if user exists AND can be updated)
+    if @current_user && @current_user.update(user_params)
       flash[:success] = "Saved"
       redirect_to root_path
     else
@@ -26,19 +24,21 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-    @user ||= User.find_by(id: params[:id].to_i)
-
-    if @user.nil?
-      render :not_found, status: :not_found
-    end
-  end
+  def edit; end
 
   def destroy
     #delete account aka be sent to siberia
   end
 
   private
+
+  def find_user
+    @user ||= User.find_by(id: params[:id].to_i)
+
+    if @user.nil?
+      # flash[:warning] = "No such user"
+    end
+  end
 
   def find_merchant
     @merchant ||= User.find_by(id: params[:id].to_i, type: "Merchant")
