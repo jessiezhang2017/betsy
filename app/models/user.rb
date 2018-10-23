@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :products
   has_many :orders
 
 
@@ -11,5 +12,9 @@ class User < ApplicationRecord
 
      # Note that the user has not been saved
      return user
+    end
+
+    def is_a_merchant?(user)
+       return (user.type == "Merchant")
     end
 end

@@ -3,10 +3,11 @@
   <h1> <%= "#{@merchant.name}'s Good's Distribution Store" %> </h1> <!-- 'storefront if user is merchant' -->
 <% else %>
   <h1> Profile Information </h1>
-<p>
-  Joined site on <%= "#{@merchant.created_at.strftime ("%b. %d, %Y")}" %>
-</p>
 <% end %>
+<p>
+  Joined site on <%= "#{@user.created_at.strftime ("%b. %d, %Y")}" %>
+</p>
+
 
 
 <table class="table">
@@ -16,7 +17,7 @@
         <th>Product Name</th>
         <th>Quantity</th>
         <th>Category</th>
-        <% if !current_user || current_user.id != @merchant.id  %> <!-- this is call to the helper method, not a variable.... -LR -->
+        <% if @user.type != Merchant  %> <!-- this is call to the helper method, not a variable.... -LR -->
           <th>Add to Cart</th>
         <% else %>
           <th>Remove product</th>
@@ -25,7 +26,7 @@
       </tr>
   </thead>
   <tbody>
-    <% @merchant.products.each do |product| %>
+    <% @user.products.each do |product| %>
     <tr>
       <td> product image </td>
       <td> <%= link_to "#{product.name}", product_path(product.id) %> </td>
