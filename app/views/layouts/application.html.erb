@@ -14,23 +14,53 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Bungee+Shade|Raleway:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   </head>
 
   <body>
-    <nav>
-      <ul>
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "All Merchants", users_path %></li>
-        <% if current_user %>
-        <li> <%= link_to "Edit Profile", edit_user_path(@current_user.id) %> </li>
-          <li><%= link_to "Log out #{@current_user.name}", logout_path, method: 'delete'  %></li>
-        <% else %>
-          <li><%= link_to "Login with Github", "/auth/github" %></li>
-        <% end %>
-        <li><%= link_to "View products", products_path %></li>
-        <li><%= link_to "Cart", cart_path %></li>
-      </ul>
-    </nav>
+    <header id="sovietski-header" class="container-fluid">
+      <div class="row align-items-center">
+        <nav class="nav dropdown product-nav col-sm">
+          <a class="nav-link dropdown-toggle btn btn-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Browse products</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="<%= root_path %>">Home</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="<%= products_path %>">All products</a>
+            <a class="dropdown-item" href="<%= users_path %>">All merchants</a>
+          </div>
+        </nav>
+
+        <h1 class="col-sm sovietski-logo"><%= link_to "Sovietski", root_path, class: "sovietski-logo" %></h1>
+
+        <nav class="main-actions-nav col-sm">
+          <ul class="nav float-right">
+            <% if current_user %>
+              <li class="nav-item dropdown user-nav">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= "#{@current_user.name}" %></a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Merchant dashboard</a>
+                  <%= link_to "Edit profile", edit_user_path(@current_user.id), class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                  <%= link_to "Log out", logout_path, method: 'delete', class: "dropdown-item" %>
+                </div>
+              </li>
+            <% else %>
+              <li><%= link_to "Login with Github", "/auth/github", class: "nav-item btn btn-outline-dark" %></li>
+            <% end %>
+            <li>
+              <a href="<%= cart_path %>" role="button" class="nav-item btn btn-primary cart-button">
+                <div class="cart-button">
+                  <i class="material-icons" id="shopping-cart-icon">shopping_cart</i>
+                  <%= "#{@current_order.order_products.length} items" %>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
     <main>
       <section class="alert__container">
         <%flash.each do |name, message|%>
