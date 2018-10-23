@@ -13,7 +13,7 @@ class User < ApplicationRecord
      return user
     end
 
-    def is_a_merchant?(user)
-       return (user.type == "Merchant")
+    def is_a_merchant?
+       return self.type == "Merchant"
     end
 end
