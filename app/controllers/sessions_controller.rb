@@ -3,14 +3,14 @@ class SessionsController < ApplicationController
   def create
     auth_hash = request.env['omniauth.auth']
 
-    @user = User.find_by(uid: auth_hash[:uid], name: auth_hash[:name], provider: 'github')
-    if @user
+    @current_user = User.find_by(uid: auth_hash[:uid], name: auth_hash[:name], provider: 'github')
+    if @current_user
       flash[:success] = "Welcome back #{@user.name}"
-      redirect_to root_path
+      redirect_to user_path(@user.id)
     else
       #try to make a new user
-      @user = User.build_from_github(auth_hash)
-      if @user.save
+      @current_user = User.build_from_github(auth_hash)
+      if @current_user.save
         flash[:success] = "Welcome #{@user.name}"
         redirect_to edit_user_path(@user.id)
         #would you like to register as a merchant?
@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       end
     end
 
-    session[:user_id] = @user.id
+    session[:user_id] = @current_user.id
 
   end
 
