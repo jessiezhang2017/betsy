@@ -1,35 +1,39 @@
-<h2>This is the shopping cart!</h2>
-<section class="cart card-group">
-  <% if @current_order %>
-    <% @current_order.order_products.each do |op| %>
-      <article class="cart card">
-        <div class="row no-gutters">
-          <div class="col-auto">
-            <img src="https://vignette.wikia.nocookie.net/aceattorney/images/f/f7/Missile_AAI.png/revision/latest?cb=20180304065441" alt="Product" height="100px">
-          </div>
-          <div class="col">
-            <div class="card-block px-2">
-              <h5 class="card-title"><%= op.product.name %></h5>
-              <section class="card-text">
-                <p><%= "Price: #{op.product.price}" %></p>
-                <p><%= "Quantity: #{op.quantity}" %></p>
-                <p><%= "Subtotal: #{op.subtotal}" %></p>
-              </section>
+<h2>Shopping Cart</h2>
+<div class="cart container-fluid">
+  <div class="row">
+    <section class="cart card-group col-sm-8">
+      <% if @current_order.order_products.any? %>
+        <% @current_order.order_products.each do |op| %>
+          <article class="cart card">
+            <div class="row no-gutters card-body">
+              <div class="col-sm">
+                <img src="https://vignette.wikia.nocookie.net/aceattorney/images/f/f7/Missile_AAI.png/revision/latest?cb=20180304065441" alt="Product">
+              </div>
+              <div class="col-sm">
+                <div>
+                  <h5 class="card-title"><%= op.product.name %></h5>
+                  <section class="card-text">
+                    <p><%= "Price: #{op.product.price}" %></p>
+                    <p><%= "Quantity: #{op.quantity}" %></p>
+                    <p><%= "Subtotal: #{op.subtotal}" %></p>
+                  </section>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="card-footer w-100 text-muted">
-          <%= render partial: "order_products/form", locals: { button_title: "Update", op: op, product_id: op.product_id } %>
-          <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-danger" %>
-        </div>
-      </article>
-    <% end %>
-    <article>
-      Total: <%= @current_order.total %>
-      <%= link_to "Checkout", checkout_path, method: :get, class: "btn btn-info" %>
+            <div class="card-footer cart-item-actions">
+              <%= render partial: "order_products/form", locals: { button_title: "Update", op: op, product_id: op.product_id } %>
+              <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-outline-danger" %>
+            </div>
+          </article>
+        <% end %>
+      <!-- else may not be needed -->
+      <% else %>
+        <p>Nothing here yet... go shopping!</p>
+      <% end %>
+    </section>
+    <article class="checkout-actions col-sm-4">
+      <h3>Total: <%= @current_order.total %></h3>
+      <%= link_to "Continue to checkout", checkout_path, method: :get, class: "btn btn-secondary" %>
     </article>
-  <!-- else may not be needed -->
-  <% else %>
-    <p>Nothing here yet... go shopping!</p>
-  <% end %>
-</section>
+  </div>
+</div>

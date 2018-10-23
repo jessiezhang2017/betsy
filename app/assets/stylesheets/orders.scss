@@ -2,12 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-section.cart {
+div.card-footer.cart-item-actions {
   display: flex;
-  flex-direction: column;
-  margin: 2rem;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-article.card {
-  width: 60%;
+article.checkout-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section.cart.card-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+section.cart.card-group > .card {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+div.cart.container-fluid {
+  margin-top: 1rem;
 }

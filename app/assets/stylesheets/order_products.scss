@@ -1,3 +1,15 @@
 // Place all the styles related to the OrderProducts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+form.product-quantity-form > * {
+  padding-right: 1rem;
+}
+
+form.product-quantity-form > .form-group > label {
+  padding-right: 0.5rem;
+}
+
+input.form-control.quantity-field {
+  width: 4rem;
+}
