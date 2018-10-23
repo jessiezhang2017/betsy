@@ -20,15 +20,16 @@ class OrdersController < ApplicationController
   def update
     @current_order.update(order_user_params)
     @current_order.submit_order
-    paid_order_number = @current_order.id
 
+    session[:paid_order_id] = session[:order_id]
     session[:order_id] = nil
 
-    redirect_to confirmation_path(paid_order_number), status: :success
+    redirect_to confirmation_path, status: :success
   end
 
   def confirmation
-    @paid_order = Order.find_by(id: params[:id].to_i)
+    @paid_order = Order.find_by(id: session[:paid_order_id])
+    session[:paid_order_id] = nil
   end
 
   private
