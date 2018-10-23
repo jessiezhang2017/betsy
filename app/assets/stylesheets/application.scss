@@ -16,3 +16,107 @@
 @import "bootstrap";
 /* Import scss content */
 @import "**/*";
+
+/* Sovietski color scheme */
+$white: #fefdff;
+
+$dark-grey: #343a40;
+$light-grey: #d1d5d7;
+
+$dark-red: #b20023;
+$light-red: #d6798c;
+
+$dark-blue: #007ea7;
+$light-blue: #5cacc7;
+
+$dark-yellow: #f3ca40;
+$light-yellow: #f7dd85;
+
+
+/*
+Google Fonts:
+font-family: 'Bungee', cursive;
+font-family: 'Bungee Shade', cursive;
+font-family: 'Raleway', sans-serif;
+*/
+
+body {
+  background-color: $white;
+  color: $dark-grey;
+  font-family: 'Raleway', sans-serif;
+  margin: 1rem;
+}
+
+/* Material design icon styling */
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+#sovietski-header {
+  justify-content: space-between;
+}
+
+h1.sovietski-logo {
+  text-align: center;
+}
+
+a.sovietski-logo {
+  font-family: 'Bungee', cursive;
+  font-size: 3rem;
+  color: $dark-grey;
+  text-decoration: none;
+  text-align: center;
+}
+
+a.btn-primary {
+  background-color: $dark-yellow;
+  border-color: $dark-yellow;
+  color: $dark-grey;
+  font-weight: bold;
+}
+
+a.btn-primary:hover {
+  background-color: $light-yellow;
+  border-color: $light-yellow;
+  color: $dark-grey;
+}
+
+div.cart-button {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+#shopping-cart-icon {
+  padding-right: 0.5rem;
+}
+
+nav ul {
+  list-style: none;
+}
+
+.nav-link {
+  color: $dark-grey;
+}
+
+.nav-link:hover {
+  color: $dark-yellow;
+}
+
+.dropdown-item:hover {
+  background-color: $dark-yellow;
+}
+
+li.user-nav {
+  margin-right: 1rem;
+}
