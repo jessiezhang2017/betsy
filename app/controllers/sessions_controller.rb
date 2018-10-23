@@ -21,8 +21,12 @@ class SessionsController < ApplicationController
       end
     end
 
+<<<<<<< HEAD
     session[:user_id] = @current_user.id
 
+=======
+    session[:user_id] = @user.id
+>>>>>>> master
   end
 
   def destroy

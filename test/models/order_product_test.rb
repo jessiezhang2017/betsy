@@ -3,6 +3,7 @@ require "test_helper"
 describe OrderProduct do
   let(:shirts) { order_products(:shirts) }
   let(:dresses) { order_products(:dresses) }
+  let(:dress) { products(:dress) }
 
   it "must be valid" do
     value(shirts).must_be :valid?
@@ -137,7 +138,106 @@ describe OrderProduct do
       result = dresses.subtotal
 
       # Assert
-      expect(result).must_equal dresses.quantity * products(:dress).price
+      expect(result).must_equal dresses.quantity * dress.price
+    end
+  end
+
+  describe "edit_quantity" do
+    it "updates the quantity to the designated value" do
+      # Arrange done with let
+
+      # Act
+      dresses.edit_quantity(1)
+
+      # Assert
+      expect(dresses.quantity).must_equal 1
+    end
+
+    it "cannot update the quantity to a negative or non-integer value" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.edit_quantity(-1)
+      }.wont_change 'dresses.quantity'
+
+      expect{
+        dresses.edit_quantity(2.5)
+      }.wont_change 'dresses.quantity'
+    end
+
+    it "destroys the order product if quantity selected is 0" do
+      # Arrange
+      id = dresses.id
+
+      # Act
+      dresses.edit_quantity(0)
+
+      # Assert
+      expect(OrderProduct.find_by(id: id)).must_be_nil
+    end
+
+    it "must return true when successful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(dresses.edit_quantity(3)).must_equal true
+    end
+
+    it "must return false when unsuccessful" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(dresses.edit_quantity(-2)).must_equal false
+    end
+
+    it "cannot increase the quantity beyond the available stock" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.edit_quantity(dress.stock + 1)
+      }.wont_change 'dresses.quantity'
+
+      expect(dresses.edit_quantity(dress.stock + 1)).must_equal false
+    end
+  end
+
+  describe "update_stock" do
+    it "reduces the stock by the quantity ordered" do
+      expect{
+        dresses.update_stock
+      }.must_change 'dresses.product.stock', -2
+    end
+
+    it "returns true if successful" do
+      expect(shirts.update_stock).must_equal true
+    end
+
+    it "returns false if unsuccessful" do
+      # Arrange
+      dresses.update(quantity: dresses.product.stock + 1)
+      op = OrderProduct.find_by(id: dresses.id)
+
+      # Act - Assert
+      expect(op.update_stock).must_equal false
+    end
+
+    it "cannot reduce the stock below 0 or to a non-integer" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect{
+        dresses.update(quantity: dresses.product.stock + 1)
+        op = OrderProduct.find_by(id: dresses.id)
+        op.update_stock
+      }.wont_change 'dress.stock'
+
+      expect{
+        dresses.update(quantity: 1.5)
+        op = OrderProduct.find_by(id: dresses.id)
+        op.update_stock
+      }.wont_change 'dress.stock'
     end
   end
 end

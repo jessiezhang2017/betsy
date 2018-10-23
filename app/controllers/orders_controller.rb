@@ -19,7 +19,8 @@ class OrdersController < ApplicationController
 
   def update
     @current_order.update(order_user_params)
-    paid_order_number = @current_order.submit_order
+    @current_order.submit_order
+    paid_order_number = @current_order.id
 
     session[:order_id] = nil
 
