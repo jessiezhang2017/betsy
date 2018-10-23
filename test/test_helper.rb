@@ -31,8 +31,8 @@ class ActiveSupport::TestCase
   # Test helper method to generate a mock auth hash for fixture data
   def mock_auth_hash(user)
     return {
-      provider: user.oauth_provider,
-      uid: user.oauth_uid,
+      provider: user.provider,
+      uid: user.uid,
       info: {
         email: user.email,
         name: user.name
