@@ -6,9 +6,13 @@ class Merchant < User
   #create method to be sure it is not nil, then add to validation
   #merchant needs ability to fulfill orders as 'shipped'
 <<<<<<< HEAD
+<<<<<<< HEAD
   def is_a_merchant?
     return true if @user.type == "Merchant"
   end
+=======
+
+>>>>>>> master
 =======
 
 >>>>>>> master

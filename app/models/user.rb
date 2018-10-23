@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :products
   has_many :orders
 
 
@@ -13,8 +14,7 @@ class User < ApplicationRecord
      return user
     end
 
-    def is_a_merchant?
-        return true if user ||= User.find_by(type: "Merchant")
-
+    def is_a_merchant?(user)
+       return (user.type == "Merchant")
     end
 end
