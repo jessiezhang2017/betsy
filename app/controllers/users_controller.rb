@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :find_merchant, except: [:index, :edit]
-  before_action :find_user, only: [:show, :edit]
+  before_action :find_merchant, except: [:index, :edit, :create, :show]
+  before_action :find_any_user, only: [:show, :edit, :destroy]
   # before_action :find_user
 
   def index
@@ -10,6 +10,10 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+  end
+
+  def create
+    redirect_to user_path(@current_user.id) #do not go to create page
   end
 
   def show; end
@@ -27,16 +31,20 @@ class UsersController < ApplicationController
   def edit; end
 
   def destroy
-    #delete account aka be sent to siberia
+    unless @user.nil?
+      @user.destroy
+      flash[:success] = "#{@current_user.name} deleted"
+      redirect_to root_path
+    end
   end
 
   private
 
-  def find_user
+  def find_any_user
     @user ||= User.find_by(id: params[:id].to_i)
 
     if @user.nil?
-      # flash[:warning] = "No such user"
+      flash[:warning] = "No such user"
     end
   end
 

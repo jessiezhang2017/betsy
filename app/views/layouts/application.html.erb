@@ -46,10 +46,9 @@
                   <% end %>
                 <div class="dropdown-menu">
                   <% if current_user.type == "Merchant" %>
-                    <%= link_to "Merchant Dashboard", user_path("#{@current_user.id}"), class: "dropdown-item" %>
+                    <%= link_to "Merchant Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
                   <% else %>
-                  <%= link_to "User Dashboard", user_path("#{@current_user.id}"), class: "dropdown-item" %>
-
+                    <%= link_to "User Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
                   <% end %>
                   <%= link_to "Edit profile", edit_user_path(@current_user.id), class: "dropdown-item" %>
                   <div class="dropdown-divider"></div>
