@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :find_product, only: [:show, :edit, :update, :retire]
+  before_action :find_merchant, only: [:edit, :update, :retire, :new, :create]
 
   def index
     @products = Product.active_products
@@ -24,7 +25,7 @@ class ProductsController < ApplicationController
   end
 
   def new
-    if session[:user_id]
+    if session[:user_id] && @current_user.is_a_merchant?
         @product = Product.new
     end
   end
@@ -32,7 +33,7 @@ class ProductsController < ApplicationController
 
   def create
 
-    if session[:user_id]
+    if @current_user.is_a_merchant?
 
       product = @current_user.products.new(product_params)
 
@@ -73,6 +74,7 @@ class ProductsController < ApplicationController
 
   private
   def find_product
+
     @product = Product.find_by(id: params[:id].to_i)
 
     if @product.nil?
@@ -95,5 +97,9 @@ class ProductsController < ApplicationController
 
   def category_params
     return params.require(:category).permit(:id)
+  end
+
+  def render_404
+    raise ActionController::RoutingError.new('Not Found')
   end
 end
