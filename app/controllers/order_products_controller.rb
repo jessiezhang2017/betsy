@@ -44,9 +44,9 @@ class OrderProductsController < ApplicationController
   def destroy
     op = OrderProduct.find_by(id: params[:id])
     if op.destroy
-      # display confirmation
+      flash[:success] = "Removed #{op.product.name} from cart"
     else
-      # display error
+      flash[:error] = "Error: Could not remove #{op.product.name} from cart"
     end
     redirect_back fallback_location: cart_path
   end
