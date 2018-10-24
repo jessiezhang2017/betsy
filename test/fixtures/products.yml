@@ -19,3 +19,13 @@ dress:
   stock: 5
   photo_url: MyString
   status: true
+
+mumu:
+  user: merchant
+  name: "Mumu"
+  price: 2
+  category: category1
+  description: "a nice mumu"
+  stock: 5
+  photo_url: MyString
+  status: true

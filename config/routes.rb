@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   resources :products, except: [:destroy]
   resources :categories, only: [:new, :create]
 
-  resources :order_products
-  resources :orders, except: [:destroy]
-
+  resources :order_products, only: [:create, :update, :destroy]
+  
+  resources :orders, only: [:index, :update]
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"
   get "/confirmation", to: "orders#confirmation", as: "confirmation"
