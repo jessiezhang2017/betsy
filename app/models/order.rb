@@ -1,12 +1,11 @@
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products, dependent: :destroy
-  has_many :products, through: :order_products
+  has_many :products, through: :order_products # might not need this, if so, update tests too
 
   accepts_nested_attributes_for :user
 
   validates :user, presence: true
-  # validates :order_products, presence: true, uniqueness: true
   validates :status, presence: true
   validates :status, inclusion: { in: %w(pending paid shipped),
     message: "%{value} is not a valid order status" }
@@ -36,7 +35,7 @@ class Order < ApplicationRecord
   end
 
   def submit_order
-    if order_products.each { |op| op.update_stock }
+    if order_products.each { |op| op.submit_order }
       self.status = "paid"
       return self.save
     else

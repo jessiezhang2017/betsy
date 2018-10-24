@@ -8,6 +8,7 @@ shirt:
   description: "a nice shirt"
   stock: 1
   photo_url: MyString
+  status: true
 
 dress:
   user: merchant
@@ -17,3 +18,4 @@ dress:
   description: "a nice dress"
   stock: 5
   photo_url: MyString
+  status: true

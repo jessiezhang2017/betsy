@@ -6,15 +6,17 @@ class OrderProduct < ApplicationRecord
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   validates :order, presence: true
   validates :product, presence: true
-  validates :status, inclusion: { in: %w(pending paid shipped),
+  validates :status, presence: true
+  validates :status, inclusion: { in: %w(pending paid shipped cancelled),
     message: "%{value} is not a valid order status" }
 
   def subtotal
     return product.price * quantity
   end
 
-  def update_stock
+  def submit_order
     if product.update_stock(quantity)
+      self.status = "paid"
       return self.save
     else
       return false

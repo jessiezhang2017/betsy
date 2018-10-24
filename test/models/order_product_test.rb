@@ -10,7 +10,7 @@ describe OrderProduct do
   end
 
   it 'has required fields' do
-    fields = [:quantity, :product_id, :order_id]
+    fields = [:quantity, :order, :product, :status]
 
     fields.each do |field|
       expect(shirts).must_respond_to field
@@ -25,7 +25,6 @@ describe OrderProduct do
       order = shirts.order
 
       # Assert
-      expect(shirts).must_be_instance_of OrderProduct
       expect(order).must_be_instance_of Order
     end
 
@@ -36,7 +35,6 @@ describe OrderProduct do
       product = shirts.product
 
       # Assert
-      expect(shirts).must_be_instance_of OrderProduct
       expect(product).must_be_instance_of Product
     end
   end
@@ -64,7 +62,7 @@ describe OrderProduct do
       expect(valid).must_equal true
     end
 
-    it "must have an integer quantity greater than or equal to 1" do
+    it "must have an integer quantity greater than 0" do
       # Arrange done with let
 
       # Act
@@ -72,7 +70,7 @@ describe OrderProduct do
 
       # Assert
       expect(qt).must_be_instance_of Integer
-      expect(qt).must_be :>=, 1
+      expect(qt).must_be :>, 0
     end
 
     it "must have an order" do
@@ -114,6 +112,77 @@ describe OrderProduct do
 
       # Re-Act
       valid = shirts.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+    end
+
+    it "must have a status" do
+      # Arrange
+      dresses.status = nil
+
+      # Act
+      valid = dresses.valid?
+
+      # Assert
+      expect(valid).must_equal false
+      expect(dresses.errors.messages).must_include :status
+      expect(dresses.errors.messages[:status]).must_include "can't be blank", "must exist"
+
+      # Rearrange
+      dresses.status = "pending"
+
+      # Re-Act
+      valid = dresses.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+    end
+
+    it "must have a status equal to pending, paid, shipped, or cancelled" do
+      # Arrange
+      dresses.status = "test"
+
+      # Act
+      valid = dresses.valid?
+
+      # Assert
+      expect(valid).must_equal false
+      expect(dresses.errors.messages).must_include :status
+      expect(dresses.errors.messages[:status]).must_include "test is not a valid order status"
+
+      # Rearrange
+      dresses.status = "pending"
+
+      # Re-Act
+      valid = dresses.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+
+      # Rearrange
+      dresses.status = "paid"
+
+      # Re-Act
+      valid = dresses.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+
+      # Rearrange
+      dresses.status = "shipped"
+
+      # Re-Act
+      valid = dresses.valid?
+
+      # Reassert
+      expect(valid).must_equal true
+
+      # Rearrange
+      dresses.status = "cancelled"
+
+      # Re-Act
+      valid = dresses.valid?
 
       # Reassert
       expect(valid).must_equal true
@@ -203,15 +272,15 @@ describe OrderProduct do
     end
   end
 
-  describe "update_stock" do
+  describe "submit_order" do
     it "reduces the stock by the quantity ordered" do
       expect{
-        dresses.update_stock
+        dresses.submit_order
       }.must_change 'dresses.product.stock', -2
     end
 
     it "returns true if successful" do
-      expect(shirts.update_stock).must_equal true
+      expect(shirts.submit_order).must_equal true
     end
 
     it "returns false if unsuccessful" do
@@ -220,7 +289,7 @@ describe OrderProduct do
       op = OrderProduct.find_by(id: dresses.id)
 
       # Act - Assert
-      expect(op.update_stock).must_equal false
+      expect(op.submit_order).must_equal false
     end
 
     it "cannot reduce the stock below 0 or to a non-integer" do
@@ -230,14 +299,25 @@ describe OrderProduct do
       expect{
         dresses.update(quantity: dresses.product.stock + 1)
         op = OrderProduct.find_by(id: dresses.id)
-        op.update_stock
+        op.submit_order
       }.wont_change 'dress.stock'
 
       expect{
         dresses.update(quantity: 1.5)
         op = OrderProduct.find_by(id: dresses.id)
-        op.update_stock
+        op.submit_order
       }.wont_change 'dress.stock'
+    end
+
+    it "updates the order product status from pending to paid" do
+      # Arrange done with let
+
+      # Act - Assert
+      expect(dresses.status).must_equal "pending"
+
+      dresses.submit_order
+
+      expect(dresses.status).must_equal "paid"
     end
   end
 end
