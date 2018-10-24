@@ -5,7 +5,7 @@
         <img src="https://vignette.wikia.nocookie.net/aceattorney/images/f/f7/Missile_AAI.png/revision/latest?cb=20180304065441" alt="Product" class="col-sm card-img">
         <div class="col-sm-8 card-body">
           <div>
-            <h5 class="cart card-title"><%= op.product.name %></h5>
+            <h5 class="cart card-title"><%= link_to "#{op.product.name}", product_path(op.product.id) %></h5>
             <section class="card-text">
               <p><%= "Price: #{format_money(op.product.price)}" %></p>
               <p><%= "Quantity: #{op.quantity}" %></p>
@@ -16,10 +16,11 @@
         </div>
       </div>
       <div class="card-footer no-gutters cart-item-actions">
-        <% unless op.status == "shipped" %>
+        <%= link_to "View user", order_product_path(op.id), method: :delete, class: "btn btn-outline-danger", data: { confirm: "Are you sure?"} %>
+        <% unless op.status == "shipped" || op.status == "cancelled" %>
           <%= link_to "Cancel this product order", order_product_path(op.id), method: :delete, class: "btn btn-outline-danger", data: { confirm: "Are you sure?"} %>
         <% else %>
-          <%= link_to "Write a review", product_path(op.product.id), method: :get, class: "btn btn-primary" %>
+
         <% end %>
       </div>
     </article>
