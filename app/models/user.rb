@@ -20,10 +20,10 @@ class User < ApplicationRecord
     #when a the type "Merchant" is added to a User instance, it will actually become an instance of Merchant rather than a User instance with type Merchant
     def become_merchant
       self.becomes!(Merchant) if self.type_must_be_merchant
+      self.save!
     end
 
-    private #in models, private methods are limited to the model scope
-
+    #helper method
     def type_must_be_merchant #custom validation to assure that only type merchant can be subclass Merchant
       self.is_a_merchant? ? true : errors.add(:type, "the user's type must be set to Merchant")
     end
