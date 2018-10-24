@@ -47,6 +47,25 @@ describe User do
     end
   end
 
+  describe "custom model method: is_guest?" do
+    let(:guest) { users(:guest) }
+
+    it "returns true if user is a guest" do
+
+      #Act
+      assert(guest.name == "Guest")
+      expect(guest.is_guest?).must_equal true
+
+    end
+
+    it "returns false if user is not a guest" do
+      user = users(:user1)
+
+      refute(user.provider == "sovietski")
+      expect(user.is_guest?).must_equal false
+    end
+  end
+
   describe "custom model method: become Merchant" do
     let(:user) { users(:cc_user) }
 
