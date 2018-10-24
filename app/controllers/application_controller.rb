@@ -15,10 +15,11 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user
+      #see if session user_id is equal to a User's id
       user = User.find_by(id: session[:user_id])
       if user.exists?
         @current_user = user
-      else
+      else #if the user is nil
         @current_user = User.create(uid: (User.last.id + 1), provider: "sovietski")
       end
     end
