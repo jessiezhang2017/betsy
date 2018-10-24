@@ -6,7 +6,7 @@ class OrderProduct < ApplicationRecord
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   validates :order, presence: true
   validates :product, presence: true
-  validates :status, inclusion: { in: %w(pending paid shipped),
+  validates :status, inclusion: { in: %w(pending paid shipped cancelled),
     message: "%{value} is not a valid order status" }
 
   def subtotal
