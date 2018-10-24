@@ -174,10 +174,11 @@ describe Product do
   end
 
 
-  describe "self.by_category" do
+  describe "self.category_list" do
 
     it "returns an array of correct product " do
-      list1 = Product.by_category(category1)
+      list1 = Product.category_list(category1.id)
+
       expect(list1.count).must_equal 2
 
       list1.each do |prod|
@@ -186,38 +187,38 @@ describe Product do
       end
     end
 
-    it "returns an empty array if no product in that categor" do
-      list2 = category.by_category(category2)
+    it "returns an empty array if no product in that category" do
+      list2 = Product.category_list(category2.id)
       expect(list2.empty?).must_equal true
     end
   end
 
   describe "self.by_merchant" do
     before do
-      user2 = User.create(
-        name: jas
-        uid: 89076544
-        provider: github
+      @user2 = User.create(
+        name: "jas",
+        uid: 89076544,
+        provider: "github"
       )
+      @user2.type = "Merchant"
+      @user2.save
+
+      @id = product.user_id
 
     end
 
     it "returns an array of correct product " do
-      list1 = Product.by_merchant(user)
+      list1 = Product.merchant_list(@id)
       expect(list1.count).must_equal 2
 
-      list1.each do |prod|
-        prod.must_be_kind_of Product
-        prod.merchant.must_equal user
-      end
+      expect(list1.first).must_be_kind_of Product
+      expect(list1.first.user_id).must_equal @id
+
     end
 
     it "returns an empty array if no product in that merchant" do
-      list2 = Product.by_merchant(user2)
+      list2 = Product.merchant_list(@user2.id)
       expect(list2.empty?).must_equal true
     end
   end
-
-
-
 end

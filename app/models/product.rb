@@ -17,20 +17,12 @@ class Product < ApplicationRecord
  end
 
 
-  def self.by_category(category)
-    self.active_products.select {|prod| prod.category == category}
-  end
-
   def self.category_list(id)
     self.active_products.select {|prod| prod.category.id == id}
   end
 
   def self.merchant_list(id)
     self.active_products.select {|prod| prod.user.id == id}
-  end
-
-  def self.by_merchant(merchant)
-    self.active_products.select {|prod| prod.user == merchant}
   end
 
   def update_stock(quantity_ordered)
