@@ -23,6 +23,8 @@ describe Merchant do
   end
 
   it "will not create a new merchant if type is nil" do
+    count = User.count #before count
+
     not_a_merchant = Merchant.new(
       name: 'Newbie',
       uid: 890,
@@ -32,7 +34,10 @@ describe Merchant do
     )
 
     assert_nil(not_a_merchant.type)
-    expect(not_a_merchant).wont_be_instance_of Merchant
+    expect(not_a_merchant.valid?).must_equal false
+    expect(not_a_merchant.save).must_equal false
+    expect(count).must_equal User.count #after count
+
 
   end
 
