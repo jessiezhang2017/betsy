@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :check_permissions, only: [:show, :edit, :destroy]
+  before_action :check_permissions, only: [:show, :edit, :destroy, :merchant_dash]
 
   def index
     @merchants = Merchant.all #adding merchants to index for viewing and sorting in views
@@ -33,6 +33,13 @@ class UsersController < ApplicationController
 
       flash[:success] = "#{@current_user.name}'s information deleted"
       redirect_to root_path
+    end
+  end
+
+  def merchant_dash
+    unless @current_user.is_a_merchant?
+      flash.now[:error] = 'Not allowed.'
+      render :forbidden
     end
   end
 

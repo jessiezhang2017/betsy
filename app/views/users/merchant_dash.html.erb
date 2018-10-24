@@ -1,0 +1,40 @@
+<article class="main-content container-fluid">
+  <div class="row">
+    <section class="col-sm">
+      <h3>Summary</h3>
+      <strong><%= "Total orders: #{@current_user.order_products.count}" %></strong><br>
+      <strong><%= "Total revenue: #{format_money(@current_user.total_revenue)}" %></strong>
+      <ul>
+        <% ["pending", "paid", "shipped", "cancelled"].each do |status| %>
+          <li><%= "#{status.titleize}: #{format_money(@current_user.total_revenue_by_status(status))}" %></li>
+        <% end %>
+      </ul>
+    </section>
+
+    <section class="col-sm-9">
+      <div class="cart container-fluid">
+        <% ["pending", "paid", "shipped", "cancelled"].each do |op_status| %>
+          <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filtered-<%= op_status %>" aria-expanded="false" aria-controls="filtered-<%= op_status %>">
+              <%= "#{op_status.titleize} orders (#{@current_user.num_orders_by_status(op_status)})" %>
+            </button>
+          </p>
+          <div class="collapse" id="filtered-<%= op_status %>">
+            <%= render partial: "filtered_orders", locals: { op_status: op_status } %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</article>
+<!--
+    Filter orders displayed by status
+
+    Link to each individual order
+
+    A list of orders including at least one of my products:
+    Each order item sold by me with a quantity and line-item subtotal
+    A link to the item description page
+    DateTime the order was placed
+    Link to transition the order item to marked as shipped
+    The current status of the order ("pending", "paid", "complete", "cancelled") -->

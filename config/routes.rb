@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :products, except: [:destroy]
   resources :categories, only: [:new, :create]
 
+  get "/merchant/:id", to: "users#merchant_dash", as: "merchant_dash"
+
   resources :order_products
   resources :orders, except: [:destroy]
 

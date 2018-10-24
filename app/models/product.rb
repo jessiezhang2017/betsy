@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   belongs_to :user
   belongs_to :category
   has_many :reviews
+  has_many :order_products
 
   validates :name, presence: true,
                    uniqueness: { scope: :category }
