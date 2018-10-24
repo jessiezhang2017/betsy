@@ -77,8 +77,8 @@ product_failures = []
 10.times do |i|
   category_list = Category.all
   category = category_list.sample
-  user_list = User.all
-  user = user_list.sample
+  merchant_list = Merchant.all
+  user = merchant_list.sample
   product_name = Faker::Name.name
   product = Product.new
   product.name = product_name
