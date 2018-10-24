@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
     else
       #try to make a new user
       current_user = User.build_from_github(auth_hash)
+      current_user.type = "Merchant"
 
       if current_user.save
         flash[:success] = "Welcome #{current_user.name}!"
