@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   def new
     @category = Category.new
+
   end
 
   def create
@@ -14,7 +15,7 @@ class CategoriesController < ApplicationController
       @category.errors.messages.each do |field, messages|
       flash.now[field] = messages
       end
-      render :new
+      render :new, status: :bad_request
     end
   end
 

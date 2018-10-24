@@ -14,7 +14,7 @@ describe ProductsController do
   describe "show" do
     it "should get a product's show page" do
       # Arrange
-      id = products(:poodr).id
+      id = products(:shirt).id
 
       # Act
       get product_path(id)
@@ -37,36 +37,39 @@ describe ProductsController do
   end
 
   describe "new" do
-    it "can get the new book page" do
+    it "can get the new product page" do
 
       # Act
-      get new_book_path
+      get new_product_path
 
       # Assert
       must_respond_with :success
     end
 
-    it "can get the form with the new_author_book_path" do
+    it "can get the form with the new_product_path with user logged in" do
       # Arrange
-      id = authors(:jordan).id
+
+      expect(session[:user_id]).wont_be_nil
+
+      id = products(:product).id
 
       # Act
-      get new_author_book_path(id)
+      get new_product_path(id)
 
       # Assert
       must_respond_with :success
     end
-    it "must respond with success for an invalid author id" do
+    it "will not get new product form if not logged in" do
       # Arrange
-      id = -1
-
+      expect(session[:user_id]).wont_be_nil
       # Act
-      get new_author_book_path(id)
+      get new_product_path(id)
 
       # Assert
-      must_respond_with :success
-      expect(flash[:warning]).must_equal "That author doesn't exit"
+      expect{}
+
     end
+
   end
 
   describe "edit" do

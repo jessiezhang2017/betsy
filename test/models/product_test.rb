@@ -19,6 +19,35 @@ describe Product do
     end
   end
 
+  describe 'Relationships' do
+    it 'belongs to an user' do
+
+      user = product.user
+
+      expect(user).must_be_instance_of Merchant
+      expect(user.id).must_equal product.user_id
+    end
+
+    it 'belongs to an category' do
+
+      category = product.category
+
+      expect(category).must_be_instance_of Category
+      expect(category.id).must_equal product.category_id
+    end
+
+    # it 'can have many reviews' do
+    #
+    #   product.reviews << Review.first
+    #   reviews = product.reviews
+    #
+    #   expect(reviews.length).must_be :>=, 1
+    #   reviews.each do |review|
+    #     expect(review).must_be_instance_of Review
+    #   end
+    # end
+  end
+
   describe "validations" do
     it "requires a name" do
       product.name = nil

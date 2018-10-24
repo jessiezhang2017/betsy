@@ -24,9 +24,8 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
     if session[:user_id]
-        @product = @current_user.products.new
+        @product = Product.new
     end
   end
 
