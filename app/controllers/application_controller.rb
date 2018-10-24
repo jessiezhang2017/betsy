@@ -15,9 +15,8 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user
-      user = User.find_by(id: session[:user_id])
-      if user.exists?
-        @current_user = user
+      if session[:user_id]
+        @current_user = User.find_by(id: session[:user_id])
       else
         @current_user = User.create(uid: (User.last.id + 1), provider: "sovietski")
       end
