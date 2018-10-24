@@ -41,7 +41,7 @@
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= "#{@current_user.name}" %></a>
                 <div class="dropdown-menu">
                   <% if @current_user.type == "Merchant" %>
-                    <%= link_to "Merchant Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
+                    <%= link_to "Merchant Dashboard", merchant_dash_path(@current_user.id), class: "dropdown-item" %>
                   <% else %>
                     <%= link_to "User Dashboard", user_path(@current_user.id), class: "dropdown-item" %>
                   <% end %>

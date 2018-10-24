@@ -1,7 +1,7 @@
 class Merchant < User
-  has_many :products
-
+  validates :type, presence: true
   validate :type_must_be_merchant
+
   #merchant inherits all things from user, but when a new merchant is created the 'type' is automagically set to merchant.
 
   #if a merchant type is set to nil, then the Merchant instance will become an instance of the superclass

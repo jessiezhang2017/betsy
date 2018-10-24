@@ -1,3 +1,4 @@
+require 'pry'
 class OrderProductsController < ApplicationController
 
   def create
@@ -27,12 +28,25 @@ class OrderProductsController < ApplicationController
     redirect_to cart_path
   end
 
+  def change_status
+    op = OrderProduct.find_by(id: params[:id].to_i)
+    new_status = params[:status]
+
+    if op.update(status: new_status)
+      flash[:success] = "Updated status for Product Order ##{op.id} to #{new_status}"
+      redirect_to merchant_dash_path, status: :success
+    else
+      flash[:error] = "Could not update status for Product Order ##{op.id}"
+      redirect_to merchant_dash_path, status: :bad_request
+    end
+  end
+
   def destroy
     op = OrderProduct.find_by(id: params[:id])
     if op.destroy
-      # display confirmation
+      flash[:success] = "Removed #{op.product.name} from cart"
     else
-      # display error
+      flash[:error] = "Error: Could not remove #{op.product.name} from cart"
     end
     redirect_back fallback_location: cart_path
   end
