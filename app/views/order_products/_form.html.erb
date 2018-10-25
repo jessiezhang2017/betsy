@@ -1,4 +1,4 @@
-<section class="product-form">
+<section>
   <% @op = op if op %>  <!-- if want to bring up existing order product in model, nil if product not in cart yet -->
 
   <%= form_with model: @op, class: "form-inline product-quantity-form", locals: true do |f|%>

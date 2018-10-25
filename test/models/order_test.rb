@@ -8,7 +8,7 @@ describe Order do
   end
 
   it 'has required fields' do
-    fields = [:status, :user_id]
+    fields = [:status, :user_id, :order_products, :products]
 
     fields.each do |field|
       expect(pending_order).must_respond_to field
@@ -106,17 +106,6 @@ describe Order do
 
       # Reassert
       expect(valid).must_equal true
-    end
-
-    it "must have at least one order product" do
-      # Arrange done with let
-
-      # Act
-      ops = pending_order.order_products
-
-      # Assert
-      expect(ops.first).must_be_instance_of OrderProduct
-      expect(ops.length).must_be :>=, 1
     end
 
     it "must have a status" do
@@ -218,7 +207,7 @@ describe Order do
       )
     }
 
-    it "adds a new order product with the designated quantity to the order if product not in cart" do
+    it "adds a new order product with the designated quantity and pending status to the order if product not in cart" do
       # Arrange done with let
 
       # Act - Assert
@@ -228,6 +217,7 @@ describe Order do
 
       expect(pending_order.order_products.last).must_be_instance_of OrderProduct
       expect(pending_order.order_products.last.quantity).must_equal 2
+      expect(pending_order.order_products.last.status).must_equal "pending"
     end
 
     it "updates the existing order product quantity if the product is already in the cart" do
@@ -337,6 +327,21 @@ describe Order do
       pending_order.submit_order
 
       expect(pending_order.status).must_equal "paid"
+    end
+
+    it "updates the order's order products' statuses from pending to paid" do
+      # Arrange done with let
+
+      # Act - Assert
+      pending_order.order_products.each do |op|
+        expect(op.status).must_equal "pending"
+      end
+
+      pending_order.submit_order
+
+      pending_order.order_products.each do |op|
+        expect(op.status).must_equal "paid"
+      end
     end
 
     it "updates the stock of the product on order" do

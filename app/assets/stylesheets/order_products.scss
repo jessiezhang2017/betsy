@@ -2,12 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-form.product-quantity-form > * {
-  padding-right: 1rem;
-}
-
-form.product-quantity-form > .form-group > label {
-  padding-right: 0.5rem;
+form.product-quantity-form > .form-group > * {
+  margin-right: 0.5rem;
 }
 
 input.form-control.quantity-field {
