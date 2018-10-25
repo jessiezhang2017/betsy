@@ -75,18 +75,16 @@ puts "#{merchant_failures.length} merchant failed to save"
 product_failures = []
 
 10.times do |i|
-  category_list = Category.all
-  category = category_list.sample
+
   merchant_list = Merchant.all
   user = merchant_list.sample
   product_name = Faker::Name.name
-  
+
   product = Product.new
   product.name = product_name
   product.stock = rand(5)
   product.description = "just a test"
   product.price = 100
-  product.categories << category
 
   product.user = user
   product.photo_url = "https://pixfeeds.com/images/33/609988/1200-609988-483425824.jpg"
@@ -102,3 +100,9 @@ end
 
 puts "Added #{Product.count} product records"
 puts "#{product_failures.length} products failed to save"
+
+Product.all.each do |prod|
+  a = Category.all.shuffle
+  prod.categories << a.first
+  prod.categories << a.last
+end
