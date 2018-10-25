@@ -1,14 +1,6 @@
 class OrdersController < ApplicationController
   def index
-  end
-
-  def show
-  end
-
-  def new
-  end
-
-  def create
+    # TBD... need to decide where and how we're displaying orders
   end
 
   def cart

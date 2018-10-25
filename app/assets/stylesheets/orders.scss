@@ -2,12 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.card-footer.cart-item-actions {
+div.card-footer.order-product-actions {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.order-product-actions > a.btn {
+  margin-left: 0.5rem;
 }
 
 article.checkout-actions {
