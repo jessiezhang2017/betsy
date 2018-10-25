@@ -72,13 +72,31 @@ class ProductsController < ApplicationController
 
   end
 
+  def review
+
+     if @merchant.id != @product.user.id
+      review = @product.reviews.new(review_params)
+
+      if review.save
+        flash[:success] = 'Review Created!'
+        redirect_to product_path(id: product.id)
+      else
+        flash.now[:warning] = 'Review not created!'
+        render :new, status: :bad_request
+      end
+    else
+      flash.now[:warning] = 'Not a Merchant!'
+    end
+
+  end
+
   private
   def find_product
 
     @product = Product.find_by(id: params[:id].to_i)
 
     if @product.nil?
-      flash.now[:danger] = "Cannot find the product #{params[:id]}"
+      flash.now[:warning] = "Cannot find the product #{params[:id]}"
       render :notfound, status: :not_found
     end
   end
@@ -86,7 +104,7 @@ class ProductsController < ApplicationController
   def find_merchant
     @merchant = Merchant.find_by(id: session[:user_id].to_i)
     if @merchant.nil?
-      flash.now[:danger] = "Cannot find the merchant #{session[:user_id]}"
+      flash.now[:warning] = "Cannot find the merchant #{session[:user_id]}"
       render :notfound, status: :not_found
     end
   end
@@ -97,6 +115,10 @@ class ProductsController < ApplicationController
 
   def category_params
     return params.require(:category).permit(:id)
+  end
+
+  def review_params
+    return params.require(:review).permit(:name, :rating, :comment)
   end
 
   def render_404
