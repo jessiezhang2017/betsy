@@ -5,14 +5,14 @@ class Product < ApplicationRecord
   has_many :reviews
   has_many :order_products
 
-  validates :name, presence: true,
-                   uniqueness: { scope: :category }
+  validates :name, presence: true
+
 
   validates :user_id, presence: true
   validates :stock, presence: true, numericality: { :only_integer => true, :greater_than_or_equal_to => 0}
 
   validates :price, presence: true, numericality: {:greater_than_or_equal_to => 0}
-  
+
 
  def self.active_products
    return Product.all.select {|e| e.status == true}
