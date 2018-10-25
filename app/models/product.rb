@@ -20,7 +20,8 @@ class Product < ApplicationRecord
 
 
   def self.category_list(id)
-    self.active_products.select {|prod| prod.category.id == id}
+    selected_category = Category.find_by(id:id)
+    return self.active_products.select {|prod| prod.categories.include? selected_category}
   end
 
   def self.merchant_list(id)

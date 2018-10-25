@@ -34,10 +34,15 @@ class ProductsController < ApplicationController
 
     if @current_user.is_a_merchant?
 
-      product = Product.new(product_params)
-      product.categories = params[:category_ids]
+      product = @current_user.products.new(product_params)
+      category_ids = params[:product][:category_ids].select(&:present?).map(&:to_i)
+      category_ids.each do |id|
+        c = Category.find(id)
+        product.categories << c
+      end
 
       if product.save
+
         flash[:success] = 'Product Created!'
         redirect_to product_path(id: product.id)
       else
@@ -111,7 +116,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    return params.require(:product).permit(:name, :price, :description, :stock, :photo_url)
+    return params.require(:product).permit(:name, :price, :description, :stock, :photo_url).except(:category_ids)
   end
 
   def category_params
