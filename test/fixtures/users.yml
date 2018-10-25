@@ -8,6 +8,8 @@ user1:
   name: jazz
   uid: 89076543
   provider: github
+  cc_num: 8790451276789084
+
 # column: value
 #
 cc_user:

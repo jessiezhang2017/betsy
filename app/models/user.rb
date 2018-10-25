@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_many :orders
   has_many :order_products, through: :products
 
+  validates :cc_num, numericality: { only_integer: true }, allow_nil: true
+
   def self.build_from_github(auth_hash)
     user = User.new
     user.uid = auth_hash[:uid]
