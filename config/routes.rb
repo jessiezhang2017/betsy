@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get "/products/category/:id", to: "products#bycategory", as:"bycategory"
   get "/products/merchant/:id", to: "products#bymerchant", as:"bymerchant"
 
-  # get "/products/:id/newreview", to: "products#newreview", as:"newreview"
-  post "/products/:id/postreview", to: "products#postreview", as:"postreview"
+  resources :reviews, only: [:new, :create]
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

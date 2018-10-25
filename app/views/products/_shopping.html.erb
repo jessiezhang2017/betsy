@@ -1,16 +1,22 @@
 <article class="main-content container-fluid">
   <div class="row">
     <nav class="col-sm">
-      <h5><%= link_to "All Products", products_path%></h5>
+      <ul>
+        <li><%= link_to "All Products", products_path%></li>
+        <% if @current_user.is_a_merchant? %>
+          <li><%= link_to "Add New Category", new_category_path%></li>
+          <li><%= link_to "Add New Product", new_product_path%></li>
+        <%end%>
+      </ul>
 
-      <h5>Shop by Category</h5>
+      <h6>Shop by Category</h6>
       <ul>
       <% Category.all.each do |category|%>
-         <li><%= link_to "#{category.name.titleize}", bycategory_path(category.id) %></li>
+         <li><%= link_to "#{category.name}", bycategory_path(category.id) %></li>
       <%end%>
       </ul>
 
-      <h5>Shop by Merchant</h5>
+      <h6>Shop by Merchant</h6>
       <ul>
       <% Merchant.all.each do |merchant|%>
          <li><%= link_to "#{merchant.name}", bymerchant_path(merchant.id) %></li>
