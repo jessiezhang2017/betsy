@@ -12,7 +12,7 @@ class Product < ApplicationRecord
   validates :stock, presence: true, numericality: { :only_integer => true, :greater_than_or_equal_to => 0}
 
   validates :price, presence: true, numericality: {:greater_than_or_equal_to => 0}
-  validates :category_id,  presence: true
+  
 
  def self.active_products
    return Product.all.select {|e| e.status == true}

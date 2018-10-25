@@ -80,12 +80,14 @@ product_failures = []
   merchant_list = Merchant.all
   user = merchant_list.sample
   product_name = Faker::Name.name
+  
   product = Product.new
   product.name = product_name
   product.stock = rand(5)
   product.description = "just a test"
   product.price = 100
-  product.category = category
+  product.categories << category
+
   product.user = user
   product.photo_url = "https://pixfeeds.com/images/33/609988/1200-609988-483425824.jpg"
   successful = product.save
