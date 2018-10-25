@@ -1,36 +1,44 @@
 require "test_helper"
+require 'pry'
 
 describe OrdersController do
   let(:pending_order) { orders(:pending_order) }
   let(:empty_order) { orders(:empty_order) }
-
-  describe 'index' do
-    # dont know yet
-  end
+  let(:dress) { products(:dress) }
+  let(:dress_hash) {
+    dress_hash = {
+      order_product: {
+        product_id: products(:dress).id,
+        quantity: 1,
+      }
+    }
+  }
 
   describe "cart" do
-    #TODO dont know how to test these since we dont have a create order path..... @current_order is created or looked up before every controller action
     it "succeeds when things are in the cart" do
       # Arrange
+      get product_path(dress.id)
+      post order_products_path, params: dress_hash
 
       # Act
       get cart_path
 
       # Assert
       must_respond_with :success
+      expect(Order.find_by(id: session[:order_id]).order_products.any?).must_equal true
     end
 
     it "succeeds when nothing is in the cart" do
       # Arrange
+      get root_path
 
       # Act
       get cart_path
 
       # Assert
       must_respond_with :success
+      expect(session[:order_id]).must_be_nil
     end
-
-    # not sure we need a nil case since @current_order is never nil?
   end
 
   describe "update" do
