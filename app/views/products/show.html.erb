@@ -16,7 +16,7 @@
 <p>Quantity available: <%= @product.stock%> </p>
 <p>status: <%= @product.status%> </p>
 
-<%if @product.stock != 0 %>
+<%if @product.stock > 0 %>
   <% if @op %>
     <%= render partial: "order_products/form", locals: { button_title: "Update cart", op: @op, product_id: @product.id } %>
   <% else %>

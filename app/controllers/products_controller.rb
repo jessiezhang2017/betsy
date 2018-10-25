@@ -19,6 +19,9 @@ class ProductsController < ApplicationController
   end
 
   def show
+    if @product.status == false
+      render :notfound, status: :not_found
+    end
     if @current_order.valid?
       @op = @current_order.order_products.find_by(product_id: params[:id])
     end
@@ -41,11 +44,11 @@ class ProductsController < ApplicationController
         flash[:success] = 'Product Created!'
         redirect_to product_path(id: product.id)
       else
-        flash.now[:danger] = 'Product not created!'
+        flash.now[:warning] = 'Product not created!'
         render :new, status: :bad_request
       end
     else
-      flash.now[:danger] = 'Not a Merchant!'
+      flash.now[:warning] = 'Not a Merchant!'
     end
   end
 
@@ -78,7 +81,7 @@ class ProductsController < ApplicationController
     @product = Product.find_by(id: params[:id].to_i)
 
     if @product.nil?
-      flash.now[:danger] = "Cannot find the product #{params[:id]}"
+      flash.now[:warning] = "Cannot find the product #{params[:id]}"
       render :notfound, status: :not_found
     end
   end
@@ -86,7 +89,7 @@ class ProductsController < ApplicationController
   def find_merchant
     @merchant = Merchant.find_by(id: session[:user_id].to_i)
     if @merchant.nil?
-      flash.now[:danger] = "Cannot find the merchant #{session[:user_id]}"
+      flash.now[:warning] = "Cannot find the merchant #{session[:user_id]}"
       render :notfound, status: :not_found
     end
   end
