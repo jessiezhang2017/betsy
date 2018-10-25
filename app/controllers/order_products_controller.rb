@@ -42,10 +42,10 @@ class OrderProductsController < ApplicationController
 
     if op.update(status: new_status)
       flash[:success] = "Updated status for Product Order ##{op.id} to #{new_status}"
-      redirect_to merchant_dash_path, status: :success
+      redirect_to merchant_dash_path(@current_user.id), status: :success
     else
       flash[:error] = "Could not update status for Product Order ##{op.id}"
-      redirect_to merchant_dash_path, status: :bad_request
+      redirect_to merchant_dash_path(@current_user.id), status: :bad_request
     end
   end
 

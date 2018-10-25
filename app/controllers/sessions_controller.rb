@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     if current_user
       # session[:user_id] = current_user.id
       flash[:success] = "Welcome back #{current_user.name}!"
-      redirect_to user_path(current_user.id)
+      redirect_to merchant_dash_path(current_user.id)
     else
       #try to make a new user
       current_user = User.build_from_github(auth_hash)
@@ -17,7 +17,6 @@ class SessionsController < ApplicationController
       if current_user.save
         flash[:success] = "Welcome #{current_user.name}!"
         redirect_to edit_user_path(current_user.id)
-        #would you like to register as a merchant?
       else
         flash[:error] = "Could not create account: #{current_user.errors.messages}"
         redirect_to root_path

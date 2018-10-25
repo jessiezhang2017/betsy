@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Betsy</title>
+    <title>Soviétski</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-<!-- ================== -->
-<!-- bootstrap toggle for checkbox to toggle boxes -LR -->
-<!-- ================== -->
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<!-- ================== -->
-<!-- ================== -->
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -23,7 +16,7 @@
     <header id="sovietski-header" class="container-fluid">
       <div class="row align-items-center">
         <nav class="nav dropdown product-nav col-sm">
-          <a class="nav-link dropdown-toggle btn btn-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Browse products</a>
+          <a class="nav-link dropdown-toggle btn btn-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">"Win" an election</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="<%= root_path %>">Home</a>
             <div class="dropdown-divider"></div>
@@ -32,7 +25,7 @@
           </div>
         </nav>
 
-        <h1 class="col-sm sovietski-logo"><%= link_to "Sovietski", root_path, class: "sovietski-logo" %></h1>
+        <h1 class="col-sm sovietski-logo"><%= link_to "Soviétski", root_path, class: "sovietski-logo" %></h1>
 
         <nav class="main-actions-nav col-sm">
           <ul class="nav float-right">
@@ -47,11 +40,11 @@
                   <% end %>
                   <%= link_to "Edit profile", edit_user_path(@current_user.id), class: "dropdown-item" %>
                   <div class="dropdown-divider"></div>
-                  <%= link_to "Log out", logout_path, method: 'delete', class: "dropdown-item" %>
+                  <%= link_to "Log out", logout_path, method: 'delete', class: "dropdown-item login-btn" %>
                 </div>
               </li>
             <% else %>
-              <li><%= link_to "Login with Github", "/auth/github", class: "nav-item btn btn-outline-dark" %></li>
+              <li><%= link_to "Login with Github", "/auth/github", class: "nav-item btn btn-outline-dark login-btn" %></li>
             <% end %>
             <li>
               <a href="<%= cart_path %>" role="button" class="nav-item btn btn-primary cart-button">

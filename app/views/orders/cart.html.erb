@@ -12,14 +12,16 @@
                   <div>
                     <h5 class="cart card-title"><%= op.product.name %></h5>
                     <section class="card-text">
-                      <p><%= "Price: #{format_money(op.product.price)}" %></p>
-                      <p><%= "Quantity: #{op.quantity}" %></p>
-                      <p><strong><%= "Subtotal: #{format_money(op.subtotal)}" %></strong></p>
+                      <p>
+                        <%= "Price: #{format_money(op.product.price)}" %><br>
+                        <%= "Quantity: #{op.quantity}" %><br>
+                        <strong><%= "Subtotal: #{format_money(op.subtotal)}" %></strong>
+                      </p>
                     </section>
                   </div>
                 </div>
               </div>
-              <div class="card-footer no-gutters cart-item-actions">
+              <div class="card-footer no-gutters order-product-actions">
                 <%= render partial: "order_products/form", locals: { button_title: "Update", op: op, product_id: op.product_id } %>
                 <%= link_to "Delete", order_product_path(op.id), method: :delete, class: "btn btn-outline-danger" %>
               </div>

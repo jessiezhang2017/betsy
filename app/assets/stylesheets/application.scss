@@ -103,6 +103,11 @@ a.cart-button {
   color: $dark-grey;
 }
 
+.btn-primary:not(:disabled):not(.disabled).active {
+  background-color: $dark-blue;
+  border-color: $dark-blue;
+}
+
 div.cart-button {
   display: flex;
   align-content: center;
@@ -166,6 +171,17 @@ li.user-nav {
   color: $white;
 }
 
+.btn-outline-secondary {
+  border-color: $dark-blue;
+  color: $dark-blue;
+}
+
+.btn-outline-secondary:hover {
+  background-color: $dark-blue;
+  border-color: $dark-blue;
+  color: $white;
+}
+
 h5.cart.card-title {
   font-weight: bold;
 }
@@ -173,4 +189,8 @@ h5.cart.card-title {
 img.homepage-hero-img {
   display: block;
   width: 100%;
+}
+
+a.login-btn {
+  margin-right: 0.5rem;
 }
