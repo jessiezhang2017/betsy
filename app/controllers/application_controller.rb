@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :current_user
   before_action :current_order
 
-  def list_categories
-    @categories = Category.all
-  end
 
   private
 

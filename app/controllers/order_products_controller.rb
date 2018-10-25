@@ -7,25 +7,33 @@ class OrderProductsController < ApplicationController
     quantity = params[:order_product][:quantity].to_i
 
     # create the orderproduct, add it to the current cart, and save it
-    @current_order.save
-    @current_order.add_product(product, quantity)
+    if @current_order.save && @current_order.add_product(product, quantity)
+      # save the cart and update the session
+      @current_order.save
+      session[:order_id] = @current_order.id
 
-    # save the cart and update the session
-    @current_order.save
-    session[:order_id] = @current_order.id
+      redirect_to cart_path
+    else
+      flash[:error] = "Error: Could not add product to cart"
 
-    redirect_to cart_path
+      redirect_back fallback_location: products_path
+    end
   end
 
   def update
     op = OrderProduct.find_by(id: params[:id].to_i)
     new_quantity = params[:order_product][:quantity].to_i
 
-    @current_order.edit_quantity(op, new_quantity)
+    if @current_order.edit_quantity(op, new_quantity) && @current_order.save
+      if new_quantity == 0
+        flash[:success] = "Removed #{op.product.name} from cart"
+      end
+      redirect_to cart_path
+    else
+      flash[:error] = "Error: Could not update product order"
 
-    @current_order.save
-
-    redirect_to cart_path
+      redirect_back fallback_location: cart_path
+    end
   end
 
   def change_status
@@ -34,10 +42,10 @@ class OrderProductsController < ApplicationController
 
     if op.update(status: new_status)
       flash[:success] = "Updated status for Product Order ##{op.id} to #{new_status}"
-      redirect_to merchant_dash_path, status: :success
+      redirect_to merchant_dash_path(@current_user.id), status: :success
     else
       flash[:error] = "Could not update status for Product Order ##{op.id}"
-      redirect_to merchant_dash_path, status: :bad_request
+      redirect_to merchant_dash_path(@current_user.id), status: :bad_request
     end
   end
 

@@ -3,3 +3,7 @@
 pending_order:
   status: "pending"
   user: user1
+
+empty_order:
+  status: "pending"
+  user: cc_user
