@@ -7,8 +7,12 @@ Rails.application.routes.draw do
   resources :products, except: [:destroy]
   resources :categories, only: [:new, :create]
 
+  get "/merchant/:id", to: "users#merchant_dash", as: "merchant_dash"
+  patch "/merchant/:id", to: "users#update", as: "merchant"
+
   resources :order_products, only: [:create, :update, :destroy]
-  
+  patch "order_product/:id/:status", to: "order_products#change_status", as: "change_status"
+
   resources :orders, only: [:index, :update]
   get "/cart", to: "orders#cart", as: "cart"
   get "/checkout", to: "orders#checkout", as: "checkout"

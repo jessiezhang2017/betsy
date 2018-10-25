@@ -15,14 +15,12 @@
           </div>
         </div>
       </div>
-      <div class="card-footer no-gutters cart-item-actions">
-        <%= link_to "View user", order_product_path(op.id), method: :delete, class: "btn btn-outline-danger", data: { confirm: "Are you sure?"} %>
-        <% unless op.status == "shipped" || op.status == "cancelled" %>
-          <%= link_to "Cancel this product order", change_status_path(op.id, "cancelled"), method: :patch, class: "btn btn-outline-danger", data: { confirm: "Are you sure you want to cancel this order?"} %>
-        <% else %>
-
-        <% end %>
-      </div>
+      <% if op.status == "paid" %>
+        <div class="card-footer no-gutters cart-item-actions">
+          <%= link_to "Mark as shipped", change_status_path(op.id, "shipped"), method: :patch, class: "btn btn-primary" %>
+          <%= link_to "Cancel this product order", change_status_path(op.id, "cancelled"), method: :patch, class: "btn btn-outline-danger", data: { confirm: "Are you sure you want to cancel?"} %>
+        </div>
+      <% end %>
     </article>
   <% end %>
 <% else %>
