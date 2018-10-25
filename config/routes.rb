@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :categories, only: [:new, :create]
 
   get "/merchant/:id", to: "users#merchant_dash", as: "merchant_dash"
+  patch "/merchant/:id", to: "users#update", as: "merchant"
 
   resources :order_products
   patch "order_product/:id/:status", to: "order_products#change_status", as: "change_status"
