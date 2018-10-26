@@ -18,7 +18,7 @@ class Order < ApplicationRecord
     # check if product is already in cart
     current_op = order_products.find_by(product_id: product.id)
 
-    if product.available?(quantity_ordered)
+    if product.available?(quantity_ordered) && self.user != product.user
       if current_op
         current_op.edit_quantity(quantity_ordered)
       else
