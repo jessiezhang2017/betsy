@@ -12,14 +12,14 @@
       <h6>Shop by Category</h6>
       <ul>
       <% Category.all.each do |category|%>
-         <li><%= link_to "#{category.name}", bycategory_path(category.id) %></li>
+         <li><%= link_to "#{category.name.titleize}", bycategory_path(category.id) %></li>
       <%end%>
       </ul>
 
       <h6>Shop by Merchant</h6>
       <ul>
       <% Merchant.all.each do |merchant|%>
-         <li><%= link_to "#{merchant.name}", bymerchant_path(merchant.id) %></li>
+         <li><%= link_to "#{merchant.name.titleize}", bymerchant_path(merchant.id) %></li>
       <%end%>
       </ul>
     </nav>
