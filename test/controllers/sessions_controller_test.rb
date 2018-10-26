@@ -1,5 +1,4 @@
 require "test_helper"
-require 'pry'
 
 describe SessionsController do
   describe "create" do
@@ -7,7 +6,7 @@ describe SessionsController do
     it "Can log in an existing user" do
       # Arrange
       user = users(:cc_user)
-      
+
       #Act/Assert
       expect {perform_login(user)}.wont_change('User.count')
       must_redirect_to root_path
