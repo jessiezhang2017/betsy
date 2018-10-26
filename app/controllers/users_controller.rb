@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       flash[:success] = "Saved"
       redirect_to edit_user_path(@current_user.id)
     else
-      flash.now[:error] = 'Not updated.'
+      flash.now[:warning] = 'Not updated.'
       render :edit, status: :bad_request
     end
   end
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   def merchant_dash
     unless @current_user.is_a_merchant?
-      flash.now[:error] = 'Not allowed.'
+      flash.now[:warning] = 'Not allowed.'
       render :forbidden
     end
   end
