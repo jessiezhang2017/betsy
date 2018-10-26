@@ -9,17 +9,25 @@ class ProductsController < ApplicationController
   def bycategory
     id = params[:id].to_i
     @category_selected = Category.find_by(id:id)
-    @products_by_category = Product.category_list(id)
+    if @category_selected
+      @products_by_category = Product.category_list(id)
+    else
+      render :notfound, status: :not_found
+    end
   end
 
   def bymerchant
     id = params[:id].to_i
     @merchant_selected = User.find_by(id:id)
-    @products_by_merchant = Product.merchant_list(id)
+    if @merchant_selected
+      @products_by_merchant = Product.merchant_list(id)
+    else
+      render :notfound, status: :not_found
+    end 
   end
 
   def show
-    if @product.status == false
+    if @product.status == false ||@product.nil?
       render :notfound, status: :not_found
     end
     if @current_order.valid?
@@ -30,6 +38,7 @@ class ProductsController < ApplicationController
   def new
     if session[:user_id] && @current_user.is_a_merchant?
         @product = Product.new
+
     end
   end
 
@@ -68,7 +77,7 @@ class ProductsController < ApplicationController
         c = Category.find(id)
         @product.categories << c
       end
-      
+
       redirect_to product_path(@product.id)
     elsif @product
       render :edit, status: :bad_request
@@ -87,23 +96,7 @@ class ProductsController < ApplicationController
 
   end
 
-  def review
 
-     if @merchant.id != @product.user.id
-      review = @product.reviews.new(review_params)
-
-      if review.save
-        flash[:success] = 'Review Created!'
-        redirect_to product_path(id: product.id)
-      else
-        flash.now[:warning] = 'Review not created!'
-        render :new, status: :bad_request
-      end
-    else
-      flash.now[:warning] = 'Not a Merchant!'
-    end
-
-  end
 
 
   private
