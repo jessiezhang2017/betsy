@@ -1,37 +1,31 @@
 class Product < ApplicationRecord
   belongs_to :user
-  belongs_to :category
+  has_and_belongs_to_many :categories
+
   has_many :reviews
   has_many :order_products
 
-  validates :name, presence: true,
-                   uniqueness: { scope: :category }
+  validates :name, presence: true
+
 
   validates :user_id, presence: true
   validates :stock, presence: true, numericality: { :only_integer => true, :greater_than_or_equal_to => 0}
 
   validates :price, presence: true, numericality: {:greater_than_or_equal_to => 0}
-  validates :category_id,  presence: true
+
 
  def self.active_products
    return Product.all.select {|e| e.status == true}
  end
 
 
-  def self.by_category(category)
-    self.active_products.select {|prod| prod.category == category}
-  end
-
   def self.category_list(id)
-    self.active_products.select {|prod| prod.category.id == id}
+    selected_category = Category.find_by(id:id)
+    return self.active_products.select {|prod| prod.categories.include? selected_category}
   end
 
   def self.merchant_list(id)
     self.active_products.select {|prod| prod.user.id == id}
-  end
-
-  def self.by_merchant(merchant)
-    self.active_products.select {|prod| prod.user == merchant}
   end
 
   def update_stock(quantity_ordered)

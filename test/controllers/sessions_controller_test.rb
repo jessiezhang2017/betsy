@@ -7,7 +7,7 @@ describe SessionsController do
     it "Can log in an existing user" do
       # Arrange
       user = users(:cc_user)
-      binding.pry
+      
       #Act/Assert
       expect {perform_login(user)}.wont_change('User.count')
       must_redirect_to root_path
@@ -18,7 +18,7 @@ describe SessionsController do
       # Arrange
       user = users(:no_order_user)
       user.destroy
-      binding.pry
+
       #Act/Assert
       expect{perform_login(user)}.must_change('User.count', -1)
       must_redirect_to edit_user_path(session:user_id)
