@@ -48,7 +48,7 @@ describe OrdersController do
       post order_products_path, params: dress_hash
 
       # Act
-      get cart_path
+      get checkout_path
 
       # Assert
       must_respond_with :success
@@ -137,4 +137,52 @@ describe OrdersController do
     end
   end
 
+  describe "confirmation" do
+    it "succeeds when given valid data" do
+      # Arrange
+      get product_path(dress.id)
+      post order_products_path, params: dress_hash
+
+      order = Order.find_by(id: session[:order_id])
+
+      order_user_hash = {
+        order: {
+          user_attributes: {
+            id: order.user.id,
+            name: "Henrietta",
+            email: 'email@email.com',
+            provider: 'github',
+            cc_num: 8790451276789084,
+            cc_csv: 678,
+            cc_exp: '09/08/22',
+            address: '123 Main St USA',
+            bill_zip: 10012
+          }
+        }
+      }
+
+      # Act - Assert
+      patch order_path(order.id), params: order_user_hash
+      expect(session[:paid_order_id]).must_equal order.id
+
+      get confirmation_path
+
+      must_respond_with :success
+      expect(session[:paid_order_id]).must_be_nil
+    end
+
+    it "fails if order has not been paid for" do
+      get product_path(dress.id)
+      post order_products_path, params: dress_hash
+
+      order = Order.find_by(id: session[:order_id])
+
+      get checkout_path
+      get confirmation_path
+
+      must_respond_with :redirect
+      must_redirect_to checkout_path
+      expect(flash[:error]).must_equal "Error: Order payment did not go through"
+    end
+  end
 end

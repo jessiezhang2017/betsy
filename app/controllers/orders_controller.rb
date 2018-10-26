@@ -25,7 +25,13 @@ class OrdersController < ApplicationController
 
   def confirmation
     @paid_order = Order.find_by(id: session[:paid_order_id])
-    session[:paid_order_id] = nil
+
+    if @paid_order
+      session[:paid_order_id] = nil
+    else
+      redirect_to checkout_path
+      flash[:error] = "Error: Order payment did not go through"
+    end
   end
 
   private
