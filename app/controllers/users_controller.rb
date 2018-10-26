@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def update
     if @current_user && @current_user.update(user_params)
       flash[:success] = "Saved"
-      redirect_to user_path(@current_user.id)
+      redirect_to edit_user_path(@current_user.id)
     else
       flash.now[:error] = 'Not updated.'
       render :edit, status: :bad_request
@@ -53,6 +53,11 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip)
+      allowed_params = :name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip
+      unless @current_user.class == Merchant
+        params.require(:user).permit(allowed_params)
+      else
+        params.require(:merchant).permit(allowed_params)
+      end
     end
 end
