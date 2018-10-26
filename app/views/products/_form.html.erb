@@ -1,7 +1,7 @@
 <article class="main-content">
   <h2> <%= action_name %> </h2>
 
-  <%= render partial: "layouts/form_errors", locals: { item: @product } %>
+  <%= render partial: "layouts/form_errors", locals: { model: @product } %>
 
   <%= form_with model: @product, local: true do |f|%>
 

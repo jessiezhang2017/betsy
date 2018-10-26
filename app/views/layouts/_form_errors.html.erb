@@ -1,6 +1,6 @@
-<% if item.errors.any? %>
+<% if model.errors.any? %>
   <ul class="errors">
-    <% item.errors.messages.each do |column, problem_list| %>
+    <% model.errors.messages.each do |column, problem_list| %>
       <% problem_list.each do |problem| %>
         <li>
           <strong>
