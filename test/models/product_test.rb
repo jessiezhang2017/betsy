@@ -19,6 +19,17 @@ describe Product do
     end
   end
 
+  describe 'Relationships' do
+    it 'belongs to an user' do
+
+      user = product.user
+
+      expect(user).must_be_instance_of Merchant
+      expect(user.id).must_equal product.user_id
+    end
+
+end
+
   describe "validations" do
     it "requires a name" do
       product.name = nil
@@ -26,46 +37,7 @@ describe Product do
       product.errors.messages.must_include :name
     end
 
-    it "requires unique names w/in categories" do
 
-      prod1 = Product.new(name: "Polo shirt")
-      prod1.user = user
-      prod1.stock = 10
-      prod1.price = 5
-      prod1.category = category1
-
-      prod1.save!
-
-      prod2 = Product.new(name: "Polo shirt")
-      prod2.user = user
-      prod2.stock = 10
-      prod2.price = 5
-      prod2.category = category1
-
-      prod2.valid?.must_equal false
-      prod2.errors.messages.must_include :name
-    end
-
-    it "does not require a unique name if the category is different" do
-
-      prod1 = Product.new(name: "Polo shirt")
-      prod1.user = user
-      prod1.stock = 10
-      prod1.price = 5
-      prod1.category = category1
-
-      prod1.save!
-      last = Product.all.count
-
-      prod2 = Product.new(name: "Polo shirt")
-      prod2.user = user
-      prod2.stock = 10
-      prod2.price = 5
-      prod2.category = category2
-
-      prod2.save!
-      expect(Product.all.count).must_equal last+1
-    end
 
     it "requires a user_id" do
       product.user_id = nil
@@ -73,11 +45,6 @@ describe Product do
       product.errors.messages.must_include :user_id
     end
 
-    it "requires a category_id" do
-      product.category_id = nil
-      product.valid?.must_equal false
-      product.errors.messages.must_include :category_id
-    end
 
 
     it "reject a invalid stock value" do
@@ -174,50 +141,51 @@ describe Product do
   end
 
 
-  describe "self.by_category" do
+  describe "self.category_list" do
 
     it "returns an array of correct product " do
-      list1 = Product.by_category(category1)
+      list1 = Product.category_list(category1.id)
+
       expect(list1.count).must_equal 2
 
       list1.each do |prod|
         prod.must_be_kind_of Product
-        prod.category.must_equal category1
+        prod.categories.must_include category1
       end
     end
 
-    it "returns an empty array if no product in that categor" do
-      list2 = category.by_category(category2)
+    it "returns an empty array if no product in that category" do
+      list2 = Product.category_list(category2.id)
       expect(list2.empty?).must_equal true
     end
   end
 
   describe "self.by_merchant" do
     before do
-      user2 = User.create(
-        name: jas
-        uid: 89076544
-        provider: github
+      @user2 = User.create(
+        name: "jas",
+        uid: 89076544,
+        provider: "github"
       )
+      @user2.type = "Merchant"
+      @user2.save
+
+      @id = product.user_id
 
     end
 
     it "returns an array of correct product " do
-      list1 = Product.by_merchant(user)
+      list1 = Product.merchant_list(@id)
       expect(list1.count).must_equal 2
 
-      list1.each do |prod|
-        prod.must_be_kind_of Product
-        prod.merchant.must_equal user
-      end
+      expect(list1.first).must_be_kind_of Product
+      expect(list1.first.user_id).must_equal @id
+
     end
 
     it "returns an empty array if no product in that merchant" do
-      list2 = Product.by_merchant(user2)
+      list2 = Product.merchant_list(@user2.id)
       expect(list2.empty?).must_equal true
     end
   end
-
-
-
 end
