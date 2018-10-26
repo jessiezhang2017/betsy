@@ -8,7 +8,6 @@
 
 require 'faker'
 require 'date'
-require 'pry'
 
 category_failures = []
 

@@ -1,4 +1,3 @@
-require 'pry'
 class OrderProductsController < ApplicationController
 
   def create
@@ -40,22 +39,35 @@ class OrderProductsController < ApplicationController
     op = OrderProduct.find_by(id: params[:id].to_i)
     new_status = params[:status]
 
-    if op.update(status: new_status)
+    if verify_merchant(op) && op.update(status: new_status)
       flash[:success] = "Updated status for Product Order ##{op.id} to #{new_status}"
-      redirect_to merchant_dash_path(@current_user.id), status: :success
+      redirect_to merchant_dash_path(@current_user.id)
+    elsif verify_buyer(op) && op.update(status: new_status)
+      flash[:success] = "Cancelled Product Order ##{op.id}"
+      redirect_back fallback_location: root_path
     else
       flash[:error] = "Could not update status for Product Order ##{op.id}"
-      redirect_to merchant_dash_path(@current_user.id), status: :bad_request
+      redirect_back fallback_location: root_path
     end
   end
 
   def destroy
     op = OrderProduct.find_by(id: params[:id])
-    if op.destroy
+    if op && op.destroy
       flash[:success] = "Removed #{op.product.name} from cart"
     else
-      flash[:error] = "Error: Could not remove #{op.product.name} from cart"
+      flash[:error] = "Error: Could not remove product from cart"
     end
     redirect_back fallback_location: cart_path
   end
+
+  private
+
+    def verify_merchant(op)
+      return (op.product.user == @current_user && @current_user.is_a_merchant?)
+    end
+
+    def verify_buyer(op)
+      return op.order.user == @current_user
+    end
 end

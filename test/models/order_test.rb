@@ -200,7 +200,6 @@ describe Order do
         user: merchants(:merchant),
         name: "pants",
         price: 3,
-        category: categories(:category1),
         description: "a nice pair of pants",
         stock: 10,
         photo_url: "photo"

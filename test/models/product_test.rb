@@ -12,7 +12,7 @@ describe Product do
     end
 
   it 'has required fields' do
-    fields = [:name, :user_id, :stock, :category_id, :price, :status]
+    fields = [:name, :user_id, :stock, :categories, :price, :status]
 
     fields.each do |field|
       expect(product).must_respond_to field
@@ -67,7 +67,7 @@ end
       prod2.user = user
       prod2.stock = 0
       prod2.price = 5
-      prod2.category = category2
+      prod2.categories << category2
 
       prod2.save!
       expect(Product.all.count).must_equal last+1
@@ -93,7 +93,7 @@ end
       prod2.user = user
       prod2.stock = 0
       prod2.price = 0
-      prod2.category = category2
+      prod2.categories << category2
 
       prod2.save!
       expect(Product.all.count).must_equal last+1
@@ -108,12 +108,12 @@ end
     end
 
     it "returns an empty array if no active products" do
-      product.status = false
-      product2.status = false
-      product.save
-      product2.save
-      expect(Product.active_products.empty?).must_equal true
+      Product.all.each do |product|
+        product.status = false
+        product.save
+      end
 
+      expect(Product.active_products.empty?).must_equal true
     end
 
     it "returns an array of product" do
@@ -125,7 +125,7 @@ end
       prod2.user = user
       prod2.stock = 2
       prod2.price = 1
-      prod2.category = category2
+      prod2.categories << category2
       count = Product.active_products.length
       prod2.save!
 
@@ -135,7 +135,7 @@ end
 
     it "The array will include all the valid product" do
       expect(Product.active_products.first).must_equal product
-      expect(Product.active_products.last).must_equal product2
+      expect(Product.active_products[1]).must_equal product2
 
     end
   end

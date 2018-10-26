@@ -1,27 +1,36 @@
 class OrdersController < ApplicationController
-  def index
-    # TBD... need to decide where and how we're displaying orders
-  end
-
   def cart
   end
 
   def checkout
+    unless @current_order.order_products.any?
+      redirect_to cart_path
+      flash[:error] = "You must add something to your cart before you can checkout"
+    end
   end
 
   def update
-    @current_order.update(order_user_params)
-    @current_order.submit_order
+    if @current_order.update(order_user_params) && @current_order.submit_order
 
-    session[:paid_order_id] = session[:order_id]
-    session[:order_id] = nil
+      session[:paid_order_id] = session[:order_id]
+      session[:order_id] = nil
 
-    redirect_to confirmation_path, status: :success
+      redirect_to confirmation_path
+    else
+      redirect_to checkout_path
+      flash[:error] = "Could not submit order"
+    end
   end
 
   def confirmation
     @paid_order = Order.find_by(id: session[:paid_order_id])
-    session[:paid_order_id] = nil
+
+    if @paid_order
+      session[:paid_order_id] = nil
+    else
+      redirect_to checkout_path
+      flash[:error] = "Error: Order payment did not go through"
+    end
   end
 
   private

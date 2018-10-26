@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :order_products, dependent: :destroy
   has_many :products, through: :order_products # might not need this, if so, update tests too
 
-  accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :user, update_only: true
 
   validates :user, presence: true
   validates :status, presence: true
