@@ -9,14 +9,22 @@
   <%end%>
 </nav>
 
-<p>Category: <%= @product.category.name%> </p>
+<p>Categories:</p>
+<ul>
+  <% @product.categories.each do |cat| %>
+    <li>
+      <%= cat.name %>
+    </li>
+  <% end %>
+</ul>
+
 <p>Description: <%= @product.description%> </p>
 <p>Merchant: <%= @product.user.name%> </p>
 <p>Price: <%= @product.price%> </p>
 <p>Quantity available: <%= @product.stock%> </p>
 <p>status: <%= @product.status%> </p>
 
-<%if @product.stock != 0 %>
+<%if @product.stock > 0 && @cuurent_user != @product.user%>
   <% if @op %>
     <%= render partial: "order_products/form", locals: { button_title: "Update cart", op: @op, product_id: @product.id } %>
   <% else %>
@@ -24,3 +32,7 @@
   <% end %>
 
 <%end%>
+
+<!-- <%#if @product.user != @cuurent_user %>
+  <p><%=# link_to "Write a review", new_review_path%></p>
+<%#end%> -->

@@ -12,9 +12,9 @@ class CategoriesController < ApplicationController
     else
       flash.now[:warning] = "Category is not created!"
       @category.errors.messages.each do |field, messages|
-      flash.now[field] = messages
+        flash.now[field] = messages
       end
-      render :new
+      render :new, status: :bad_request
     end
   end
 
