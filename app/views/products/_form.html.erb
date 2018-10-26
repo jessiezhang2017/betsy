@@ -1,28 +1,41 @@
+<article class="main-content">
+  <h2> <%= action_name %> </h2>
 
-<h1> <%= action_name %> </h1>
+  <%= render partial: "layouts/form_errors", locals: { item: @product } %>
+
+  <%= form_with model: @product, local: true do |f|%>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
 
 
-<%= render partial: "layouts/form_errors", locals: { model: @product } %>
+    <div class="form-check form-check-inline">
+      <%= f.label :categories %>
+      <%= collection_check_boxes(:product, :category_ids, Category.all, :id, :name) %>
+    </div>
 
-<%= form_with model: @product, class: "product-form"  do |f|%>
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_field :description, class: "form-control" %>
+    </div>
 
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+    <div class="form-group">
+      <%= f.label :price %>
+      <%= f.text_field :price, class: "form-control" %>
+    </div>
 
-  <%= f.label :categories %>
-  <%= collection_check_boxes(:product, :category_ids, Category.all, :id, :name) %>
+    <div class="form-group">
+      <%= f.label :stock %>
+      <%= f.text_field :stock, class: "form-control" %>
+    </div>
 
-  <%= f.label :description %>
-  <%= f.text_field :description%>
+    <div class="form-group">
+      <%= f.label :photo_url %>
+      <%= f.text_field :photo_url, class: "form-control" %>
+    </div>
 
-  <%= f.label :price %>
-  <%= f.text_area :price %>
-
-  <%= f.label :stock %>
-  <%= f.text_area :stock %>
-
-  <%= f.label :photo_url %>
-  <%= f.text_area :photo_url %>
-
-  <%= f.submit button_title, class: "btn btn-primary" %>
-<% end %>
+    <%= f.submit button_title, class: "btn btn-primary" %>
+  <% end %>
+</article>
