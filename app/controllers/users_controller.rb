@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       flash[:success] = "Saved"
       redirect_to edit_user_path(@current_user.id)
     else
-      flash.now[:warning] = 'Not updated.'
+      flash.now[:warning] = 'Please fill in all fields.'
       render :edit, status: :bad_request
     end
   end
