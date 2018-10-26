@@ -64,7 +64,7 @@ describe OrdersController do
       # Assert
       must_respond_with :redirect
       must_redirect_to cart_path
-      expect(flash[:error]).must_equal "You must add something to your cart before you can checkout"
+      expect(flash[:warning]).must_equal "You must add something to your cart before you can checkout"
     end
   end
 
@@ -131,7 +131,7 @@ describe OrdersController do
       must_respond_with :redirect
       must_redirect_to checkout_path
       expect(order.status).must_equal "pending"
-      expect(flash[:error]).must_equal "Could not submit order"
+      expect(flash[:warning]).must_equal "Could not submit order"
       expect(session[:order_id]).must_equal order.id
     end
   end
@@ -181,7 +181,7 @@ describe OrdersController do
 
       must_respond_with :redirect
       must_redirect_to checkout_path
-      expect(flash[:error]).must_equal "Error: Order payment did not go through"
+      expect(flash[:warning]).must_equal "Error: Order payment did not go through"
     end
   end
 end
