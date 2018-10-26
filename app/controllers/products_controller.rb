@@ -62,6 +62,13 @@ class ProductsController < ApplicationController
 
   def update
     if @product && @product.update(product_params)
+      @product.categories = []
+      category_ids = params[:product][:category_ids].select(&:present?).map(&:to_i)
+      category_ids.each do |id|
+        c = Category.find(id)
+        @product.categories << c
+      end
+      
       redirect_to product_path(@product.id)
     elsif @product
       render :edit, status: :bad_request
