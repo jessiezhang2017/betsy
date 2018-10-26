@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base
   private
 
     def generate_cart
-      order = Order.new(status: "pending")
-      order.user_id = current_user.id
-      order.save
-
-      return order
+      # order = Order.new(status: "pending")
+      # order.user_id = current_user.id
+      # order.save
+      #
+      # return order
     end
 
 end
