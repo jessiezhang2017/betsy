@@ -3,16 +3,21 @@ require "test_helper"
 describe Product do
   let(:product) { products(:shirt) }
   let(:product2) {products(:dress)}
+  let(:product3) {products(:mumu)}
   let(:user) { users(:user1) }
   let(:category1) {categories(:category1)}
   let(:category2) {categories(:category2)}
+  before do
+    product.categories << category1
+    product.categories << category2
+  end
 
   it "must be valid" do
       expect(product).must_be :valid?
     end
 
   it 'has required fields' do
-    fields = [:name, :user_id, :stock, :category_id, :price, :status]
+    fields = [:name, :user_id, :stock, :price, :status]
 
     fields.each do |field|
       expect(product).must_respond_to field
@@ -67,7 +72,6 @@ end
       prod2.user = user
       prod2.stock = 0
       prod2.price = 5
-      prod2.category = category2
 
       prod2.save!
       expect(Product.all.count).must_equal last+1
@@ -93,7 +97,7 @@ end
       prod2.user = user
       prod2.stock = 0
       prod2.price = 0
-      prod2.category = category2
+
 
       prod2.save!
       expect(Product.all.count).must_equal last+1
@@ -110,8 +114,10 @@ end
     it "returns an empty array if no active products" do
       product.status = false
       product2.status = false
+      product3.status = false
       product.save
       product2.save
+      product3.save
       expect(Product.active_products.empty?).must_equal true
 
     end
@@ -125,7 +131,7 @@ end
       prod2.user = user
       prod2.stock = 2
       prod2.price = 1
-      prod2.category = category2
+
       count = Product.active_products.length
       prod2.save!
 
@@ -135,7 +141,7 @@ end
 
     it "The array will include all the valid product" do
       expect(Product.active_products.first).must_equal product
-      expect(Product.active_products.last).must_equal product2
+      expect(Product.active_products.last).must_equal product3
 
     end
   end
@@ -146,7 +152,7 @@ end
     it "returns an array of correct product " do
       list1 = Product.category_list(category1.id)
 
-      expect(list1.count).must_equal 2
+      expect(list1.count).must_equal 1
 
       list1.each do |prod|
         prod.must_be_kind_of Product
@@ -155,7 +161,9 @@ end
     end
 
     it "returns an empty array if no product in that category" do
-      list2 = Product.category_list(category2.id)
+      category3 = Category.new(name:"outdoor")
+      list2 = Product.category_list(category3.id)
+
       expect(list2.empty?).must_equal true
     end
   end
@@ -176,7 +184,7 @@ end
 
     it "returns an array of correct product " do
       list1 = Product.merchant_list(@id)
-      expect(list1.count).must_equal 2
+      expect(list1.count).must_equal 3
 
       expect(list1.first).must_be_kind_of Product
       expect(list1.first.user_id).must_equal @id
