@@ -46,17 +46,17 @@ class ProductsController < ApplicationController
 
     if @current_user.is_a_merchant?
 
-      product = @current_user.products.new(product_params)
+      @product = @current_user.products.new(product_params)
       category_ids = params[:product][:category_ids].select(&:present?).map(&:to_i)
       category_ids.each do |id|
         c = Category.find(id)
-        product.categories << c
+        @product.categories << c
       end
 
-      if product.save
+      if @product.save
 
         flash[:success] = 'Product Created!'
-        redirect_to product_path(id: product.id)
+        redirect_to product_path(id: @product.id)
       else
         flash.now[:warning] = 'Product not created!'
         render :new, status: :bad_request

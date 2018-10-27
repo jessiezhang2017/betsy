@@ -77,6 +77,15 @@ h1.sovietski-logo {
   text-align: center;
 }
 
+a {
+  color: $dark-blue;
+}
+
+a:hover {
+  color: $light-blue;
+  text-decoration: none;
+}
+
 a.sovietski-logo {
   font-family: 'Bungee', cursive;
   font-size: 3rem;
@@ -194,4 +203,19 @@ img.homepage-hero-img {
 
 a.login-btn {
   margin-right: 0.5rem;
+}
+
+footer {
+  padding: 1rem;
+  color: $light-grey;
+  text-align: center;
+}
+
+footer a {
+  color: $light-yellow;
+}
+
+footer a:hover {
+  color: $dark-yellow;
+  text-decoration: none;
 }

@@ -56,7 +56,7 @@ describe OrderProductsController do
       must_respond_with :redirect
       must_redirect_to products_path
 
-      expect(flash[:error]).must_equal "Error: Could not add product to cart"
+      expect(flash[:warning]).must_equal "Error: Could not add product to cart"
     end
   end
 
@@ -113,7 +113,7 @@ describe OrderProductsController do
       must_respond_with :redirect
       must_redirect_to cart_path
 
-      expect(flash[:error]).must_equal "Error: Could not update product order"
+      expect(flash[:warning]).must_equal "Error: Could not update product order"
     end
 
     it "reduces the order product count by 1 if quantity is adjusted to 0" do
@@ -169,7 +169,7 @@ describe OrderProductsController do
       must_respond_with :redirect
       must_redirect_to cart_path
 
-      expect(flash[:error]).must_equal "Error: Could not remove product from cart"
+      expect(flash[:warning]).must_equal "Error: Could not remove product from cart"
     end
   end
 
@@ -216,7 +216,7 @@ describe OrderProductsController do
       must_respond_with :redirect
       must_redirect_to root_path
 
-      expect(flash[:error]).must_equal "Could not update status for Product Order ##{dresses.id}"
+      expect(flash[:warning]).must_equal "Could not update status for Product Order ##{dresses.id}"
     end
   end
 end

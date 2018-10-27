@@ -7,7 +7,7 @@
           <% @current_order.order_products.each do |op| %>
             <article class="cart card">
               <div class="row">
-                <img src="https://vignette.wikia.nocookie.net/aceattorney/images/f/f7/Missile_AAI.png/revision/latest?cb=20180304065441" alt="Product" class="col-sm card-img">
+                <%= image_tag(op.product.photo_url, alt: op.product.name, class: "col-sm card-img") %>
                 <div class="col-sm-8 card-body">
                   <div>
                     <h5 class="cart card-title"><%= op.product.name %></h5>

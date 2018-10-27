@@ -6,7 +6,7 @@ shirt:
   price: 1.5
   description: "a nice shirt"
   stock: 1
-  photo_url: MyString
+  photo_url: "https://loremflickr.com/cache/resized/791_41048349621_da0130f444_300_300_nofilter.jpg"
   status: true
 
 dress:
@@ -15,7 +15,7 @@ dress:
   price: 1.5
   description: "a nice dress"
   stock: 5
-  photo_url: MyString
+  photo_url: "https://loremflickr.com/cache/resized/791_41048349621_da0130f444_300_300_nofilter.jpg"
   status: true
 
 mumu:
@@ -24,5 +24,5 @@ mumu:
   price: 2
   description: "a nice mumu"
   stock: 5
-  photo_url: MyString
+  photo_url: "https://loremflickr.com/cache/resized/791_41048349621_da0130f444_300_300_nofilter.jpg"
   status: true
