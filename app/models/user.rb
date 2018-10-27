@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :products #TODO REMOVE FOR ANY USER
+  has_many :products 
   has_many :orders
   has_many :order_products, through: :products
 

@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
         flash[:success] = "Welcome #{current_user.name}!"
         redirect_to edit_user_path(current_user.id)
       else
-        flash[:error] = "Could not create account: #{current_user.errors.messages}"
+        flash[:warning] = "Could not create account: #{current_user.errors.messages}"
         redirect_to root_path
         return
       end

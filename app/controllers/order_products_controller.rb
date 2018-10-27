@@ -13,7 +13,7 @@ class OrderProductsController < ApplicationController
 
       redirect_to cart_path
     else
-      flash[:error] = "Error: Could not add product to cart"
+      flash[:warning] = "Error: Could not add product to cart"
 
       redirect_back fallback_location: products_path
     end
@@ -29,7 +29,7 @@ class OrderProductsController < ApplicationController
       end
       redirect_to cart_path
     else
-      flash[:error] = "Error: Could not update product order"
+      flash[:warning] = "Error: Could not update product order"
 
       redirect_back fallback_location: cart_path
     end
@@ -46,7 +46,7 @@ class OrderProductsController < ApplicationController
       flash[:success] = "Cancelled Product Order ##{op.id}"
       redirect_back fallback_location: root_path
     else
-      flash[:error] = "Could not update status for Product Order ##{op.id}"
+      flash[:warning] = "Could not update status for Product Order ##{op.id}"
       redirect_back fallback_location: root_path
     end
   end
@@ -56,7 +56,7 @@ class OrderProductsController < ApplicationController
     if op && op.destroy
       flash[:success] = "Removed #{op.product.name} from cart"
     else
-      flash[:error] = "Error: Could not remove product from cart"
+      flash[:warning] = "Error: Could not remove product from cart"
     end
     redirect_back fallback_location: cart_path
   end

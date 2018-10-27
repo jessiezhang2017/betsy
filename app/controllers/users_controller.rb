@@ -11,9 +11,9 @@ class UsersController < ApplicationController
   def update
     if @current_user && @current_user.update(user_params)
       flash[:success] = "Saved"
-      redirect_to user_path(@current_user.id)
+      redirect_to edit_user_path(@current_user.id)
     else
-      flash.now[:error] = 'Not updated.'
+      flash.now[:warning] = 'Please fill in all fields.'
       render :edit, status: :bad_request
     end
   end
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
 
   def merchant_dash
     unless @current_user.is_a_merchant?
-      flash.now[:error] = 'Not allowed.'
+      flash.now[:warning] = 'Not allowed.'
       render :forbidden
     end
   end
@@ -53,6 +53,11 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      return params.require(:user).permit(:name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip)
+      allowed_params = :name, :address, :email, :cc_num, :cc_csv, :cc_exp, :type, :bill_zip
+      unless @current_user.class == Merchant
+        params.require(:user).permit(allowed_params)
+      else
+        params.require(:merchant).permit(allowed_params)
+      end
     end
 end

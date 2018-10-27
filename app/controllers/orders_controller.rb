@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   def checkout
     unless @current_order.order_products.any?
       redirect_to cart_path
-      flash[:error] = "You must add something to your cart before you can checkout"
+      flash[:warning] = "You must add something to your cart before you can checkout"
     end
   end
 
@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
       redirect_to confirmation_path
     else
       redirect_to checkout_path
-      flash[:error] = "Could not submit order"
+      flash[:warning] = "Could not submit order"
     end
   end
 
@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
       session[:paid_order_id] = nil
     else
       redirect_to checkout_path
-      flash[:error] = "Error: Order payment did not go through"
+      flash[:warning] = "Error: Order payment did not go through"
     end
   end
 

@@ -8,11 +8,24 @@
   margin: 2%;
 }
 
-.table-striped {
-  width: 100%;
-  margin-bottom: 2%;
+h4.category-badge {
+  display: inline;
+  margin-right: 0.5rem;
 }
 
-.table-striped th {
-  width: 30%;
+section.product-show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+span.badge.category-tag {
+  font-size: 1rem;
+}
+
+div.form-check-inline > input {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
 }
