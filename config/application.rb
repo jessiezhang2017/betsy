@@ -21,5 +21,8 @@ module Betsy
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Don't generate remote forms with form_with
+    config.action_view.form_with_generates_remote_forms = false
   end
 end

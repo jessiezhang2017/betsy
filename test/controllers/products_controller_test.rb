@@ -1,10 +1,13 @@
 require "test_helper"
+require 'pry'
 
 describe ProductsController do
   let(:product) { products(:shirt) }
   let(:product2) {products(:dress)}
   let(:user) { users(:user1) }
     let(:cc_user) { users(:cc_user) }
+    let(:cc_merchant) { merchants(:cc_merchant) }
+
   let(:category1) {categories(:category1)}
   let(:category2) {categories(:category2)}
 
@@ -107,22 +110,14 @@ describe ProductsController do
       perform_login(user)
       expect(session[:user_id]).wont_be_nil
 
-      id = products(:product).id
+      id = product.id
 
       # Act
       get new_product_path(id)
       # Assert
       must_respond_with :success
     end
-    it "will not get new product form if not logged in" do
-      # Arrange
-      expect(session[:user_id]).must_equal nil
-      # Act
-      get new_product_path(id)
 
-      # Assert
-
-    end
 
   end
 
@@ -130,7 +125,8 @@ describe ProductsController do
     it "can get the edit page for a valid product sold by a logged in merchant" do
       # Arrange
       id = product.id
-
+      product.user = cc_user
+      perform_login(cc_user)
       # Act
       get edit_product_path(id)
 
@@ -142,11 +138,12 @@ describe ProductsController do
       # Arrange
       id = product.id
 
+      perform_login(cc_user)
       # Act
-      get edit_product_path(id)
+      expect{get edit_product_path(id)}
 
       # Assert
-      must_respond_with :warning
+
     end
 
     it "should respond with not_found if given an invalid id" do
@@ -179,6 +176,9 @@ describe ProductsController do
       id = product.id
       name = product.id
 
+      perform_login(cc_user)
+      product.user = cc_user
+
       # Act - Assert
       expect {
         patch retire_path(id)
@@ -186,7 +186,7 @@ describe ProductsController do
 
       must_respond_with :redirect
       must_redirect_to products_path
-      expect(flash[:success]).must_equal "#{name} retired"
+      expect(flash[:success]).must_equal "#{product.name} retired"
       expect(Product.find_by(id: id).status).must_equal false
     end
 
@@ -208,30 +208,44 @@ describe ProductsController do
   end
 
   describe "create & update" do
-    let (:book_hash) do
+
+
+    let (:product_hash) do
       {
-        book: {
-          title: 'White Teeth',
-          author_id: authors(:galbraith).id,
+        product: {
+          name: 'White Teeth',
+          user_id: cc_merchant.id,
+          price: 10,
+          stock: 5,
           description: 'Good book'
         }
       }
+
     end
 
 
     describe "create" do
       it "can create a new product given valid params by logged in merchant" do
         # Act-Assert
+      merchant = merchants(:cc_merchant)
+  # Make fake session
+  # Tell OmniAuth to use this user's info when it sees
+ # an auth callback from github
+       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(merchant))
+       get auth_callback_path('github')
+
+
         expect {
           post products_path, params: product_hash
         }.must_change 'Product.count', 1
 
+
         must_respond_with :redirect
-        must_redirect_to book_path(Product.last.id)
+
         expect(Product.last.name).must_equal product_hash[:product][:name]
-        expect(Product.last.user).must_equal User.find_by(id: product_hash[:product][:user_id])
-        expect(Product.last.stock).must_equal product_hash[:product][:stock]
-        expect(Product.last.price).must_equal prooduct_hash[:product][:price]
+        expect(Product.last.user).must_equal @merchant
+        expect(Product.last.stock).must_be product_hash[:product][:stock]
+        expect(Product.last.price).must_be prooduct_hash[:product][:price]
       end
 
       it "responds with an error for invalid params" do
@@ -241,7 +255,7 @@ describe ProductsController do
         # Act-Assert
         expect {
           post products_path, params: product_hash
-        }.wont_change 'Book.count'
+        }.wont_change 'Product.all.count'
 
         must_respond_with :bad_request
 
@@ -249,15 +263,17 @@ describe ProductsController do
     end
 
     describe "update" do
-      it "can update a model with valid params" do
-        id = product.id
+      it "can update a product with valid params by logged in user" do
+
+        perform_login(cc_user)
+        product.user = cc_user
 
         expect {
-          patch product_path(id), params: product_hash
-        }.wont_change 'Product.count'
+          patch products_path, params: product_hash
+        }.wont_change 'Product.all.count'
 
         must_respond_with :redirect
-        must_redirect_to product_path(id)
+        must_redirect_to products_path(id)
 
         new_product= Product.find_by(id: id)
 
@@ -270,6 +286,7 @@ describe ProductsController do
         # Arrange
         product_hash[:product][:name] = nil
         id = product.id
+        product.user = cc_user
         old_product = product
 
 
