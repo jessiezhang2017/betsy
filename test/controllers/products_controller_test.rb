@@ -7,7 +7,7 @@ describe ProductsController do
   let(:user) { users(:user1) }
     let(:cc_user) { users(:cc_user) }
     let(:cc_merchant) { merchants(:cc_merchant) }
-
+    let(:merchant) { merchants(:merchant) }
   let(:category1) {categories(:category1)}
   let(:category2) {categories(:category2)}
 
@@ -217,9 +217,11 @@ describe ProductsController do
           user_id: cc_merchant.id,
           price: 10,
           stock: 5,
-          description: 'Good book'
+          description: 'Good book',
+          category_ids: [category1.id]
         }
       }
+
 
     end
 
@@ -243,19 +245,24 @@ describe ProductsController do
         must_respond_with :redirect
 
         expect(Product.last.name).must_equal product_hash[:product][:name]
-        expect(Product.last.user).must_equal @merchant
-        expect(Product.last.stock).must_be product_hash[:product][:stock]
-        expect(Product.last.price).must_be prooduct_hash[:product][:price]
+        expect(Product.last.user).must_equal merchant
+
+        expect(Product.last.stock).must_equal product_hash[:product][:stock]
+        expect(Product.last.price).must_equal product_hash[:product][:price]
       end
 
       it "responds with an error for invalid params" do
         # Arranges
+        merchant = merchants(:cc_merchant)
+
+        OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(merchant))
+        get auth_callback_path('github')
         product_hash[:product][:name] = nil
 
         # Act-Assert
         expect {
           post products_path, params: product_hash
-        }.wont_change 'Product.all.count'
+        }.wont_change 'Product.count'
 
         must_respond_with :bad_request
 
@@ -263,31 +270,54 @@ describe ProductsController do
     end
 
     describe "update" do
+      let (:update_hash) do
+        {
+          product: {
+            name: 'White Teeth',
+            user_id: merchant.id,
+            price: 10,
+            stock: 5,
+            description: 'Good book',
+            category_ids: [category1.id]
+          }
+        }
+      end
+
+
       it "can update a product with valid params by logged in user" do
 
-        perform_login(cc_user)
-        product.user = cc_user
+        merchant = merchants(:merchant)
+
+        OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(merchant))
+        get auth_callback_path('github')
+
+        id = product.id
 
         expect {
-          patch products_path, params: product_hash
-        }.wont_change 'Product.all.count'
+          patch product_path(id), params: update_hash
+        }.wont_change 'Product.count'
+
 
         must_respond_with :redirect
-        must_redirect_to products_path(id)
+        must_redirect_to product_path(id)
 
         new_product= Product.find_by(id: id)
 
         expect(new_product.name).must_equal product_hash[:product][:name]
-        expect(new_product.user_id).must_equal product_hash[:product][:user_id]
+        expect(new_product.user).must_equal merchant
         expect(new_product.stock).must_equal product_hash[:product][:stock]
-        expect(new_product.stock).must_equal product_hash[:product][:price]
+        expect(new_product.price).must_equal product_hash[:product][:price]
       end
       it "gives an error if the product params are invalid" do
         # Arrange
         product_hash[:product][:name] = nil
+        merchant = merchants(:merchant)
+
+
+        OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(merchant))
+        get auth_callback_path('github')
+
         id = product.id
-        product.user = cc_user
-        old_product = product
 
 
         expect {
@@ -296,10 +326,10 @@ describe ProductsController do
         new_product = Product.find(id)
 
         must_respond_with :bad_request
-        expect(old_product.name).must_equal new_product.name
-        expect(old_product.user_id).must_equal new_product.user_id
-        expect(old_product.price).must_equal new_product.price
-        expect(old_product.stock).must_equal new_product.stock
+        expect(product.name).must_equal new_product.name
+        expect(product.user).must_equal merchant
+        expect(product.price).must_equal new_product.price
+        expect(product.stock).must_equal new_product.stock
       end
       it "gives not_found for a product that doesn't exist" do
         id = -1
